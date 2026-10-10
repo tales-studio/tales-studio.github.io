@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -191,17 +191,9 @@
 
       <section class="galeria" aria-labelledby="titulo-galeria">
         <h3 id="titulo-galeria" class="galeria__titulo">Capturas y gameplay</h3>
-
-        <figure class="galeria__trailer" data-youtube-id="MXDYOh67SWc">
-          <button class="galeria__trailer-enlace" type="button" aria-label="Reproducir el tráiler de Shift Happens">
-            <img class="galeria__trailer-imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Miniatura del tráiler de Shift Happens" width="1280" height="720" loading="lazy">
-            <span class="galeria__trailer-boton">Reproducir tráiler</span>
-          </button>
-          <noscript>
-            <p class="galeria__pie"><a href="https://www.youtube.com/watch?v=MXDYOh67SWc" target="_blank" rel="noopener">Ver el tráiler en YouTube</a></p>
-          </noscript>
-          <figcaption class="galeria__pie">Tráiler de Shift Happens: la noche más estresante del año.</figcaption>
-        </figure>
+        <div class="galeria__trailer">
+          <iframe width="1280" height="720" src="https://www.youtube.com/embed/MXDYOh67SWc" title="Tráiler de Shift Happens" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
 
         <ul class="galeria__capturas">
           <li>
