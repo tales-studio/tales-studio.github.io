@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070908">
   <meta name="description" content="Shift Happens: gestiona las tareas de un conserje de residencia universitaria y sobrevive al terror de la noche más estresante del año. Juega la demo en tu navegador.">
   <title>Shift Happens | [Nombre del Estudio]</title>
   <link rel="icon" href="Assets/Images/PLACEHOLDER.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,16 +17,17 @@
   <a class="enlace-saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
 
   <header class="cabecera-principal">
-    <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
-      <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="48" height="48">
-    </a>
-
     <nav class="navegacion-principal" aria-label="Navegación principal">
       <ul class="navegacion-principal__lista">
         <li><a class="navegacion-principal__enlace" href="#inicio">Inicio</a></li>
         <li><a class="navegacion-principal__enlace" href="#sobre-el-estudio">Sobre el estudio</a></li>
         <li><a class="navegacion-principal__enlace" href="#nuestro-juego">Nuestro juego</a></li>
         <li><a class="navegacion-principal__enlace" href="#devlog">Devlog</a></li>
+        <li class="navegacion-principal__item--marca">
+          <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
+            <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="48" height="48">
+          </a>
+        </li>
         <li><a class="navegacion-principal__enlace" href="#marketing">Marketing</a></li>
         <li><a class="navegacion-principal__enlace" href="#aspectos-tecnicos">Aspectos técnicos</a></li>
         <li><a class="navegacion-principal__enlace" href="#resultados">Resultados</a></li>
@@ -34,12 +36,17 @@
     </nav>
   </header>
 
+  <div class="titulo-fijo" id="titulo-fijo" aria-hidden="true">
+    <span class="titulo-fijo__punto"></span>
+    <span class="titulo-fijo__texto"></span>
+  </div>
+
   <main id="contenido-principal" class="contenido-principal">
 
     <!-- 1. INICIO -->
     <section id="inicio" class="seccion seccion-inicio" aria-labelledby="titulo-inicio">
       <div class="seccion-inicio__texto">
-        <h1 id="titulo-inicio" class="seccion-inicio__titulo">Shift Happens</h1>
+        <h1 id="titulo-inicio" class="seccion-inicio__titulo" data-texto="Shift Happens">Shift Happens</h1>
         <p class="seccion-inicio__presentacion">
           La noche más estresante del año, un conserje agotado y una residencia universitaria
           donde ya no sabes qué es real. ¿Podrás completar tu turno antes del amanecer?
@@ -559,21 +566,89 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
 
   <script>
     (function () {
+      var cabecera = document.querySelector('.cabecera-principal');
+      var nav = document.querySelector('.navegacion-principal');
+      var barra = document.getElementById('titulo-fijo');
+      var barraTexto = barra.querySelector('.titulo-fijo__texto');
       var boton = document.getElementById('boton-subir');
-      var umbral = 300;
+      var umbralSubir = 300;
       var pendiente = false;
+      var activa = null;
+      var textoActual = '';
+
+      // Cada enlace del menú con su sección y el título de esa sección
+      var secciones = Array.prototype.slice
+        .call(document.querySelectorAll('.navegacion-principal__enlace'))
+        .map(function (enlace) {
+          var seccion = document.getElementById(enlace.getAttribute('href').slice(1));
+          return {
+            enlace: enlace,
+            seccion: seccion,
+            titulo: seccion ? seccion.querySelector('.seccion__titulo') : null
+          };
+        })
+        .filter(function (s) { return s.seccion; });
+
+      function marcarActiva(actual) {
+        secciones.forEach(function (s) { s.enlace.removeAttribute('aria-current'); });
+        actual.enlace.setAttribute('aria-current', 'location');
+
+        // En móvil el menú se desplaza: centramos el enlace activo
+        if (nav.scrollWidth > nav.clientWidth) {
+          var e = actual.enlace.getBoundingClientRect();
+          var n = nav.getBoundingClientRect();
+          nav.scrollLeft += (e.left - n.left) - (n.width - e.width) / 2;
+        }
+      }
 
       function actualizar() {
         pendiente = false;
-        boton.classList.toggle('boton-subir--visible', window.scrollY > umbral);
+
+        var bajoCabecera = cabecera.getBoundingClientRect().bottom;
+        var sonda = bajoCabecera + 120;
+        var finPagina = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+
+        // Sección en la que está el usuario
+        var actual = secciones[0];
+        if (finPagina) {
+          actual = secciones[secciones.length - 1];
+        } else {
+          secciones.forEach(function (s) {
+            if (s.seccion.getBoundingClientRect().top <= sonda) { actual = s; }
+          });
+        }
+        if (actual !== activa) {
+          activa = actual;
+          marcarActiva(actual);
+        }
+
+        // Título de la sección fijo bajo la cabecera, cuando el título real ya ha salido por arriba
+        barra.style.top = (bajoCabecera + 8) + 'px';
+        var limite = bajoCabecera + 8 + barra.offsetHeight;
+        var mostrar = actual.titulo && actual.titulo.getBoundingClientRect().bottom < limite;
+        if (mostrar) {
+          var texto = actual.titulo.textContent.trim();
+          if (texto !== textoActual) {
+            barraTexto.textContent = texto;
+            textoActual = texto;
+          }
+        }
+        barra.classList.toggle('titulo-fijo--visible', !!mostrar);
+
+        // Botón de volver arriba
+        boton.classList.toggle('boton-subir--visible', window.scrollY > umbralSubir);
       }
 
-      window.addEventListener('scroll', function () {
+      function pedirActualizacion() {
         if (!pendiente) {
           pendiente = true;
           window.requestAnimationFrame(actualizar);
         }
-      }, { passive: true });
+      }
+
+      window.addEventListener('scroll', pedirActualizacion, { passive: true });
+      window.addEventListener('resize', pedirActualizacion);
+      window.addEventListener('load', pedirActualizacion);
 
       boton.addEventListener('click', function () {
         var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
