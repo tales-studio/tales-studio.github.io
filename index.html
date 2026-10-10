@@ -17,8 +17,7 @@
 
   <header class="cabecera-principal">
     <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
-      <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="Logo de [Nombre del Estudio]" width="48" height="48">
-      <span class="cabecera-principal__nombre">[Nombre del Estudio]</span>
+      <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="48" height="48">
     </a>
 
     <nav class="navegacion-principal" aria-label="Navegación principal">
@@ -40,13 +39,10 @@
     <!-- 1. INICIO -->
     <section id="inicio" class="seccion seccion-inicio" aria-labelledby="titulo-inicio">
       <div class="seccion-inicio__texto">
-        <img class="seccion-inicio__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="120" height="120">
-        <h1 id="titulo-inicio" class="seccion-inicio__titulo">[Nombre del Estudio]</h1>
+        <h1 id="titulo-inicio" class="seccion-inicio__titulo">Shift Happens</h1>
         <p class="seccion-inicio__presentacion">
-          Hacemos juegos de terror donde lo más inquietante es lo cotidiano.
-          Nuestro primer proyecto es <strong>Shift Happens</strong>: la noche más estresante del año,
-          un conserje agotado y una residencia universitaria donde ya no sabes qué es real.
-          ¿Podrás completar tu turno antes del amanecer?
+          La noche más estresante del año, un conserje agotado y una residencia universitaria
+          donde ya no sabes qué es real. ¿Podrás completar tu turno antes del amanecer?
         </p>
         <a class="boton boton--principal" href="demo/index.html" target="_blank" rel="noopener">
           Jugar la demo
@@ -55,7 +51,12 @@
       </div>
 
       <figure class="seccion-inicio__multimedia">
-        <img class="seccion-inicio__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El conserje recorre un pasillo oscuro de la residencia con el móvil en la mano" width="1280" height="720">
+        <a class="seccion-inicio__jugar" href="demo/index.html" target="_blank" rel="noopener" aria-label="Jugar la demo de Shift Happens">
+          <img class="seccion-inicio__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El conserje recorre un pasillo oscuro de la residencia con el móvil en la mano" width="1280" height="720">
+          <span class="seccion-inicio__play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          </span>
+        </a>
         <figcaption class="seccion-inicio__pie">Un pasillo cualquiera de la residencia, a las tres de la madrugada.</figcaption>
       </figure>
     </section>
@@ -192,7 +193,7 @@
       <section class="galeria" aria-labelledby="titulo-galeria">
         <h3 id="titulo-galeria" class="galeria__titulo">Capturas y gameplay</h3>
         <div class="galeria__trailer">
-          <iframe width="1280" height="720" src="https://www.youtube.com/embed/MXDYOh67SWc" title="Tráiler de Shift Happens" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/MXDYOh67SWc?si=WNu1EqNh6tNQDEyM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
 
         <ul class="galeria__capturas">
@@ -550,8 +551,38 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
         <li><a href="privacidad.html">Política de privacidad</a></li>
       </ul>
     </nav>
-    <a class="pie-pagina__subir" href="#inicio">Volver arriba</a>
   </footer>
+
+  <button class="boton-subir" id="boton-subir" type="button" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    (function () {
+      var boton = document.getElementById('boton-subir');
+      var umbral = 300;
+      var pendiente = false;
+
+      function actualizar() {
+        pendiente = false;
+        boton.classList.toggle('boton-subir--visible', window.scrollY > umbral);
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!pendiente) {
+          pendiente = true;
+          window.requestAnimationFrame(actualizar);
+        }
+      }, { passive: true });
+
+      boton.addEventListener('click', function () {
+        var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reducido ? 'auto' : 'smooth' });
+      });
+
+      actualizar();
+    })();
+  </script>
 
 </body>
 </html>
