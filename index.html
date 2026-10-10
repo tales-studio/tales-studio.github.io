@@ -19,15 +19,15 @@
   <header class="cabecera-principal">
     <nav class="navegacion-principal" aria-label="Navegación principal">
       <ul class="navegacion-principal__lista">
-        <li><a class="navegacion-principal__enlace" href="#inicio">Inicio</a></li>
-        <li><a class="navegacion-principal__enlace" href="#sobre-el-estudio">Sobre el estudio</a></li>
-        <li><a class="navegacion-principal__enlace" href="#nuestro-juego">Nuestro juego</a></li>
-        <li><a class="navegacion-principal__enlace" href="#devlog">Devlog</a></li>
         <li class="navegacion-principal__item--marca">
           <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
             <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="48" height="48">
           </a>
         </li>
+        <li><a class="navegacion-principal__enlace" href="#inicio">Inicio</a></li>
+        <li><a class="navegacion-principal__enlace" href="#sobre-el-estudio">Sobre el estudio</a></li>
+        <li><a class="navegacion-principal__enlace" href="#nuestro-juego">Nuestro juego</a></li>
+        <li><a class="navegacion-principal__enlace" href="#devlog">Devlog</a></li>
         <li><a class="navegacion-principal__enlace" href="#marketing">Marketing</a></li>
         <li><a class="navegacion-principal__enlace" href="#aspectos-tecnicos">Aspectos técnicos</a></li>
         <li><a class="navegacion-principal__enlace" href="#resultados">Resultados</a></li>
@@ -35,11 +35,6 @@
       </ul>
     </nav>
   </header>
-
-  <div class="titulo-fijo" id="titulo-fijo" aria-hidden="true">
-    <span class="titulo-fijo__punto"></span>
-    <span class="titulo-fijo__texto"></span>
-  </div>
 
   <main id="contenido-principal" class="contenido-principal">
 
@@ -568,13 +563,10 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
     (function () {
       var cabecera = document.querySelector('.cabecera-principal');
       var nav = document.querySelector('.navegacion-principal');
-      var barra = document.getElementById('titulo-fijo');
-      var barraTexto = barra.querySelector('.titulo-fijo__texto');
       var boton = document.getElementById('boton-subir');
       var umbralSubir = 300;
       var pendiente = false;
       var activa = null;
-      var textoActual = '';
 
       // Cada enlace del menú con su sección y el título de esa sección
       var secciones = Array.prototype.slice
@@ -584,10 +576,23 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
           return {
             enlace: enlace,
             seccion: seccion,
-            titulo: seccion ? seccion.querySelector('.seccion__titulo') : null
+            titulo: seccion ? seccion.querySelector('.seccion__titulo, .seccion-inicio__titulo') : null
           };
         })
         .filter(function (s) { return s.seccion; });
+
+      // Títulos de sección que se quedan fijos bajo la cabecera
+      var titulos = Array.prototype.slice.call(document.querySelectorAll('.seccion__titulo'));
+
+      // La cabecera fija el punto donde se pegan los títulos
+      function medirCabecera() {
+        document.documentElement.style.setProperty('--alto-cabecera', cabecera.offsetHeight + 'px');
+      }
+
+      function remedir() {
+        medirCabecera();
+        pedirActualizacion();
+      }
 
       function marcarActiva(actual) {
         secciones.forEach(function (s) { s.enlace.removeAttribute('aria-current'); });
@@ -605,7 +610,7 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
         pendiente = false;
 
         var bajoCabecera = cabecera.getBoundingClientRect().bottom;
-        var sonda = bajoCabecera + 120;
+        var sonda = bajoCabecera + 80;
         var finPagina = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
 
         // Sección en la que está el usuario
@@ -622,18 +627,10 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
           marcarActiva(actual);
         }
 
-        // Título de la sección fijo bajo la cabecera, cuando el título real ya ha salido por arriba
-        barra.style.top = (bajoCabecera + 8) + 'px';
-        var limite = bajoCabecera + 8 + barra.offsetHeight;
-        var mostrar = actual.titulo && actual.titulo.getBoundingClientRect().bottom < limite;
-        if (mostrar) {
-          var texto = actual.titulo.textContent.trim();
-          if (texto !== textoActual) {
-            barraTexto.textContent = texto;
-            textoActual = texto;
-          }
-        }
-        barra.classList.toggle('titulo-fijo--visible', !!mostrar);
+        // Título de la sección: al quedarse fijo bajo la cabecera se activa el velo de fondo
+        titulos.forEach(function (t) {
+          t.classList.toggle('seccion__titulo--fijo', t.getBoundingClientRect().top <= bajoCabecera + 1);
+        });
 
         // Botón de volver arriba
         boton.classList.toggle('boton-subir--visible', window.scrollY > umbralSubir);
@@ -647,14 +644,16 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
       }
 
       window.addEventListener('scroll', pedirActualizacion, { passive: true });
-      window.addEventListener('resize', pedirActualizacion);
-      window.addEventListener('load', pedirActualizacion);
+      window.addEventListener('resize', remedir);
+      window.addEventListener('load', remedir);
+      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(remedir); }
 
       boton.addEventListener('click', function () {
         var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         window.scrollTo({ top: 0, behavior: reducido ? 'auto' : 'smooth' });
       });
 
+      medirCabecera();
       actualizar();
     })();
   </script>

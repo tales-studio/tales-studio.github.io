@@ -35,6 +35,8 @@
   --espacio-l: 40px;
   --espacio-xl: 72px;
   --ancho-contenido: 1200px;
+  --pad-seccion: clamp(64px, 9vw, 120px); /* aire sobre el título de cada sección */
+  --alto-cabecera: 85px;                  /* el script lo ajusta a la altura real */
 
   /* Sombras: duras, como papel recortado, más una caída difusa */
   --sombra-dura: 6px 6px 0 rgba(0, 0, 0, 0.65);
@@ -60,7 +62,7 @@
 
 html {
   color-scheme: dark;
-  scroll-padding-top: 130px;
+  scroll-padding-top: var(--alto-cabecera);
   -webkit-text-size-adjust: 100%;
   scrollbar-width: thin;
   scrollbar-color: var(--latido) var(--negro-pasillo);
@@ -228,7 +230,7 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 0 clamp(12px, 3vw, 40px) 18px;
+  padding: 0 0 18px;
   background: linear-gradient(180deg, rgba(21, 27, 24, 0.97), rgba(7, 9, 8, 0.94));
   border-bottom: 1px solid rgba(227, 235, 211, 0.1);
   box-shadow: inset 0 1px 0 rgba(227, 235, 211, 0.08), 0 18px 40px rgba(0, 0, 0, 0.65);
@@ -236,7 +238,7 @@ body::after {
   backdrop-filter: blur(8px);
 }
 
-/* Electrocardiograma bajo la barra: un latido a cada lado del logo */
+/* Electrocardiograma bajo la barra: un latido a cada lado */
 .cabecera-principal::after {
   content: "";
   position: absolute;
@@ -256,7 +258,7 @@ body::after {
 .navegacion-principal {
   width: 100%;
   overflow-x: auto;
-  padding-block: 10px;
+  padding: 10px clamp(12px, 3vw, 40px);
   scrollbar-width: none;
 }
 
@@ -277,7 +279,7 @@ body::after {
 
 .navegacion-principal__item--marca {
   flex-shrink: 0;
-  margin-inline: clamp(14px, 2.6vw, 48px);
+  margin-right: clamp(10px, 1.8vw, 32px);
 }
 
 .cabecera-principal__marca {
@@ -365,6 +367,12 @@ body::after {
   opacity: 1;
 }
 
+/* Sección en la que estás: texto encendido y subrayado rojo */
+.navegacion-principal__enlace[aria-current="location"] {
+  background: linear-gradient(var(--latido-claro), var(--latido-claro)) left bottom 2px / 100% 3px no-repeat;
+  text-shadow: 0 0 14px rgba(227, 235, 211, 0.55);
+}
+
 /* Al pasar el ratón el tubo parpadea antes de encenderse */
 .navegacion-principal__enlace:hover::before {
   animation: encender 0.45s linear;
@@ -379,56 +387,6 @@ body::after {
   100% { opacity: 1; }
 }
 
-/* Título de la sección actual, fijo bajo la cabecera */
-.titulo-fijo {
-  position: fixed;
-  top: 96px;
-  left: 50%;
-  z-index: 49;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: calc(100% - 24px);
-  padding: 8px 22px 8px 14px;
-  background: rgba(7, 9, 8, 0.93);
-  border: 1px solid var(--linoleo);
-  border-left: 4px solid var(--latido);
-  border-radius: var(--radio);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-  color: var(--fluorescente);
-  font-family: var(--fuente-titulos);
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translate(-50%, -8px);
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-}
-
-.titulo-fijo--visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-.titulo-fijo__punto {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  background: var(--latido-claro);
-  box-shadow: 0 0 10px var(--latido-claro);
-}
-
-.titulo-fijo__texto {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 /* ---------- 6. ESTRUCTURA GENERAL ---------- */
 .contenido-principal {
   width: min(var(--ancho-contenido), calc(100% - 32px));
@@ -437,10 +395,16 @@ body::after {
 
 .seccion {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--espacio-l);
-  padding-block: clamp(64px, 9vw, 120px);
+  padding-block: var(--pad-seccion);
+}
+
+/* Al navegar desde el menú, el título de la sección queda justo bajo la cabecera:
+   se descuenta el aire superior de la sección */
+.seccion + .seccion {
+  scroll-margin-top: calc(24px - var(--pad-seccion));
 }
 
 /* Separador entre secciones: la línea de un monitor cardíaco con un latido */
@@ -490,13 +454,21 @@ body::after {
   bottom: 8%;
 }
 
+/* El encabezado no genera caja: así el título puede quedarse fijo mientras dure toda la sección */
 .seccion__encabezado {
-  display: grid;
-  gap: var(--espacio-s);
+  display: contents;
 }
 
-/* Títulos de sección: rotulación de pasillo con aberración cromática */
+.seccion__titulo + p {
+  margin-top: calc(var(--espacio-s) - var(--espacio-l));
+}
+
+/* Títulos de sección: rotulación de pasillo con aberración cromática.
+   Se quedan fijos bajo la cabecera hasta que entra la sección siguiente */
 .seccion__titulo {
+  position: sticky;
+  top: var(--alto-cabecera);
+  z-index: 30;
   font-size: clamp(2.8rem, 7vw, 5.4rem);
   font-weight: 900;
   letter-spacing: 0.005em;
@@ -519,6 +491,23 @@ body::after {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 18px rgba(200, 32, 42, 0.35);
   transform: rotate(-1.2deg);
   transform-origin: left center;
+}
+
+/* Estado fijo: el título conserva exactamente su aspecto (tamaño, aberración cromática y cinta).
+   Solo aparece un velo oscuro detrás para que el contenido que pasa por debajo no lo ensucie */
+.seccion__titulo::before {
+  content: "";
+  position: absolute;
+  inset: -10px -16px -30px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 9, 8, 0.97) 0, rgba(7, 9, 8, 0.97) 64%, rgba(7, 9, 8, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.seccion__titulo--fijo::before {
+  opacity: 1;
 }
 
 .seccion__introduccion {
@@ -593,6 +582,7 @@ body::after {
 
 /* ---------- 8. INICIO ---------- */
 .seccion-inicio {
+  display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
   gap: clamp(48px, 6vw, 96px);
@@ -2014,18 +2004,9 @@ textarea.formulario-contacto__entrada {
   }
 
   .navegacion-principal__item--marca {
-    order: -1;
-    margin-inline: 8px 12px;
+    margin-right: 10px;
   }
 
-  .cabecera-principal__logo {
-    width: 40px;
-    height: 40px;
-  }
-
-  .titulo-fijo {
-    top: 92px;
-  }
 
   .mision-vision__bloque--vision {
     margin-top: 0;
