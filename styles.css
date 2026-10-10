@@ -571,6 +571,96 @@ a:hover {
   background: #000;
 }
 
+/* Tráiler: enlace a YouTube con miniatura */
+.galeria__trailer {
+  margin: 0;
+  overflow: hidden;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  box-shadow: var(--sombra-elevada);
+}
+
+.galeria__trailer-enlace {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--texto);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.galeria__trailer-imagen {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--superficie-alta);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* Viñeta para que el botón se lea sobre cualquier imagen */
+.galeria__trailer-enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(13, 8, 24, 0.25) 0%, rgba(13, 8, 24, 0.75) 100%);
+  pointer-events: none;
+}
+
+.galeria__trailer-boton {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px 16px 20px;
+  background: var(--pulso);
+  border-radius: var(--radio-pildora);
+  color: var(--noche);
+  font-weight: 700;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Triángulo de reproducción hecho con CSS */
+.galeria__trailer-boton::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent var(--noche);
+}
+
+.galeria__trailer-enlace:hover .galeria__trailer-imagen {
+  transform: scale(1.03);
+}
+
+.galeria__trailer-enlace:hover .galeria__trailer-boton {
+  background: var(--pulso-intenso);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.galeria__trailer-enlace:focus-visible {
+  outline-offset: -3px;
+}
+
+/* Reproductor de YouTube que sustituye a la miniatura tras el clic */
+.galeria__trailer-reproductor {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: #000;
+}
+
 .galeria__pie,
 .captura__pie,
 .bloque-tecnico__figura figcaption {

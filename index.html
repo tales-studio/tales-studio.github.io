@@ -192,13 +192,15 @@
       <section class="galeria" aria-labelledby="titulo-galeria">
         <h3 id="titulo-galeria" class="galeria__titulo">Capturas y gameplay</h3>
 
-        <figure class="galeria__video">
-          <video controls preload="metadata" poster="Assets/Images/PLACEHOLDER.jpg">
-            <source src="video/gameplay.mp4" type="video/mp4">
-            <track kind="captions" src="video/gameplay-es.vtt" srclang="es" label="Español">
-            Tu navegador no admite vídeo HTML5.
-          </video>
-          <figcaption class="galeria__pie">Un fragmento del turno de noche en la residencia.</figcaption>
+        <figure class="galeria__trailer" data-youtube-id="MXDYOh67SWc">
+          <button class="galeria__trailer-enlace" type="button" aria-label="Reproducir el tráiler de Shift Happens">
+            <img class="galeria__trailer-imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Miniatura del tráiler de Shift Happens" width="1280" height="720" loading="lazy">
+            <span class="galeria__trailer-boton">Reproducir tráiler</span>
+          </button>
+          <noscript>
+            <p class="galeria__pie"><a href="https://www.youtube.com/watch?v=MXDYOh67SWc" target="_blank" rel="noopener">Ver el tráiler en YouTube</a></p>
+          </noscript>
+          <figcaption class="galeria__pie">Tráiler de Shift Happens: la noche más estresante del año.</figcaption>
         </figure>
 
         <ul class="galeria__capturas">
