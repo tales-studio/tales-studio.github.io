@@ -1,107 +1,560 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raúl Cacho Domínguez - Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px;
-            background-color: #0078d4;
-            color: white;
-            border-radius: 10px;
-        }
-
-        section {
-            background-color: white;
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        h2 {
-            color: #0078d4;
-        }
-
-        a {
-            color: #0078d4;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shift Happens: gestiona las tareas de un conserje de residencia universitaria y sobrevive al terror de la noche más estresante del año. Juega la demo en tu navegador.">
+  <title>Shift Happens | [Nombre del Estudio]</title>
+  <link rel="icon" href="img/favicon.png">
+  <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
 
-    <header>
-        <h1>Raúl Cacho Domínguez</h1>
-        <p>Profesor de Ingeniería Informática</p>
-        <p>Bienvenido a mi portfolio.</p>
-        <p>
-            Lanzamiento de GitHub Pages y preparando la asignatura
-            <strong>Juegos para Web y Redes Sociales</strong>.
-        </p>
-    </header>
+  <a class="enlace-saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
 
-    <section>
-        <h2>Sobre mí</h2>
-        <p>Profesor universitario interesado en:</p>
-        <ul>
-            <li>Desarrollo web</li>
-            <li>Inteligencia Artificial</li>
-            <li>Programación</li>
-            <li>Videojuegos</li>
+  <header class="cabecera-principal">
+    <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
+      <img class="cabecera-principal__logo" src="img/logo.svg" alt="Logo de [Nombre del Estudio]" width="48" height="48">
+      <span class="cabecera-principal__nombre">[Nombre del Estudio]</span>
+    </a>
+
+    <nav class="navegacion-principal" aria-label="Navegación principal">
+      <ul class="navegacion-principal__lista">
+        <li><a class="navegacion-principal__enlace" href="#inicio">Inicio</a></li>
+        <li><a class="navegacion-principal__enlace" href="#sobre-el-estudio">Sobre el estudio</a></li>
+        <li><a class="navegacion-principal__enlace" href="#nuestro-juego">Nuestro juego</a></li>
+        <li><a class="navegacion-principal__enlace" href="#devlog">Devlog</a></li>
+        <li><a class="navegacion-principal__enlace" href="#marketing">Marketing</a></li>
+        <li><a class="navegacion-principal__enlace" href="#aspectos-tecnicos">Aspectos técnicos</a></li>
+        <li><a class="navegacion-principal__enlace" href="#resultados">Resultados</a></li>
+        <li><a class="navegacion-principal__enlace" href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido-principal" class="contenido-principal">
+
+    <!-- 1. INICIO -->
+    <section id="inicio" class="seccion seccion-inicio" aria-labelledby="titulo-inicio">
+      <div class="seccion-inicio__texto">
+        <img class="seccion-inicio__logo" src="img/logo.svg" alt="" width="120" height="120">
+        <h1 id="titulo-inicio" class="seccion-inicio__titulo">[Nombre del Estudio]</h1>
+        <p class="seccion-inicio__presentacion">
+          Hacemos juegos de terror donde lo más inquietante es lo cotidiano.
+          Nuestro primer proyecto es <strong>Shift Happens</strong>: la noche más estresante del año,
+          un conserje agotado y una residencia universitaria donde ya no sabes qué es real.
+          ¿Podrás completar tu turno antes del amanecer?
+        </p>
+        <a class="boton boton--principal" href="demo/index.html" target="_blank" rel="noopener">
+          Jugar la demo
+        </a>
+        <p class="seccion-inicio__nota">Se juega directamente en el navegador, sin descargas.</p>
+      </div>
+
+      <figure class="seccion-inicio__multimedia">
+        <img class="seccion-inicio__imagen" src="img/portada-juego.jpg" alt="El conserje recorre un pasillo oscuro de la residencia con el móvil en la mano" width="1280" height="720">
+        <figcaption class="seccion-inicio__pie">Un pasillo cualquiera de la residencia, a las tres de la madrugada.</figcaption>
+      </figure>
+    </section>
+
+    <!-- 2. SOBRE EL ESTUDIO -->
+    <section id="sobre-el-estudio" class="seccion seccion-estudio" aria-labelledby="titulo-estudio">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-estudio" class="seccion__titulo">Sobre el estudio</h2>
+      </header>
+
+      <section class="equipo" aria-labelledby="titulo-equipo">
+        <h3 id="titulo-equipo" class="equipo__titulo">El equipo</h3>
+        <ul class="equipo__lista">
+          <li class="miembro">
+            <article class="miembro__tarjeta">
+              <img class="miembro__foto" src="img/equipo/miembro-1.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
+              <p class="miembro__rol">Dirección y diseño de juego</p>
+              <p class="miembro__descripcion">Define las reglas de la noche y vigila que cada mecánica sirva a la tensión.</p>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta">
+              <img class="miembro__foto" src="img/equipo/miembro-2.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
+              <p class="miembro__rol">Programación</p>
+              <p class="miembro__descripcion">Da vida al sistema de tareas, la cordura y las alucinaciones.</p>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta">
+              <img class="miembro__foto" src="img/equipo/miembro-3.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
+              <p class="miembro__rol">Arte y animación 2D</p>
+              <p class="miembro__descripcion">Construye una residencia que parece normal hasta que deja de serlo.</p>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta">
+              <img class="miembro__foto" src="img/equipo/miembro-4.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
+              <p class="miembro__rol">Sonido y comunicación</p>
+              <p class="miembro__descripcion">Diseña el audio que hace que se te acelere el pulso y cuenta el proyecto al mundo.</p>
+            </article>
+          </li>
         </ul>
+      </section>
+
+      <section class="mision-vision" aria-labelledby="titulo-mision-vision">
+        <h3 id="titulo-mision-vision" class="mision-vision__titulo">Misión y visión</h3>
+        <div class="mision-vision__contenedor">
+          <article class="mision-vision__bloque mision-vision__bloque--mision">
+            <h4 class="mision-vision__subtitulo">Misión</h4>
+            <p>Crear experiencias de terror accesibles, con controles sencillos y una atmósfera cuidada, que den miedo por lo que sugieren y no por su complejidad.</p>
+          </article>
+          <article class="mision-vision__bloque mision-vision__bloque--vision">
+            <h4 class="mision-vision__subtitulo">Visión</h4>
+            <p>Ser un estudio independiente reconocido por convertir situaciones cotidianas en historias inquietantes, jugables en cualquier navegador y por cualquier persona.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="historia" aria-labelledby="titulo-historia">
+        <h3 id="titulo-historia" class="historia__titulo">Nuestra historia</h3>
+        <p class="historia__texto">
+          Shift Happens nació de una pregunta: ¿qué pasa si el trabajo más aburrido del mundo se convierte en una pesadilla?
+          Partimos de la idea de un conserje de residencia universitaria con una lista interminable de recados
+          y le añadimos agotamiento, paranoia y una noche que no termina nunca.
+          Desde el primer prototipo hemos trabajado con tres reglas: interfaz mínima, mecánicas directas y terror basado en la atmósfera.
+        </p>
+      </section>
     </section>
 
-    <section>
-        <h2>Tecnologías</h2>
-        <ul>
-            <li>HTML5</li>
-            <li>CSS3</li>
-            <li>JavaScript</li>
-            <li>Python</li>
-            <li>GitHub</li>
+    <!-- 3. NUESTRO JUEGO -->
+    <section id="nuestro-juego" class="seccion seccion-juego" aria-labelledby="titulo-juego">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-juego" class="seccion__titulo">Nuestro juego: Shift Happens</h2>
+        <p class="seccion-juego__pitch">
+          Shift Happens combina la gestión de tareas de un conserje de residencia universitaria con el terror de supervivencia en 2D.
+          En la noche más estresante del año, el agotamiento y la esquizofrenia del protagonista hacen que el límite entre los recados cotidianos
+          y las alucinaciones mortales desaparezca. ¿Podrás mantener la cordura y completar tu turno antes del amanecer?
+        </p>
+      </header>
+
+      <dl class="ficha-juego">
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Género</dt>
+          <dd class="ficha-juego__valor">Terror de supervivencia 2D y gestión de tareas</dd>
+        </div>
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Plataforma</dt>
+          <dd class="ficha-juego__valor">Navegador web (PC y portátiles)</dd>
+        </div>
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Controles</dt>
+          <dd class="ficha-juego__valor">Teclado: 4 direcciones, interactuar y Shift</dd>
+        </div>
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Estado</dt>
+          <dd class="ficha-juego__valor">Demo jugable</dd>
+        </div>
+      </dl>
+
+      <section class="caracteristicas" aria-labelledby="titulo-caracteristicas">
+        <h3 id="titulo-caracteristicas" class="caracteristicas__titulo">Características principales</h3>
+        <ul class="caracteristicas__lista">
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Una noche, muchas tareas</h4>
+            <p class="caracteristica__descripcion">Arreglar una luz, atender una queja de ruido, recoger un paquete. Los recados se acumulan y la presión sube con cada uno que se te queda pendiente.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Realidad o alucinación</h4>
+            <p class="caracteristica__descripcion">A medida que el agotamiento aumenta, no siempre sabrás si lo que tienes delante es un residente o algo que quiere hacerte daño.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Interfaz integrada en el mundo</h4>
+            <p class="caracteristica__descripcion">Sin menús recargados: la lista de tareas está en tu teléfono y tu estado se refleja en un indicador sutil de pulso cardíaco en un lateral.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Sigilo o prisa</h4>
+            <p class="caracteristica__descripcion">Con Shift alternas entre caminar y moverte en sigilo. Ir deprisa te acerca al amanecer, pero hace más ruido.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Terror de atmósfera</h4>
+            <p class="caracteristica__descripcion">Luz, ansiedad y sonido construyen la tensión. Sin inventarios lentos ni sistemas de crafting: solo tú, la residencia y el reloj.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Listo para jugar en el navegador</h4>
+            <p class="caracteristica__descripcion">Controles simples y partida inmediata, sin instalar nada.</p>
+          </li>
         </ul>
+      </section>
+
+      <section class="galeria" aria-labelledby="titulo-galeria">
+        <h3 id="titulo-galeria" class="galeria__titulo">Capturas y gameplay</h3>
+
+        <figure class="galeria__video">
+          <video controls preload="metadata" poster="img/poster-gameplay.jpg">
+            <source src="video/gameplay.mp4" type="video/mp4">
+            <track kind="captions" src="video/gameplay-es.vtt" srclang="es" label="Español">
+            Tu navegador no admite vídeo HTML5.
+          </video>
+          <figcaption class="galeria__pie">Un fragmento del turno de noche en la residencia.</figcaption>
+        </figure>
+
+        <ul class="galeria__capturas">
+          <li>
+            <figure class="captura">
+              <img class="captura__imagen" src="img/captura-1.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="640" height="360" loading="lazy">
+              <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="captura">
+              <img class="captura__imagen" src="img/captura-2.jpg" alt="Un pasillo con una sombra extraña al fondo" width="640" height="360" loading="lazy">
+              <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="captura">
+              <img class="captura__imagen" src="img/captura-3.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="640" height="360" loading="lazy">
+              <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
+            </figure>
+          </li>
+        </ul>
+      </section>
     </section>
 
-    <section>
-        <h2>Proyectos</h2>
-        <h3>Portfolio GitHub Pages</h3>
-        <p>Primer portfolio desarrollado utilizando GitHub Pages.</p>
+    <!-- 4. DEVLOG -->
+    <section id="devlog" class="seccion seccion-devlog" aria-labelledby="titulo-devlog">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-devlog" class="seccion__titulo">Devlog</h2>
+        <p class="seccion__introduccion">Así hemos pasado de una idea a una noche que da miedo completar.</p>
+      </header>
+
+      <ol class="linea-tiempo">
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Fase 1: Concepto y reglas de diseño</h3>
+              <p class="hito__periodo">Semana 1</p>
+            </header>
+            <ul class="hito__tareas">
+              <li>Definimos la premisa: un conserje, una noche y una lista de tareas.</li>
+              <li>Fijamos los tres principios: interfaz minimalista, mecánicas directas y terror basado en la atmósfera.</li>
+              <li>Primer prototipo con movimiento en 4 direcciones.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Fase 2: Bucle de tareas</h3>
+              <p class="hito__periodo">Semanas 2 y 3</p>
+            </header>
+            <ul class="hito__tareas">
+              <li>Interacción con objetos mediante un único botón.</li>
+              <li>Sistema de tareas y lista consultable en el teléfono.</li>
+              <li>Primer mapa de la residencia con arte provisional.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Fase 3: Terror y cordura</h3>
+              <p class="hito__periodo">Semanas 4 y 5</p>
+            </header>
+            <ul class="hito__tareas">
+              <li>Modo sigilo/caminar con la tecla Shift.</li>
+              <li>Indicador de pulso cardíaco y gestión de luz y ansiedad.</li>
+              <li>Primeras alucinaciones y amenazas.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Fase 4: Arte, audio y pulido</h3>
+              <p class="hito__periodo">Semanas 6 y 7</p>
+            </header>
+            <ul class="hito__tareas">
+              <li>Arte definitivo, iluminación y efectos visuales.</li>
+              <li>Banda sonora y efectos de sonido.</li>
+              <li>Ajuste de ritmo y dificultad.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Fase 5: Pruebas y demo pública</h3>
+              <p class="hito__periodo">Semana 8</p>
+            </header>
+            <ul class="hito__tareas">
+              <li>Sesiones de testeo con jugadores externos.</li>
+              <li>Optimización para navegador y publicación de la demo.</li>
+            </ul>
+          </article>
+        </li>
+      </ol>
     </section>
 
-    <section>
-        <h2>Contacto</h2>
-        <p>
-            <a href="ww.linkedin.comLinkedIn</a>
+    <!-- 5. MARKETING -->
+    <section id="marketing" class="seccion seccion-marketing" aria-labelledby="titulo-marketing">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-marketing" class="seccion__titulo">Marketing</h2>
+      </header>
+
+      <section class="publico-objetivo" aria-labelledby="titulo-publico">
+        <h3 id="titulo-publico" class="publico-objetivo__titulo">Público objetivo</h3>
+        <ul class="publico-objetivo__lista">
+          <li><strong>Edad:</strong> de 16 a 35 años.</li>
+          <li><strong>Perfil:</strong> aficionados al terror indie y a los juegos de partidas cortas que se pueden jugar al momento.</li>
+          <li><strong>Intereses:</strong> terror psicológico, juegos de gestión bajo presión, streamers y creadores de contenido de terror.</li>
+          <li><strong>Hábitos:</strong> juegan en PC o portátil, descubren juegos en itch.io y en redes sociales.</li>
+          <li><strong>Conexión:</strong> el entorno universitario es cercano para estudiantes y recién graduados.</li>
+        </ul>
+      </section>
+
+      <section class="competencia" aria-labelledby="titulo-competencia">
+        <h3 id="titulo-competencia" class="competencia__titulo">Juegos similares</h3>
+        <div class="competencia__contenedor-tabla">
+          <table class="tabla-competencia">
+            <caption class="tabla-competencia__titulo">Comparativa con juegos de referencia</caption>
+            <thead>
+              <tr>
+                <th scope="col">Juego</th>
+                <th scope="col">Qué hace bien</th>
+                <th scope="col">Cómo nos diferenciamos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Five Nights at Freddy's</th>
+                <td>Tensión por turnos de noche y recursos limitados.</td>
+                <td>Nosotros te movemos libremente por el mapa y la amenaza puede ser una alucinación.</td>
+              </tr>
+              <tr>
+                <th scope="row">Papers, Please</th>
+                <td>Presión constante al gestionar tareas rutinarias.</td>
+                <td>Aplicamos esa presión a un contexto de terror de supervivencia.</td>
+              </tr>
+              <tr>
+                <th scope="row">Darkwood</th>
+                <td>Atmósfera opresiva en 2D vista desde arriba.</td>
+                <td>Menos sistemas complejos: controles simples y partida directa desde el navegador.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="estrategia" aria-labelledby="titulo-estrategia">
+        <h3 id="titulo-estrategia" class="estrategia__titulo">Estrategia de lanzamiento</h3>
+        <ol class="estrategia__fases">
+          <li class="estrategia__fase">
+            <h4 class="estrategia__fase-titulo">Antes del lanzamiento</h4>
+            <p>Teasers cortos de la «lista de tareas» en redes, devlog semanal y apertura de la página del juego para reunir seguidores.</p>
+          </li>
+          <li class="estrategia__fase">
+            <h4 class="estrategia__fase-titulo">Lanzamiento de la demo</h4>
+            <p>Publicación en itch.io con la demo jugable en el navegador, tráiler y contacto con streamers de terror indie.</p>
+          </li>
+          <li class="estrategia__fase">
+            <h4 class="estrategia__fase-titulo">Después del lanzamiento</h4>
+            <p>Recogida de comentarios, parches y comunicación con la comunidad en Discord para decidir los siguientes pasos.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="plataformas" aria-labelledby="titulo-plataformas">
+        <h3 id="titulo-plataformas" class="plataformas__titulo">Plataformas</h3>
+        <ul class="plataformas__lista">
+          <li class="plataforma">
+            <a class="plataforma__enlace" href="https://itch.io/" target="_blank" rel="noopener">
+              <img class="plataforma__icono" src="img/iconos/itchio.svg" alt="" width="32" height="32">
+              <span class="plataforma__nombre">Itch.io</span>
+            </a>
+            <p class="plataforma__descripcion">Plataforma principal: juego directo en el navegador.</p>
+          </li>
+          <li class="plataforma">
+            <a class="plataforma__enlace" href="https://gamejolt.com/" target="_blank" rel="noopener">
+              <img class="plataforma__icono" src="img/iconos/gamejolt.svg" alt="" width="32" height="32">
+              <span class="plataforma__nombre">Game Jolt</span>
+            </a>
+            <p class="plataforma__descripcion">Para llegar a más comunidad de juegos indie.</p>
+          </li>
+          <li class="plataforma">
+            <a class="plataforma__enlace" href="https://store.steampowered.com/" target="_blank" rel="noopener">
+              <img class="plataforma__icono" src="img/iconos/steam.svg" alt="" width="32" height="32">
+              <span class="plataforma__nombre">Steam</span>
+            </a>
+            <p class="plataforma__descripcion">Objetivo a futuro con una versión ampliada.</p>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- 6. ASPECTOS TÉCNICOS -->
+    <section id="aspectos-tecnicos" class="seccion seccion-tecnica" aria-labelledby="titulo-tecnica">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-tecnica" class="seccion__titulo">Aspectos técnicos</h2>
+      </header>
+
+      <article class="bloque-tecnico bloque-tecnico--programacion">
+        <h3 class="bloque-tecnico__titulo">Programación destacada</h3>
+        <p class="bloque-tecnico__texto">
+          El corazón del juego es la relación entre tareas, cordura y alucinaciones: cuantas más tareas se acumulan, más sube la ansiedad,
+          y con ella la probabilidad de que el entorno te engañe. También hemos trabajado en que todo funcione de forma fluida en el navegador.
         </p>
-        <p>
-            https://github.comGitHub</a>
+        <ul class="bloque-tecnico__lista">
+          <li>Sistema de tareas con lista consultable en el teléfono.</li>
+          <li>Sistema de cordura y pulso cardíaco que influye en el entorno.</li>
+          <li>Alucinaciones que sustituyen elementos reales del escenario.</li>
+          <li>Modo sigilo/caminar que modifica el ruido que generas.</li>
+        </ul>
+        <pre class="bloque-tecnico__codigo"><code>// Pseudocódigo: la ansiedad sube con las tareas pendientes
+ansiedad = tareasPendientes * factorPresion + (enOscuridad ? 1 : 0)
+pulso = ansiedad * 10
+probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
+      </article>
+
+      <article class="bloque-tecnico bloque-tecnico--arte">
+        <h3 class="bloque-tecnico__titulo">Arte y diseño</h3>
+        <p class="bloque-tecnico__texto">
+          La residencia debe parecer un lugar real y familiar, para que lo extraño inquiete más.
+          Usamos una paleta fría y apagada, contrastes de luz y sombra, y una interfaz casi invisible integrada en el mundo.
         </p>
+        <figure class="bloque-tecnico__figura">
+          <img src="img/arte-conceptual.jpg" alt="Arte conceptual del conserje y la residencia" width="640" height="360" loading="lazy">
+          <figcaption>Arte conceptual del protagonista y del entorno.</figcaption>
+        </figure>
+      </article>
+
+      <article class="bloque-tecnico bloque-tecnico--audio">
+        <h3 class="bloque-tecnico__titulo">Audio y efectos</h3>
+        <p class="bloque-tecnico__texto">
+          El sonido es una de las principales herramientas de terror: pasos, luces que parpadean, latidos que se aceleran
+          y silencios incómodos. El audio cambia según tu nivel de ansiedad y avisa de lo que ocurre fuera de la pantalla.
+        </p>
+        <figure class="bloque-tecnico__figura">
+          <audio controls preload="none" src="audio/ambiente-residencia.mp3">
+            Tu navegador no admite audio HTML5.
+          </audio>
+          <figcaption>Ambiente sonoro de la residencia por la noche.</figcaption>
+        </figure>
+      </article>
     </section>
 
-    <footer>
-        <p>&copy; 2026 Raúl Cacho Domínguez</p>
-    </footer>
+    <!-- 7. RESULTADOS -->
+    <section id="resultados" class="seccion seccion-resultados" aria-labelledby="titulo-resultados">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-resultados" class="seccion__titulo">Resultados</h2>
+      </header>
+
+      <section class="metricas" aria-labelledby="titulo-metricas">
+        <h3 id="titulo-metricas" class="metricas__titulo">Métricas del proyecto</h3>
+        <dl class="metricas__lista">
+          <div class="metrica">
+            <dt class="metrica__etiqueta">Partidas de la demo</dt>
+            <dd class="metrica__valor">[000]</dd>
+          </div>
+          <div class="metrica">
+            <dt class="metrica__etiqueta">Visitas a la web</dt>
+            <dd class="metrica__valor">[000]</dd>
+          </div>
+          <div class="metrica">
+            <dt class="metrica__etiqueta">Seguidores en redes</dt>
+            <dd class="metrica__valor">[000]</dd>
+          </div>
+          <div class="metrica">
+            <dt class="metrica__etiqueta">Tiempo medio de partida</dt>
+            <dd class="metrica__valor">[00] min</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="estadisticas" aria-labelledby="titulo-estadisticas">
+        <h3 id="titulo-estadisticas" class="estadisticas__titulo">Estadísticas de desarrollo</h3>
+        <ul class="estadisticas__lista">
+          <li>Duración del desarrollo: <strong>[8] semanas</strong></li>
+          <li>Horas de trabajo del equipo: <strong>[000] h</strong></li>
+          <li>Tareas diferentes en el juego: <strong>[00]</strong></li>
+          <li>Versiones internas publicadas: <strong>[00]</strong></li>
+        </ul>
+      </section>
+
+      <section class="feedback" aria-labelledby="titulo-feedback">
+        <h3 id="titulo-feedback" class="feedback__titulo">Feedback y pruebas realizadas</h3>
+        <p class="feedback__texto">
+          Hemos probado el juego con [N] personas en [N] sesiones. Observamos cómo jugaban, dónde se perdían
+          y en qué momentos sentían miedo o frustración.
+        </p>
+        <ul class="feedback__comentarios">
+          <li>
+            <blockquote class="comentario">
+              <p>«[Comentario real de un jugador sobre la atmósfera o la tensión.]»</p>
+              <footer class="comentario__autor">— Tester 1</footer>
+            </blockquote>
+          </li>
+          <li>
+            <blockquote class="comentario">
+              <p>«[Comentario real de un jugador sobre los controles o la dificultad.]»</p>
+              <footer class="comentario__autor">— Tester 2</footer>
+            </blockquote>
+          </li>
+        </ul>
+        <p class="feedback__mejoras"><strong>Cambios realizados tras las pruebas:</strong> [por ejemplo: ajuste de la dificultad, mayor claridad en la lista de tareas, mejora de los avisos sonoros].</p>
+      </section>
+    </section>
+
+    <!-- 8. CONTACTO Y RRSS -->
+    <section id="contacto" class="seccion seccion-contacto" aria-labelledby="titulo-contacto">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-contacto" class="seccion__titulo">Contacto y redes sociales</h2>
+        <p class="seccion__introduccion">¿Has sobrevivido a la noche? Cuéntanoslo. Escríbenos para dar tu opinión, proponer una colaboración o contactar con la prensa.</p>
+      </header>
+
+      <form class="formulario-contacto" action="#" method="post">
+        <div class="formulario-contacto__campo">
+          <label class="formulario-contacto__etiqueta" for="contacto-nombre">Nombre</label>
+          <input class="formulario-contacto__entrada" type="text" id="contacto-nombre" name="nombre" autocomplete="name" required>
+        </div>
+        <div class="formulario-contacto__campo">
+          <label class="formulario-contacto__etiqueta" for="contacto-correo">Correo electrónico</label>
+          <input class="formulario-contacto__entrada" type="email" id="contacto-correo" name="correo" autocomplete="email" required>
+        </div>
+        <div class="formulario-contacto__campo">
+          <label class="formulario-contacto__etiqueta" for="contacto-mensaje">Mensaje</label>
+          <textarea class="formulario-contacto__entrada" id="contacto-mensaje" name="mensaje" rows="5" required></textarea>
+        </div>
+        <button class="boton boton--principal" type="submit">Enviar mensaje</button>
+      </form>
+
+      <address class="datos-contacto">
+        <p>Correo: <a href="mailto:hola@estudio.com">hola@estudio.com</a></p>
+      </address>
+
+      <nav class="redes-sociales" aria-label="Redes sociales">
+        <ul class="redes-sociales__lista">
+          <li><a class="red-social" href="https://x.com/" target="_blank" rel="noopener">X (Twitter)</a></li>
+          <li><a class="red-social" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a class="red-social" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a class="red-social" href="https://discord.com/" target="_blank" rel="noopener">Discord</a></li>
+          <li><a class="red-social" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </nav>
+    </section>
+
+  </main>
+
+  <footer class="pie-pagina">
+    <p class="pie-pagina__copyright">© 2026 [Nombre del Estudio]. Todos los derechos reservados.</p>
+    <nav class="pie-pagina__navegacion" aria-label="Enlaces legales">
+      <ul class="pie-pagina__lista">
+        <li><a href="aviso-legal.html">Aviso legal</a></li>
+        <li><a href="privacidad.html">Política de privacidad</a></li>
+      </ul>
+    </nav>
+    <a class="pie-pagina__subir" href="#inicio">Volver arriba</a>
+  </footer>
 
 </body>
 </html>
