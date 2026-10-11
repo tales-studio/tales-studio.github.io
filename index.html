@@ -13,8 +13,13 @@
   <link rel="stylesheet" href="css/styles.css">
   <!-- Comportamiento: un archivo por función. Con defer se ejecutan al terminar de leer el HTML y en este orden -->
   <script src="js/navigation.js" defer></script>
+  <script src="js/menu.js" defer></script>
+  <script src="js/scroll-offset.js" defer></script>
   <script src="js/team.js" defer></script>
+  <script src="js/team-accordion.js" defer></script>
+  <script src="js/features-highlight.js" defer></script>
   <script src="js/devlog.js" defer></script>
+  <script src="js/contact.js" defer></script>
   <script src="js/carousel.js" defer></script>
   <script src="js/translations.js" defer></script>
   <script src="js/language.js" defer></script>
@@ -25,7 +30,7 @@
 
   <header class="cabecera-principal">
     <nav class="navegacion-principal" aria-label="Navegación principal">
-      <ul class="navegacion-principal__lista">
+      <ul class="navegacion-principal__lista" id="menu-navegacion">
         <li class="navegacion-principal__item--marca">
           <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
             <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="48" height="48">
@@ -39,11 +44,18 @@
         <li><a class="navegacion-principal__enlace" href="#aspectos-tecnicos">Aspectos técnicos</a></li>
         <li><a class="navegacion-principal__enlace" href="#resultados">Resultados</a></li>
         <li><a class="navegacion-principal__enlace" href="#contacto">Contacto</a></li>
-        <li><a class="navegacion-principal__enlace navegacion-principal__enlace--destacado" href="#jugar-demo">Jugar la demo</a></li>
+        <li class="navegacion-principal__item--demo"><a class="navegacion-principal__enlace navegacion-principal__enlace--destacado" href="#jugar-demo">Jugar la demo</a></li>
         <li class="navegacion-principal__item--idioma">
           <button class="selector-idioma" id="selector-idioma" type="button" aria-label="Cambiar idioma: pasar a inglés" title="Cambiar idioma: pasar a inglés">
             <span class="selector-idioma__opcion" data-lang="es" lang="es" aria-hidden="true">ES</span>
             <span class="selector-idioma__opcion" data-lang="en" lang="en" aria-hidden="true">EN</span>
+          </button>
+        </li>
+        <li class="navegacion-principal__item--menu">
+          <button class="menu-movil" id="boton-menu" type="button" aria-expanded="false" aria-controls="menu-navegacion" aria-label="Abrir menú" title="Abrir menú">
+            <span class="menu-movil__barra" aria-hidden="true"></span>
+            <span class="menu-movil__barra" aria-hidden="true"></span>
+            <span class="menu-movil__barra" aria-hidden="true"></span>
           </button>
         </li>
       </ul>
@@ -596,35 +608,54 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
         <p class="seccion__introduccion">¿Has sobrevivido a la noche? Cuéntanoslo. Escríbenos para dar tu opinión, proponer una colaboración o contactar con la prensa.</p>
       </header>
 
-      <form class="formulario-contacto" action="#" method="post">
-        <div class="formulario-contacto__campo">
-          <label class="formulario-contacto__etiqueta" for="contacto-nombre">Nombre</label>
-          <input class="formulario-contacto__entrada" type="text" id="contacto-nombre" name="nombre" autocomplete="name" required>
-        </div>
-        <div class="formulario-contacto__campo">
-          <label class="formulario-contacto__etiqueta" for="contacto-correo">Correo electrónico</label>
-          <input class="formulario-contacto__entrada" type="email" id="contacto-correo" name="correo" autocomplete="email" required>
-        </div>
-        <div class="formulario-contacto__campo">
-          <label class="formulario-contacto__etiqueta" for="contacto-mensaje">Mensaje</label>
-          <textarea class="formulario-contacto__entrada" id="contacto-mensaje" name="mensaje" rows="5" required></textarea>
-        </div>
-        <button class="boton boton--principal" type="submit">Enviar mensaje</button>
-      </form>
+      <div class="contacto__rejilla">
+        <div class="contacto__redes">
+          <nav class="redes-sociales" aria-label="Redes sociales">
+            <ul class="redes-sociales__lista">
+              <li><a class="red-social" href="https://x.com/" target="_blank" rel="noopener">X (Twitter)</a></li>
+              <li><a class="red-social" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a class="red-social" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+              <li><a class="red-social" href="https://discord.com/" target="_blank" rel="noopener">Discord</a></li>
+              <li><a class="red-social" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
+            </ul>
+          </nav>
 
-      <address class="datos-contacto">
-        <p>Correo: <a href="mailto:hola@estudio.com">hola@estudio.com</a></p>
-      </address>
+          <address class="datos-contacto">
+            <p>Correo: <a href="mailto:hola@estudio.com">hola@estudio.com</a></p>
+          </address>
+        </div>
 
-      <nav class="redes-sociales" aria-label="Redes sociales">
-        <ul class="redes-sociales__lista">
-          <li><a class="red-social" href="https://x.com/" target="_blank" rel="noopener">X (Twitter)</a></li>
-          <li><a class="red-social" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a class="red-social" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
-          <li><a class="red-social" href="https://discord.com/" target="_blank" rel="noopener">Discord</a></li>
-          <li><a class="red-social" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li>
-        </ul>
-      </nav>
+        <button class="boton boton--principal contacto__desplegar" id="contacto-desplegar" type="button" aria-expanded="false" aria-controls="formulario-contacto">
+          <span>Enviar mensaje</span>
+          <svg class="contacto__chevron" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <!-- Envío con FormSubmit (formsubmit.co): sin cuenta ni servidor propio. Cambiar hola@estudio.com por el correo real.
+             La primera vez que alguien envía un mensaje, FormSubmit manda un correo de activación a esa dirección: hay que
+             confirmarlo una vez. contact.js lo envía sin recargar la página; sin JavaScript el formulario sigue funcionando
+             como envío normal. -->
+        <form class="formulario-contacto" id="formulario-contacto" action="https://formsubmit.co/hola@estudio.com" method="post">
+          <input type="hidden" name="_subject" value="Nuevo mensaje desde la web de Shift Happens">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <!-- Cebo anti-spam: las personas no lo ven; los bots lo rellenan y el mensaje se descarta -->
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <div class="formulario-contacto__campo">
+            <label class="formulario-contacto__etiqueta" for="contacto-nombre">Nombre</label>
+            <input class="formulario-contacto__entrada" type="text" id="contacto-nombre" name="nombre" autocomplete="name" required>
+          </div>
+          <div class="formulario-contacto__campo">
+            <label class="formulario-contacto__etiqueta" for="contacto-correo">Correo electrónico</label>
+            <input class="formulario-contacto__entrada" type="email" id="contacto-correo" name="correo" autocomplete="email" required>
+          </div>
+          <div class="formulario-contacto__campo">
+            <label class="formulario-contacto__etiqueta" for="contacto-mensaje">Mensaje</label>
+            <textarea class="formulario-contacto__entrada" id="contacto-mensaje" name="mensaje" rows="4" required></textarea>
+          </div>
+          <button class="boton boton--principal" type="submit">Enviar mensaje</button>
+          <p class="formulario-contacto__estado" id="contacto-estado" role="status" aria-live="polite" hidden></p>
+        </form>
+      </div>
     </section>
 
   </main>

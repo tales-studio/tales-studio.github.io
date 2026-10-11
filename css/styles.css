@@ -309,7 +309,7 @@ body::after {
 
 /* Menú de una sola fila, centrado. En escritorio navigation.js reduce --menu-escala (de 1 hacia abajo)
    hasta que todo cabe sin desplazarse; si ni así cabe en una fila, usa la variante en dos filas.
-   En móvil (≤ 720 px) la escala es 1 y el menú se desplaza de lado */
+   En móvil y tablet (≤ 1199 px) hay menú hamburguesa: la escala es 1 y no se aplica nada de esto */
 .navegacion-principal__lista {
   display: flex;
   align-items: center;
@@ -1292,7 +1292,7 @@ body::after {
   border: 1px solid var(--linoleo);
   border-radius: 0;
   box-shadow: var(--sombra-dura);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .caracteristica::before {
@@ -1320,6 +1320,26 @@ body::after {
 .caracteristica:hover {
   transform: translateY(-4px);
   border-color: rgba(255, 75, 82, 0.5);
+}
+
+/* Móvil y tablet: el mismo resaltado, pero lo activa features-highlight.js en la tarjeta que está
+   en el centro de la pantalla al hacer scroll (no hay hover). Un destello rojo lo hace más visible */
+.caracteristica--activa {
+  transform: translateY(-4px);
+  border-color: rgba(255, 75, 82, 0.5);
+  box-shadow: var(--sombra-dura), 0 0 28px rgba(200, 32, 42, 0.22);
+}
+
+.caracteristica--activa::before {
+  opacity: 1;
+}
+
+/* En táctil el :hover se queda «pegado» tras un toque: solo cuenta la tarjeta activa */
+@media (hover: none) {
+  .caracteristica:hover:not(.caracteristica--activa) {
+    transform: none;
+    border-color: var(--linoleo);
+  }
 }
 
 .caracteristica__titulo {
@@ -1402,10 +1422,20 @@ body::after {
 }
 
 /* Al venir del botón «Jugar la demo», el subtítulo debe quedar bajo la cabecera y también
-   bajo el título fijo de Nuestro juego (su alto más el aire que lo separa de la cabecera) */
+   bajo el título fijo de Nuestro juego: su alto REAL (scroll-offset.js lo mide, porque en móvil
+   ocupa dos líneas), más el aire que lo separa de la cabecera y un respiro bajo él.
+   Si el script no corre, se usa el alto de una línea (escritorio) o de dos (móvil) */
 #capturas,
 #jugar-demo {
-  scroll-margin-top: calc(var(--sep-titulo-fijo) + var(--fs-titulo-h2) + 36px);
+  --alto-titulo-fijo: var(--alto-titulo-juego, calc(var(--fs-titulo-h2) * 0.92 + 26px));
+  scroll-margin-top: calc(var(--sep-titulo-fijo) + var(--alto-titulo-fijo) + 14px);
+}
+
+@media (max-width: 720px) {
+  #capturas,
+  #jugar-demo {
+    --alto-titulo-fijo: var(--alto-titulo-juego, calc(var(--fs-titulo-h2) * 1.84 + 26px));
+  }
 }
 
 .subtitulo-bloque {
@@ -1891,6 +1921,24 @@ body::after {
   border-left-color: var(--latido);
 }
 
+/* Móvil/tablet (devlog.js añade .hito--activo a la fase bajo la línea de lectura): misma elevación y borde
+   que el hover de escritorio. Va después de .hito--completo para ganar en el color del borde */
+.linea-tiempo--progresiva .hito--activo .hito__contenido {
+  transform: translateX(6px);
+  border-left-color: var(--latido-claro);
+}
+
+/* En táctil el :hover se queda «pegado» tras un toque: solo cuenta la fase activa */
+@media (hover: none) {
+  .hito:not(.hito--activo) .hito__contenido:hover {
+    transform: none;
+  }
+
+  .hito:not(.hito--activo):not(.hito--completo) .hito__contenido:hover {
+    border-left-color: var(--sangre);
+  }
+}
+
 /* Tarea hecha: casilla roja con su marca, igual que el aspecto al pasar el ratón, y un pequeño rebote al marcarse */
 .hito__tareas li.tarea--hecha {
   color: var(--fluorescente);
@@ -2328,15 +2376,19 @@ body::after {
 
 /* ---------- 15. CONTACTO ---------- */
 .seccion-contacto {
+  --gap-bloques: var(--espacio-m); /* menos aire entre título, introducción y contenido */
+  --pad-seccion: clamp(32px, 4vw, 56px);
+  --reserva-pie: 170px; /* altura aproximada del pie de página */
   padding-bottom: var(--espacio-l); /* el pie ya aporta su propia separación */
+  /* Al llegar desde el menú, título, redes y formulario ocupan justo la pantalla bajo la cabecera */
+  min-height: calc(100svh - var(--alto-cabecera) + var(--pad-seccion) - var(--sep-titulo-fijo) - var(--reserva-pie));
 }
 
 /* Formulario: un parte de incidencias */
 .formulario-contacto {
   display: grid;
-  gap: var(--espacio-m);
-  max-width: 720px;
-  padding: var(--pad-panel);
+  gap: var(--espacio-s);
+  padding: var(--pad-tarjeta);
   background-image: var(--grano), linear-gradient(170deg, #19211d, var(--pared));
   border: 1px solid var(--linoleo);
   border-top: 3px solid var(--latido);
@@ -2346,12 +2398,12 @@ body::after {
 
 .formulario-contacto__campo {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .formulario-contacto__etiqueta {
   font-family: var(--fuente-titulos);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 800;
   letter-spacing: 0.05em;
   line-height: var(--lh-ui);
@@ -2359,7 +2411,7 @@ body::after {
 
 .formulario-contacto__entrada {
   width: 100%;
-  padding: 14px 16px;
+  padding: 10px 14px;
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid var(--linoleo);
   border-bottom: 2px solid var(--niebla);
@@ -2381,7 +2433,7 @@ body::after {
 }
 
 textarea.formulario-contacto__entrada {
-  min-height: 140px;
+  min-height: 104px;
   resize: vertical;
 }
 
@@ -2389,20 +2441,49 @@ textarea.formulario-contacto__entrada {
   justify-self: start;
 }
 
+/* Botón que despliega el formulario: solo existe en móvil y tablet */
+.contacto__desplegar {
+  display: none;
+}
+
 .datos-contacto {
   color: var(--niebla);
   font-style: normal;
 }
 
-.redes-sociales__lista {
+/* Dos columnas: redes sociales a la izquierda, formulario a la derecha */
+.contacto__rejilla {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--espacio-m) var(--espacio-l);
+  align-items: stretch;
+}
+
+.contacto__redes {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-direction: column;
+  gap: var(--espacio-s);
+}
+
+.redes-sociales {
+  flex: 1;
+}
+
+.redes-sociales__lista {
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+  height: 100%;
+}
+
+.redes-sociales__lista li {
+  display: grid;
 }
 
 .red-social {
-  display: inline-block;
-  padding: 12px 22px 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 22px 8px;
   background: var(--pared-alta);
   border: 1px solid var(--linoleo);
   border-radius: var(--radio);
@@ -2578,8 +2659,46 @@ textarea.formulario-contacto__entrada {
 
 /* Tablet vertical: portada en una columna y fases con la cifra a un lado */
 @media (max-width: 900px) {
+  .contacto__rejilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Portada en una columna, en este orden: título, descripción, tráiler, botón de la demo y nota.
+     El contenedor de texto deja de ser una caja para que el tráiler pueda colarse entre
+     la descripción y el botón */
   .seccion-inicio {
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--espacio-m);
+  }
+
+  .seccion-inicio__texto {
+    display: contents;
+  }
+
+  .seccion-inicio__titulo {
+    order: 1;
+    justify-self: start;
+  }
+
+  .seccion-inicio__presentacion {
+    order: 2;
+    justify-self: start;
+  }
+
+  .seccion-inicio__multimedia {
+    order: 3;
+    margin-block: 12px; /* aire para el marco grueso del monitor */
+  }
+
+  .seccion-inicio .boton--principal {
+    order: 4;
+    justify-self: stretch;
+    text-align: center;
+  }
+
+  .seccion-inicio__nota {
+    order: 5;
+    justify-self: start;
   }
 
   .estrategia__fases {
@@ -2597,6 +2716,36 @@ textarea.formulario-contacto__entrada {
   }
 }
 
+/* Pantallas de poca altura (portátiles): contacto aún más compacto para que se vea entero */
+@media (min-width: 901px) and (max-height: 780px) {
+  .seccion-contacto {
+    --pad-seccion: 28px;
+    --reserva-pie: 0px;
+  }
+
+  .formulario-contacto {
+    gap: 12px;
+    padding: 18px 22px;
+  }
+
+  .formulario-contacto__etiqueta {
+    font-size: 1rem;
+  }
+
+  .formulario-contacto__entrada {
+    padding: 8px 12px;
+  }
+
+  textarea.formulario-contacto__entrada {
+    min-height: 72px;
+  }
+
+  .red-social {
+    padding: 6px 20px 4px;
+    font-size: 1.1rem;
+  }
+}
+
 /* Tablet vertical y menos: el botón de la demo ocupa todo el ancho */
 @media (max-width: 720px) {
   .carrusel__barra .boton {
@@ -2606,19 +2755,6 @@ textarea.formulario-contacto__entrada {
 
 /* Móvil grande: el logo pasa al principio, el menú se desplaza y todo se apila */
 @media (max-width: 720px) {
-  .navegacion-principal {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 22px, #000 calc(100% - 22px), transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 22px, #000 calc(100% - 22px), transparent);
-  }
-
-  .navegacion-principal__lista {
-    justify-content: flex-start;
-  }
-
-  .navegacion-principal__item--marca {
-    margin-right: 10px;
-  }
-
   .mision-vision__bloque--vision {
     margin-top: 0;
   }
@@ -2897,4 +3033,611 @@ html[lang="en"] .selector-idioma__opcion[data-lang="en"] {
 .selector-idioma:focus-visible {
   outline: 3px solid var(--fluorescente);
   outline-offset: 3px;
+}
+
+/* ---------- MENÚ HAMBURGUESA (móvil) ----------
+   Barra de una fila: logo, jugar la demo, idioma y botón de menú, siempre a la vista.
+   Los enlaces de sección viven en un panel que se despliega bajo la barra, sin empujar la página.
+   Todo cuelga de .cabecera-principal--menu-js, que añade menu.js: sin JavaScript no se aplica. */
+.navegacion-principal__item--menu {
+  display: none; /* en escritorio no hay botón */
+}
+
+.menu-movil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 40px;
+  padding: 0;
+  background: var(--pared);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .menu-movil:hover {
+    border-color: var(--fluorescente);
+  }
+}
+
+.menu-movil:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
+
+.menu-movil__barra {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--fluorescente);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-movil[aria-expanded="true"] {
+  background: var(--latido);
+  border-color: var(--latido);
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra {
+  background: var(--hueso);
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@keyframes menu-fila {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Hamburguesa en móvil y tablet (≤ 1199 px). Con 11 elementos, el menú de escritorio no cabe en una fila por
+   debajo de ~1200 px (iPad vertical y horizontal) y acababa en dos filas descolocadas. Si se cambia este valor,
+   hay que cambiarlo también en menu.js y navigation.js (MENU_HAMBURGUESA) */
+@media (max-width: 1199px) {
+  /* ---- Barra: una fila de 40 px con todo a la misma altura ---- */
+  .cabecera-principal--menu-js .navegacion-principal {
+    height: 54px; /* fija: el panel se desborda hacia abajo y no mueve la página */
+    padding: 10px 16px 4px; /* 16 px: el mismo margen lateral que el texto de la página */
+    overflow: visible;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista {
+    position: relative;
+    z-index: 2; /* el panel queda por encima del latido de la cabecera */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0 8px;
+    width: auto;
+    min-width: 0;
+    margin-inline: -16px; /* la lista ocupa todo el ancho: las filas del panel van de borde a borde */
+    padding-inline: 16px; /* el logo arranca donde empieza el texto, y el último botón acaba donde acaba */
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--marca {
+    order: 1;
+    flex-shrink: 0;
+    margin-right: auto; /* empuja el resto hacia la derecha */
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--demo {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--idioma {
+    order: 3;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--menu {
+    display: block;
+    order: 4;
+    flex-shrink: 0;
+  }
+
+  .cabecera-principal--menu-js .cabecera-principal__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__enlace.navegacion-principal__enlace--destacado {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin-left: 0;
+    padding: 0 14px;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    box-shadow: 3px 3px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .cabecera-principal--menu-js .selector-idioma {
+    height: 40px;
+    font-size: 0.95rem;
+  }
+
+  .cabecera-principal--menu-js .selector-idioma__opcion {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  /* ---- Panel: arranca justo bajo la cabecera y cubre el ancho entero ---- */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) {
+    display: none;
+    order: 10;
+    flex: 0 0 100%;
+  }
+
+  .cabecera-principal--menu-abierto .navegacion-principal__lista > li:not([class]) {
+    display: block;
+    background: var(--pared);
+    border-bottom: 1px solid rgba(227, 235, 211, 0.08);
+    animation: menu-fila 0.2s ease-out both;
+  }
+
+  /* Primera fila: deja pasar el resto de la cabecera (barra + latido) antes de empezar el panel */
+  .cabecera-principal--menu-abierto .navegacion-principal__item--marca + li {
+    margin-top: 18px;
+    border-top: 2px solid var(--latido);
+  }
+
+  /* Cierre del panel: borde inferior y sombra */
+  .cabecera-principal--menu-abierto .navegacion-principal__lista::after {
+    content: "";
+    order: 11;
+    flex: 0 0 100%;
+    height: 8px;
+    background: var(--pared);
+    border-bottom: 1px solid rgba(227, 235, 211, 0.14);
+    box-shadow: 0 24px 40px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Velo oscuro sobre la página mientras el menú está abierto; al tocarlo se cierra */
+  .cabecera-principal--menu-abierto::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 100svh;
+    background: rgba(4, 6, 5, 0.62);
+  }
+
+  /* ---- Filas del panel ---- */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace {
+    position: relative;
+    padding: 15px 44px 13px 13px; /* + 3 px de borde = 16 px, alineado con el texto de la página */
+    background: none;
+    border-left: 3px solid transparent;
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: none;
+  }
+
+  /* Se sustituye el tubo fluorescente de escritorio por una flecha a la derecha */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace::before {
+    display: none;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace::after {
+    content: "";
+    position: absolute;
+    left: auto;
+    right: 16px;
+    top: 50%;
+    bottom: auto;
+    width: 8px;
+    height: 8px;
+    background: none;
+    border: solid currentColor;
+    border-width: 2px 2px 0 0;
+    clip-path: none;
+    opacity: 0.45;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace:focus-visible {
+    background: rgba(227, 235, 211, 0.05);
+    color: var(--fluorescente);
+  }
+
+  /* El hover solo con ratón: en pantallas táctiles se queda «pegado» tras el toque */
+  @media (hover: hover) {
+    .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace:hover {
+      background: rgba(227, 235, 211, 0.05);
+      color: var(--fluorescente);
+    }
+  }
+
+  /* Sección actual */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace[aria-current="location"] {
+    background: rgba(200, 32, 42, 0.14);
+    border-left-color: var(--latido-claro);
+    color: var(--hueso);
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace[aria-current="location"]::after {
+    opacity: 1;
+    color: var(--latido-claro);
+  }
+}
+
+/* Pantallas bajas (móvil en horizontal): filas más compactas y panel con desplazamiento propio */
+@media (max-width: 720px) and (max-height: 560px) {
+  .cabecera-principal--menu-abierto .navegacion-principal__lista {
+    max-height: calc(100svh - 12px);
+    overflow-y: auto;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace {
+    padding-block: 10px 8px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Móviles estrechos */
+@media (max-width: 400px) {
+  .cabecera-principal--menu-js .navegacion-principal__lista {
+    gap: 0 6px;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__enlace.navegacion-principal__enlace--destacado {
+    padding: 0 10px;
+    font-size: 0.88rem;
+  }
+
+  .cabecera-principal--menu-js .selector-idioma {
+    font-size: 0.88rem;
+  }
+
+  .cabecera-principal--menu-js .selector-idioma__opcion {
+    padding: 0 8px;
+  }
+
+  .menu-movil {
+    width: 38px;
+  }
+}
+
+/* ---------- PANTALLAS TÁCTILES: sin hover «pegado» en la cabecera ----------
+   Tras tocar un enlace, el móvil mantiene su :hover hasta que se toca otra cosa, y el enlace tocado
+   seguía iluminado junto al de la sección actual. Aquí solo cuenta la sección actual (aria-current)
+   y el foco de teclado. */
+@media (hover: none) {
+  .navegacion-principal__enlace:hover:not(.navegacion-principal__enlace--destacado):not([aria-current="location"]):not(:focus-visible) {
+    background: none;
+    color: var(--niebla);
+    text-shadow: none;
+  }
+
+  .navegacion-principal__enlace:hover:not(.navegacion-principal__enlace--destacado):not([aria-current="location"]):not(:focus-visible)::before {
+    background: #2b352f;
+    box-shadow: none;
+    animation: none;
+  }
+
+  .navegacion-principal__enlace:hover:not(.navegacion-principal__enlace--destacado):not([aria-current="location"]):not(:focus-visible)::after {
+    opacity: 0;
+  }
+
+  /* Botón de la demo: no se queda «pulsado» */
+  .navegacion-principal__enlace.navegacion-principal__enlace--destacado:hover:not([aria-current="location"]):not(:focus-visible) {
+    background: var(--latido);
+    transform: none;
+  }
+
+  .selector-idioma:hover:not(:focus-visible) {
+    border-color: var(--linoleo);
+    color: var(--niebla);
+  }
+}
+
+/* ---------- EQUIPO EN MÓVIL: credenciales plegables ----------
+   Cada tarjeta arranca compacta (foto, nombre y rol) y se despliega al tocarla.
+   Solo se aplica si team-accordion.js ha añadido .equipo__lista--plegable */
+@keyframes invita-miembro {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 75, 82, 0); }
+  15%      { box-shadow: 0 0 0 0 rgba(255, 75, 82, 0.6); }
+  60%      { box-shadow: 0 0 0 12px rgba(255, 75, 82, 0); }
+}
+
+@media (max-width: 560px) {
+  .equipo__lista--plegable {
+    gap: 22px;
+  }
+
+  .equipo__lista--plegable .miembro__tarjeta {
+    padding: 34px 16px 14px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Cabecera de la credencial: foto a la izquierda; nombre y rol a la derecha, centrados en vertical */
+  .equipo__lista--plegable .miembro__foto {
+    grid-row: 1 / span 2;
+    width: 80px;
+  }
+
+  .equipo__lista--plegable .miembro__nombre {
+    align-self: end;
+    padding-right: 44px; /* hueco para el botón */
+  }
+
+  .equipo__lista--plegable .miembro__rol {
+    align-self: start;
+    padding-right: 44px;
+  }
+
+  /* Descripción: oculta hasta desplegar. La fila crece de 0 a su alto con una transición suave */
+  .equipo__lista--plegable .miembro__detalle {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .equipo__lista--plegable .miembro__descripcion {
+    grid-column: 1;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__detalle {
+    grid-template-rows: 1fr;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__descripcion {
+    padding-top: 14px;
+    border-top: 1px dashed rgba(227, 235, 211, 0.18);
+    margin-top: 12px;
+    opacity: 1;
+  }
+
+  /* El código de barras solo aparece con la credencial abierta */
+  .equipo__lista--plegable .miembro__tarjeta::after {
+    display: none;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__tarjeta::after {
+    display: block;
+  }
+
+  /* La foto se «enciende» a color cuando la credencial está abierta (igual que el hover de escritorio) */
+  .equipo__lista--plegable .miembro:hover .miembro__foto {
+    filter: grayscale(0.85) contrast(1.15) brightness(0.85);
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__foto,
+  .equipo__lista--plegable .miembro--abierto:hover .miembro__foto {
+    filter: grayscale(0.2) contrast(1.05) brightness(1);
+  }
+
+  /* Sin el salto del hover (en táctil se queda «pegado» tras el toque) */
+  .equipo__lista--plegable .miembro:nth-child(odd),
+  .equipo__lista--plegable .miembro:nth-child(odd):hover {
+    --giro: -0.7deg;
+  }
+
+  .equipo__lista--plegable .miembro:nth-child(even),
+  .equipo__lista--plegable .miembro:nth-child(even):hover {
+    --giro: 0.6deg;
+  }
+
+  .equipo__lista--plegable .miembro .miembro__tarjeta,
+  .equipo__lista--plegable .miembro:hover .miembro__tarjeta {
+    transform: rotate(var(--giro, 0deg));
+    transition: transform 0.15s ease;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__tarjeta,
+  .equipo__lista--plegable .miembro--abierto:hover .miembro__tarjeta {
+    transform: rotate(0deg);
+  }
+
+  .equipo__lista--plegable .miembro .miembro__tarjeta:active {
+    transform: rotate(0deg) scale(0.985);
+  }
+
+  /* Botón + / ×: invita a tocar */
+  .miembro__alternar {
+    position: absolute;
+    top: 56px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(227, 235, 211, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .miembro__alternar::before,
+  .miembro__alternar::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    margin: -1px 0 0 -8px;
+    background: var(--fluorescente);
+    border-radius: 1px;
+  }
+
+  .miembro__alternar::after {
+    transform: rotate(90deg);
+  }
+
+  .miembro__alternar:focus-visible {
+    outline: 3px solid var(--fluorescente);
+    outline-offset: 3px;
+  }
+
+  .miembro__alternar--invita {
+    border-color: var(--latido-claro);
+    animation: invita-miembro 2.2s ease-out infinite;
+  }
+
+  .miembro--abierto .miembro__alternar {
+    background: var(--latido);
+    border-color: var(--latido);
+    transform: rotate(45deg);
+    animation: none;
+  }
+}
+
+/* Fuera de móvil el botón no existe (lo crea el script solo en ≤ 560 px) */
+
+/* ---------- CONTACTO PLEGABLE (móvil y tablet) ----------
+   El formulario ocupa mucho: arranca plegado y se despliega con un botón.
+   Solo se aplica si contact.js ha añadido .contacto--plegable */
+@media (max-width: 900px) {
+  .contacto--plegable .contacto__desplegar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 20px 14px;
+    font-size: 1.25rem;
+  }
+
+  .contacto__chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .contacto--abierto .contacto__chevron {
+    transform: rotate(180deg);
+  }
+
+  .contacto--plegable .formulario-contacto {
+    display: none;
+  }
+
+  .contacto--plegable.contacto--abierto .formulario-contacto {
+    display: grid;
+  }
+
+  .contacto--plegable {
+    gap: var(--espacio-s);
+  }
+
+  /* Al estar plegado no hace falta reservar una pantalla entera para la sección */
+  .seccion-contacto {
+    min-height: 0;
+  }
+}
+
+/* ---------- EQUIPO EN TABLET TÁCTIL (iPad, 561–1199 px, sin ratón) ----------
+   Sin hover no hay efecto flotante (team.js) y el acordeón solo existe en móvil (≤ 560 px), así que la
+   tablet recibía las 6 credenciales verticales y estrechas (3 columnas en vertical y 6 en horizontal) con la
+   descripción entera, muy altas y desiguales. Aquí se usa la credencial compacta del móvil (foto a la
+   izquierda, datos a la derecha) con la descripción visible, en 2 columnas y, en horizontal, en 3.
+   Con ratón o trackpad (hover: hover) no se toca nada: sigue el efecto flotante de siempre */
+@media (hover: none) and (min-width: 561px) and (max-width: 1199px) {
+  .equipo__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px var(--gap-cards);
+  }
+
+  .miembro__tarjeta {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    column-gap: 18px;
+    row-gap: 4px;
+    align-content: start;
+    padding: 38px 18px 16px;
+  }
+
+  .miembro__foto {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
+    width: 112px;
+    margin: 4px 0 0;
+  }
+
+  .miembro__nombre,
+  .miembro__rol,
+  .miembro__descripcion {
+    grid-column: 2;
+  }
+
+  .miembro__descripcion {
+    margin-bottom: 0;
+  }
+
+  .miembro__tarjeta::after {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+  }
+
+  /* Sin el salto del hover (en táctil se queda «pegado» tras el toque) y sin foto apagada: aquí no hay nada que revelar */
+  .miembro .miembro__tarjeta,
+  .miembro:hover .miembro__tarjeta {
+    transform: none;
+  }
+
+  .miembro .miembro__foto,
+  .miembro:hover .miembro__foto {
+    filter: grayscale(0.2) contrast(1.05) brightness(1);
+  }
+}
+
+@media (hover: none) and (min-width: 901px) and (max-width: 1199px) {
+  .equipo__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- ESTADO DEL ENVÍO DEL FORMULARIO DE CONTACTO ---------- */
+.formulario-contacto__estado {
+  padding: 12px 14px 10px;
+  border-left: 4px solid var(--linoleo);
+  background: rgba(227, 235, 211, 0.05);
+  color: var(--fluorescente);
+  font-size: var(--fs-s);
+}
+
+.formulario-contacto__estado[hidden] {
+  display: none;
+}
+
+.formulario-contacto__estado[data-tipo="ok"] {
+  border-left-color: var(--fluorescente);
+}
+
+.formulario-contacto__estado[data-tipo="error"] {
+  border-left-color: var(--latido-claro);
+  color: var(--latido-claro);
+}
+
+.formulario-contacto .boton:disabled {
+  opacity: 0.6;
+  cursor: progress;
 }

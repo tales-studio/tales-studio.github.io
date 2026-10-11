@@ -9,6 +9,10 @@
   var LECTURA = 0.62;       // altura de la línea de lectura, como fracción del alto de pantalla
   var MARGEN_FINAL = 24;    // si el final de la línea de tiempo ya se ve con este margen, se da por completa
   var pendiente = false;
+  var TOLERANCIA = 60;      // px: si la línea de lectura cae en el hueco entre fases, gana la más cercana
+  // En móvil/tablet no hay «pasar el ratón»: la tarjeta de la fase que está bajo la línea de lectura
+  // recibe el mismo efecto que el hover (se desplaza y el borde se aviva). Mismo corte que features-highlight.js
+  var movil = window.matchMedia('(max-width: 900px)');
 
   var hitos = Array.prototype.map.call(linea.querySelectorAll('.hito'), function (hito) {
     return {
@@ -44,6 +48,29 @@
       hito.el.classList.toggle('hito--alcanzado', hito.titulo.getBoundingClientRect().top + 14 <= lectura);
       hito.el.classList.toggle('hito--completo', hechas === hito.tareas.length);
     });
+
+    resaltarTarjeta(completa);
+  }
+
+  // Tarjeta activa: la fase cuya caja contiene la línea de lectura (o la más cercana, dentro de la tolerancia).
+  // Al llegar al final de la línea de tiempo se queda activa la última fase
+  function resaltarTarjeta(completa) {
+    if (!movil.matches) { limpiarTarjetas(); return; }
+    var y = window.innerHeight * LECTURA;
+    var distancias = hitos.map(function (hito) {
+      var r = hito.el.querySelector('.hito__contenido').getBoundingClientRect();
+      if (y >= r.top && y <= r.bottom) { return 0; }
+      return Math.min(Math.abs(y - r.top), Math.abs(y - r.bottom));
+    });
+    var minima = Math.min.apply(null, distancias);
+    hitos.forEach(function (hito, i) {
+      var activa = completa ? i === hitos.length - 1 : (minima <= TOLERANCIA && distancias[i] === minima);
+      hito.el.classList.toggle('hito--activo', activa);
+    });
+  }
+
+  function limpiarTarjetas() {
+    hitos.forEach(function (hito) { hito.el.classList.remove('hito--activo'); });
   }
 
   function pedirActualizacion() {
@@ -56,6 +83,8 @@
   window.addEventListener('scroll', pedirActualizacion, { passive: true });
   window.addEventListener('resize', pedirActualizacion);
   window.addEventListener('load', pedirActualizacion);
+  if (movil.addEventListener) { movil.addEventListener('change', pedirActualizacion); }
+  else { movil.addListener(pedirActualizacion); }
   document.addEventListener('idiomacambiado', pedirActualizacion); // los textos en inglés miden distinto
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(pedirActualizacion); }
 

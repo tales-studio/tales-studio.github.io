@@ -10,7 +10,7 @@
   var finViaje = null;      // temporizador que detecta cuándo termina el desplazamiento
   var sepTitulo = 28;       // aire entre cabecera y título fijo (se lee de --sep-titulo-fijo)
   var lista = nav.querySelector('.navegacion-principal__lista');
-  var menuDesplazable = window.matchMedia('(max-width: 720px)'); // en móvil el menú se desplaza de lado
+  var menuDesplazable = window.matchMedia('(max-width: 1199px)'); // MENU_HAMBURGUESA: hasta aquí hay hamburguesa (mismo corte que styles.css y menu.js)
   var ESCALA_MIN = 0.82;    // por debajo de esta escala el texto sería demasiado pequeño: el menú pasa a dos filas
 
   // Cada enlace del menú con su sección y el título de esa sección.
