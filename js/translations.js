@@ -19,11 +19,12 @@ window.TRADUCCIONES = {
     "Contacto": "Contact",
     "Jugar la demo": "Play the demo",
     "Volver arriba": "Back to top",
+    "Próximamente": "Coming soon",
 
     // Inicio
     "La noche más estresante del año, un conserje agotado y una residencia universitaria donde ya no sabes qué es real. ¿Podrás completar tu turno antes del amanecer?": "The most stressful night of the year, an exhausted caretaker and a university residence where you can no longer tell what is real. Can you finish your shift before dawn?",
     "Se juega directamente en el navegador, sin descargas.": "Played directly in your browser, no downloads needed.",
-    "Tráiler de Shift Happens": "Shift Happens trailer",
+    "Tráiler de Shift Happens: el conserje recorre un pasillo de la residencia por la noche": "Shift Happens trailer: the caretaker walks down a residence hallway at night",
     "Tráiler: una noche de turno en la residencia.": "Trailer: a night shift at the residence.",
     "Género": "Genre",
     "Terror de supervivencia 2D y gestión de tareas": "2D survival horror and task management",

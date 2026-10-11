@@ -82,7 +82,7 @@
           <span class="monitor__hora">03:07:42</span>
         </div>
         <div class="monitor__pantalla">
-          <iframe src="https://www.youtube.com/embed/MXDYOh67SWc?si=WNu1EqNh6tNQDEyM" title="Tráiler de Shift Happens" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <img class="monitor__gif" src="Assets/Images/trailer.gif" alt="Tráiler de Shift Happens: el conserje recorre un pasillo de la residencia por la noche" width="1280" height="720">
         </div>
         <figcaption class="seccion-inicio__pie">Tráiler: una noche de turno en la residencia.</figcaption>
       </figure>
@@ -358,20 +358,9 @@
               <h3 class="hito__titulo">Beta: arte, audio y pruebas</h3>
               <p class="hito__periodo">Semanas 6 y 7</p>
             </header>
-            <section class="hito__bloque">
-              <h4 class="hito__subtitulo">Arte, audio y pulido</h4>
-              <ul class="hito__tareas">
-                <li>Arte definitivo, iluminación y efectos visuales.</li>
-                <li>Banda sonora y efectos de sonido.</li>
-                <li>Ajuste de ritmo y dificultad.</li>
-              </ul>
-            </section>
-            <section class="hito__bloque">
-              <h4 class="hito__subtitulo">Pruebas con jugadores</h4>
-              <ul class="hito__tareas">
-                <li>Sesiones de testeo con jugadores externos.</li>
-              </ul>
-            </section>
+            <div class="proximamente">
+              <p class="sello-proximamente">Próximamente</p>
+            </div>
           </article>
         </li>
         <li class="hito">
@@ -380,13 +369,9 @@
               <h3 class="hito__titulo">Release: demo pública</h3>
               <p class="hito__periodo">Semana 8</p>
             </header>
-            <section class="hito__bloque">
-              <h4 class="hito__subtitulo">Optimización y publicación</h4>
-              <ul class="hito__tareas">
-                <li>Optimización para navegador.</li>
-                <li>Publicación de la demo.</li>
-              </ul>
-            </section>
+            <div class="proximamente">
+              <p class="sello-proximamente">Próximamente</p>
+            </div>
           </article>
         </li>
       </ol>
@@ -496,46 +481,23 @@
 
       <article class="bloque-tecnico bloque-tecnico--programacion">
         <h3 class="bloque-tecnico__titulo">Programación destacada</h3>
-        <p class="bloque-tecnico__texto">
-          El corazón del juego es la relación entre tareas, cordura y alucinaciones: cuantas más tareas se acumulan, más sube la ansiedad,
-          y con ella la probabilidad de que el entorno te engañe. También hemos trabajado en que todo funcione de forma fluida en el navegador.
-        </p>
-        <ul class="bloque-tecnico__lista">
-          <li>Sistema de tareas con lista consultable en el teléfono.</li>
-          <li>Sistema de cordura y pulso cardíaco que influye en el entorno.</li>
-          <li>Alucinaciones que sustituyen elementos reales del escenario.</li>
-          <li>Modo sigilo/caminar que modifica el ruido que generas.</li>
-        </ul>
-        <pre class="bloque-tecnico__codigo"><code>// Pseudocódigo: la ansiedad sube con las tareas pendientes
-ansiedad = tareasPendientes * factorPresion + (enOscuridad ? 1 : 0)
-pulso = ansiedad * 10
-probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
       </article>
 
       <article class="bloque-tecnico bloque-tecnico--arte">
         <h3 class="bloque-tecnico__titulo">Arte y diseño</h3>
-        <p class="bloque-tecnico__texto">
-          La residencia debe parecer un lugar real y familiar, para que lo extraño inquiete más.
-          Usamos una paleta fría y apagada, contrastes de luz y sombra, y una interfaz casi invisible integrada en el mundo.
-        </p>
-        <figure class="bloque-tecnico__figura">
-          <img src="Assets/Images/PLACEHOLDER.jpg" alt="Arte conceptual del conserje y la residencia" width="640" height="360" loading="lazy">
-          <figcaption>Arte conceptual del protagonista y del entorno.</figcaption>
-        </figure>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
       </article>
 
       <article class="bloque-tecnico bloque-tecnico--audio">
         <h3 class="bloque-tecnico__titulo">Audio y efectos</h3>
-        <p class="bloque-tecnico__texto">
-          El sonido es una de las principales herramientas de terror: pasos, luces que parpadean, latidos que se aceleran
-          y silencios incómodos. El audio cambia según tu nivel de ansiedad y avisa de lo que ocurre fuera de la pantalla.
-        </p>
-        <figure class="bloque-tecnico__figura">
-          <audio controls preload="none" src="audio/ambiente-residencia.mp3">
-            Tu navegador no admite audio HTML5.
-          </audio>
-          <figcaption>Ambiente sonoro de la residencia por la noche.</figcaption>
-        </figure>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
       </article>
     </section>
 
@@ -547,57 +509,23 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
 
       <section class="metricas" aria-labelledby="titulo-metricas">
         <h3 id="titulo-metricas" class="metricas__titulo">Métricas del proyecto</h3>
-        <dl class="metricas__lista">
-          <div class="metrica">
-            <dt class="metrica__etiqueta">Partidas de la demo</dt>
-            <dd class="metrica__valor">[000]</dd>
-          </div>
-          <div class="metrica">
-            <dt class="metrica__etiqueta">Visitas a la web</dt>
-            <dd class="metrica__valor">[000]</dd>
-          </div>
-          <div class="metrica">
-            <dt class="metrica__etiqueta">Seguidores en redes</dt>
-            <dd class="metrica__valor">[000]</dd>
-          </div>
-          <div class="metrica">
-            <dt class="metrica__etiqueta">Tiempo medio de partida</dt>
-            <dd class="metrica__valor">[00] min</dd>
-          </div>
-        </dl>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
       </section>
 
       <section class="estadisticas" aria-labelledby="titulo-estadisticas">
         <h3 id="titulo-estadisticas" class="estadisticas__titulo">Estadísticas de desarrollo</h3>
-        <ul class="estadisticas__lista">
-          <li>Duración del desarrollo: <strong>[8] semanas</strong></li>
-          <li>Horas de trabajo del equipo: <strong>[000] h</strong></li>
-          <li>Tareas diferentes en el juego: <strong>[00]</strong></li>
-          <li>Versiones internas publicadas: <strong>[00]</strong></li>
-        </ul>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
       </section>
 
       <section class="feedback" aria-labelledby="titulo-feedback">
         <h3 id="titulo-feedback" class="feedback__titulo">Feedback y pruebas realizadas</h3>
-        <p class="feedback__texto">
-          Hemos probado el juego con [N] personas en [N] sesiones. Observamos cómo jugaban, dónde se perdían
-          y en qué momentos sentían miedo o frustración.
-        </p>
-        <ul class="feedback__comentarios">
-          <li>
-            <blockquote class="comentario">
-              <p>«[Comentario real de un jugador sobre la atmósfera o la tensión.]»</p>
-              <footer class="comentario__autor">— Tester 1</footer>
-            </blockquote>
-          </li>
-          <li>
-            <blockquote class="comentario">
-              <p>«[Comentario real de un jugador sobre los controles o la dificultad.]»</p>
-              <footer class="comentario__autor">— Tester 2</footer>
-            </blockquote>
-          </li>
-        </ul>
-        <p class="feedback__mejoras"><strong>Cambios realizados tras las pruebas:</strong> [por ejemplo: ajuste de la dificultad, mayor claridad en la lista de tareas, mejora de los avisos sonoros].</p>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
       </section>
     </section>
 

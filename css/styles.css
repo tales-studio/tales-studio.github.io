@@ -863,11 +863,12 @@ body::after {
     radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
 }
 
-.monitor__pantalla iframe {
+.monitor__gif {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
+  object-fit: cover;
   border: 0;
 }
 
@@ -1776,8 +1777,9 @@ body::after {
   line-height: 1.1;
 }
 
-/* Sello de goma con el periodo */
-.hito__periodo {
+/* Sello de goma con el periodo. El mismo sello se usa para «Próximamente» en los apartados sin publicar */
+.hito__periodo,
+.sello-proximamente {
   padding: 5px 14px 4px;
   border: 2px solid var(--latido-claro);
   border-radius: 3px;
@@ -1792,6 +1794,18 @@ body::after {
   text-transform: uppercase;
   opacity: 0.92;
   transform: rotate(-3deg);
+}
+
+/* Apartado sin publicar: el sello «Próximamente» ocupa el lugar del contenido */
+.proximamente {
+  display: flex;
+  justify-content: center;
+  padding: var(--espacio-m) 0;
+}
+
+/* En los paneles técnicos de dos columnas (escritorio) el sello ocupa toda la fila */
+.bloque-tecnico .proximamente {
+  grid-column: 1 / -1;
 }
 
 /* Bloques de trabajo dentro de cada fase (alpha, beta, release) */
