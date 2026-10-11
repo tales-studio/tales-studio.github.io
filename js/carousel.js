@@ -68,5 +68,57 @@
     });
   }, { passive: true });
 
+  // Avance automático: cada INTERVALO ms pasa a la siguiente captura y, tras la última, vuelve a la primera.
+  // No se pausa con el ratón encima: se reinicia la cuenta cuando la persona usa el carrusel (flechas, puntos,
+  // teclado, rueda o dedo) y se detiene con el botón de pausa, con la pestaña oculta o con el carrusel fuera
+  // de pantalla. Con «reducir movimiento» sigue avanzando, pero sin deslizamiento (irA usa entonces un salto)
+  var INTERVALO = 5000;
+  var INTERVALO_TRAS_USO = 8000;
+  var carrusel = pista.closest('.carrusel');
+  var botonPausa = carrusel.querySelector('.carrusel__pausa');
+  var temporizador = null;
+  var reproduciendo = true;   // lo cambia el botón de pausa
+  var enPantalla = true;      // lo actualiza el observador, si existe
+
+  function programar(retraso) {
+    clearTimeout(temporizador);
+    if (!reproduciendo || !enPantalla || document.hidden) { return; }
+    temporizador = setTimeout(function () {
+      irA(actual === diapositivas.length - 1 ? 0 : actual + 1);
+      programar();
+    }, retraso || INTERVALO);
+  }
+
+  function etiquetarPausa() {
+    var en = document.documentElement.lang === 'en';
+    botonPausa.dataset.reproduciendo = String(reproduciendo);
+    botonPausa.setAttribute('aria-label', reproduciendo
+      ? (en ? 'Pause autoplay' : 'Pausar el desplazamiento automático')
+      : (en ? 'Resume autoplay' : 'Reanudar el desplazamiento automático'));
+  }
+
+  botonPausa.addEventListener('click', function () {
+    reproduciendo = !reproduciendo;
+    etiquetarPausa();
+    programar();
+  });
+  document.addEventListener('idiomacambiado', etiquetarPausa);
+  etiquetarPausa();
+
+  // Si la persona usa el carrusel, se le da más tiempo antes del siguiente avance
+  function usado() { programar(INTERVALO_TRAS_USO); }
+  carrusel.addEventListener('pointerdown', usado, { passive: true });
+  carrusel.addEventListener('keydown', usado, { passive: true });
+  pista.addEventListener('wheel', usado, { passive: true });
+  document.addEventListener('visibilitychange', function () { programar(); });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      enPantalla = entradas[0].isIntersecting;
+      programar();
+    }, { threshold: 0.25 }).observe(carrusel);
+  }
+  programar();
+
   marcar(0);
 })();

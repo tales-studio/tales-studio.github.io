@@ -592,6 +592,10 @@ body::after {
   position: sticky;
   top: calc(var(--alto-cabecera) + var(--sep-titulo-fijo));
   z-index: 30;
+  /* Rejilla de una columna del ancho del texto: la cinta (::after) mide lo que el texto, y la caja
+     del título sigue ocupando todo el ancho, de modo que el velo del estado fijo no cambia */
+  display: grid;
+  justify-content: start;
   margin-bottom: calc(var(--gap-titulo) - var(--gap-bloques));
   color: var(--hueso); /* más brillante que el texto de lectura y que los subtítulos */
   font-size: var(--fs-titulo-h2);
@@ -605,17 +609,14 @@ body::after {
     -2px 0 0 rgba(95, 215, 190, 0.22);
 }
 
-/* Cinta de precaución: el conserje acordona lo que no debe pisarse */
+/* Cinta de precaución: el conserje acordona lo que no debe pisarse. Se extiende hasta el final del texto */
 .seccion__titulo::after {
   content: "";
   display: block;
-  width: 128px;
   height: 12px;
   margin-top: 14px;
   background: repeating-linear-gradient(-45deg, var(--latido) 0 9px, #0a0a0a 9px 18px);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 18px rgba(200, 32, 42, 0.35);
-  transform: rotate(-1.2deg);
-  transform-origin: left center;
 }
 
 /* Estado fijo: el título conserva exactamente su aspecto (tamaño, aberración cromática y cinta).
@@ -1357,6 +1358,18 @@ body::after {
   transform: translateX(-50%) rotate(-3deg);
 }
 
+/* Degradado oscuro en la parte baja de la imagen, bajo los indicadores del carrusel */
+.captura::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 68%, rgba(7, 9, 8, 0.7) 100%);
+}
+
 .captura__imagen {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -1409,10 +1422,30 @@ body::after {
   gap: var(--espacio-m);
 }
 
-/* Pista con scroll-snap: se desliza con dedo, rueda o flechas; el script solo añade botones y puntos */
+/* Visor: aloja la pista (una sola captura a la vista), las flechas a sus lados y los indicadores sobre la imagen.
+   Es contenedor de consultas para medir con cqw el ancho de la captura; de ese ancho se deduce el alto
+   de la imagen y, con él, dónde van las flechas (a media altura) y los indicadores (abajo) */
+.carrusel__visor {
+  --flecha: 48px;
+  --sep-flecha: 16px; /* aire entre la captura y cada flecha */
+  /* Ancho limitado por el alto de pantalla para que, al llegar a «Capturas del juego», se vean la captura entera
+     y el botón de la demo sin hacer scroll. Al alto de pantalla se le resta la cabecera fija (la mide el script) y
+     400 px que ocupan el título fijo de sección, el subtítulo, el marco y pie de la foto, el botón y un margen */
+  --alto-img-max: calc(100svh - var(--alto-cabecera) - 400px);
+  --ancho-diap: min(100cqw - 2 * (var(--flecha) + var(--sep-flecha)) - 8px, 880px, max(300px, calc(var(--alto-img-max) * 16 / 9 + 22px)));
+  --alto-img: calc((var(--ancho-diap) - 22px) * 9 / 16); /* la foto pierde 22 px en su marco */
+  --y-img: 31px;      /* borde superior de la imagen: relleno de la pista + marco de la foto */
+  position: relative;
+  container-type: inline-size;
+}
+
+/* Pista con scroll-snap: se desliza con dedo, rueda o flechas; el script añade botones, puntos y avance automático.
+   Mide justo una captura (más 4 px de aire a cada lado para la sombra) y va centrada en el visor */
 .carrusel__pista {
   display: flex;
   gap: var(--gap-cards-l);
+  width: calc(var(--ancho-diap) + 8px);
+  margin-inline: auto;
   padding: 20px 4px 28px; /* aire para la cinta y la sombra, que si no se recortan */
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -1430,23 +1463,15 @@ body::after {
 }
 
 .carrusel__diapositiva {
-  /* Ancho limitado por el alto de pantalla: así controles y botón entran sin hacer scroll */
-  flex: 0 0 min(100%, 880px, max(320px, calc((100svh - 440px) * 16 / 9)));
+  flex: 0 0 var(--ancho-diap);
   scroll-snap-align: start;
 }
 
-/* Controles y botón de la demo, uno bajo otro y centrados: el botón queda en el eje de la mirada */
+/* Botón de la demo, centrado bajo el carrusel: queda en el eje de la mirada */
 .carrusel__barra {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
-  gap: var(--espacio-m);
-}
-
-.carrusel__controles {
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-s);
 }
 
 .carrusel__barra .boton {
@@ -1460,11 +1485,15 @@ body::after {
   animation: none;
 }
 
+/* Flechas a los lados de la captura, a la altura del centro de la imagen */
 .carrusel__flecha {
+  position: absolute;
+  top: calc(var(--y-img) + var(--alto-img) / 2 - var(--flecha) / 2);
+  z-index: 2;
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
+  width: var(--flecha);
+  height: var(--flecha);
   padding: 0;
   background: var(--pared-alta);
   border: 1px solid var(--linoleo);
@@ -1473,6 +1502,14 @@ body::after {
   color: var(--fluorescente);
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.carrusel__flecha[data-carrusel="anterior"] {
+  left: calc(50% - var(--ancho-diap) / 2 - 4px - var(--sep-flecha) - var(--flecha));
+}
+
+.carrusel__flecha[data-carrusel="siguiente"] {
+  right: calc(50% - var(--ancho-diap) / 2 - 4px - var(--sep-flecha) - var(--flecha));
 }
 
 .carrusel__flecha:hover:not(:disabled) {
@@ -1486,18 +1523,29 @@ body::after {
   cursor: default;
 }
 
+/* Indicadores: sobre el borde inferior de la imagen, centrados en la captura (sobre el degradado de .captura::after) */
+.carrusel__indicadores {
+  position: absolute;
+  top: calc(var(--y-img) + var(--alto-img) - 24px - 10px); /* 24 px de alto + 10 de aire */
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+}
+
 .carrusel__puntos {
   display: flex;
   align-items: center;
-  gap: 4px;
 }
 
-/* El punto es pequeño, pero su zona de pulsación mide 28 px */
+/* El punto es pequeño, pero su zona de pulsación mide 24 px */
 .carrusel__punto {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   background: none;
   border: 0;
@@ -1506,21 +1554,47 @@ body::after {
 
 .carrusel__punto::before {
   content: "";
-  width: 10px;
-  height: 10px;
-  background: var(--linoleo);
-  border-radius: 50%;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 8px;
+  height: 8px;
+  background: rgba(246, 241, 226, 0.6);
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  transition: width 0.25s ease, background-color 0.2s ease;
 }
 
+/* La captura activa se alarga, como el indicador de pulso */
 .carrusel__punto[aria-current="true"]::before {
+  width: 22px;
   background: var(--latido-claro);
   box-shadow: 0 0 10px rgba(255, 75, 82, 0.6);
-  transform: scale(1.3);
+}
+
+.carrusel__pausa {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: rgba(10, 13, 11, 0.55);
+  border: 1px solid rgba(246, 241, 226, 0.4);
+  border-radius: 50%;
+  color: var(--hueso);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.carrusel__pausa:hover {
+  background: var(--latido);
+}
+
+.carrusel__pausa[data-reproduciendo="true"] .carrusel__icono-play,
+.carrusel__pausa[data-reproduciendo="false"] .carrusel__icono-pausa {
+  display: none;
 }
 
 .carrusel__flecha:focus-visible,
-.carrusel__punto:focus-visible {
+.carrusel__punto:focus-visible,
+.carrusel__pausa:focus-visible {
   outline: 3px solid var(--fluorescente);
   outline-offset: 2px;
 }
@@ -2648,8 +2722,22 @@ textarea.formulario-contacto__entrada {
     width: 100%;
   }
 
-  .carrusel__diapositiva {
-    flex-basis: 92%;
+  /* Sin hueco lateral: la captura ocupa todo el ancho y las flechas flotan sobre sus bordes */
+  .carrusel__visor {
+    --flecha: 40px;
+    --ancho-diap: calc(100cqw - 8px);
+  }
+
+  .carrusel__flecha {
+    background: rgba(15, 20, 17, 0.78);
+  }
+
+  .carrusel__flecha[data-carrusel="anterior"] {
+    left: 20px;
+  }
+
+  .carrusel__flecha[data-carrusel="siguiente"] {
+    right: 20px;
   }
 
 }

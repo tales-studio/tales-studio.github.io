@@ -211,37 +211,43 @@
         <h3 id="titulo-capturas" class="subtitulo-bloque">Capturas del juego</h3>
 
         <div class="carrusel" role="region" aria-roledescription="carrusel" aria-label="Capturas del juego">
-          <ul class="carrusel__pista" tabindex="0" aria-label="Capturas, desliza o usa las flechas del teclado">
-            <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="1 de 3">
-              <figure class="captura">
-                <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="1280" height="720" loading="lazy">
-                <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
-              </figure>
-            </li>
-            <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="2 de 3">
-              <figure class="captura">
-                <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="1280" height="720" loading="lazy">
-                <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
-              </figure>
-            </li>
-            <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="3 de 3">
-              <figure class="captura">
-                <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="1280" height="720" loading="lazy">
-                <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
-              </figure>
-            </li>
-          </ul>
-
-          <div class="carrusel__barra">
-            <div class="carrusel__controles">
-              <button class="carrusel__flecha" type="button" data-carrusel="anterior" aria-label="Captura anterior">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-              </button>
+          <div class="carrusel__visor">
+            <button class="carrusel__flecha" type="button" data-carrusel="anterior" aria-label="Captura anterior">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <ul class="carrusel__pista" tabindex="0" aria-label="Capturas, desliza o usa las flechas del teclado">
+              <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="1 de 3">
+                <figure class="captura">
+                  <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="1280" height="720" loading="lazy">
+                  <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
+                </figure>
+              </li>
+              <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="2 de 3">
+                <figure class="captura">
+                  <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="1280" height="720" loading="lazy">
+                  <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
+                </figure>
+              </li>
+              <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="3 de 3">
+                <figure class="captura">
+                  <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="1280" height="720" loading="lazy">
+                  <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
+                </figure>
+              </li>
+            </ul>
+            <button class="carrusel__flecha" type="button" data-carrusel="siguiente" aria-label="Captura siguiente">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <div class="carrusel__indicadores">
               <div class="carrusel__puntos" role="group" aria-label="Elegir captura"></div>
-              <button class="carrusel__flecha" type="button" data-carrusel="siguiente" aria-label="Captura siguiente">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+              <button class="carrusel__pausa" type="button" data-reproduciendo="true" aria-label="Pausar el desplazamiento automático">
+                <svg class="carrusel__icono-pausa" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+                <svg class="carrusel__icono-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
               </button>
             </div>
+          </div>
+
+          <div class="carrusel__barra">
             <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
           </div>
         </div>
