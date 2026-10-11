@@ -1690,6 +1690,28 @@ body::after {
   transform: rotate(-3deg);
 }
 
+/* Bloques de trabajo dentro de cada fase (alpha, beta, release) */
+.hito__bloque {
+  display: grid;
+  gap: 12px;
+}
+
+.hito__bloque + .hito__bloque {
+  margin-top: var(--espacio-s);
+  padding-top: var(--espacio-s);
+  border-top: 1px dashed var(--linoleo);
+}
+
+.hito__subtitulo {
+  color: var(--hueso);
+  font-family: var(--fuente-titulos);
+  font-size: var(--fs-m);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-ui);
+  text-transform: uppercase;
+}
+
 /* Tareas con casilla, como la lista del teléfono del conserje */
 .hito__tareas,
 .bloque-tecnico__lista {
