@@ -1,107 +1,622 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raúl Cacho Domínguez - Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070908">
+  <meta name="description" content="Shift Happens: gestiona las tareas de un conserje de residencia universitaria y sobrevive al terror de la noche más estresante del año. Juega la demo en tu navegador.">
+  <title>Shift Happens | TALES STUDIO</title>
+  <link rel="canonical" href="https://tales-studio.github.io/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TALES STUDIO">
+  <meta property="og:title" content="Shift Happens | TALES STUDIO">
+  <meta property="og:description" content="Gestiona las tareas de un conserje de residencia universitaria y sobrevive al terror de la noche más estresante del año. Juega la demo en tu navegador.">
+  <meta property="og:image" content="https://tales-studio.github.io//Assets/Images/og-image.jpg">
+  <meta property="og:url" content="https://tales-studio.github.io/">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="en_US">
 
-        header {
-            text-align: center;
-            padding: 30px;
-            background-color: #0078d4;
-            color: white;
-            border-radius: 10px;
-        }
-
-        section {
-            background-color: white;
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        h2 {
-            color: #0078d4;
-        }
-
-        a {
-            color: #0078d4;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-    </style>
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <link rel="icon" href="Assets/Images/PLACEHOLDER.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Spectral:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Comportamiento: un archivo por función. Con defer se ejecutan al terminar de leer el HTML y en este orden -->
+  <script src="js/navigation.js" defer></script>
+  <script src="js/menu.js" defer></script>
+  <script src="js/scroll-offset.js" defer></script>
+  <script src="js/team.js" defer></script>
+  <script src="js/team-accordion.js" defer></script>
+  <script src="js/features-highlight.js" defer></script>
+  <script src="js/devlog.js" defer></script>
+  <script src="js/contact.js" defer></script>
+  <script src="js/carousel.js" defer></script>
+  <script src="js/translations.js" defer></script>
+  <script src="js/language.js" defer></script>
 </head>
 <body>
 
-    <header>
-        <h1>Raúl Cacho Domínguez</h1>
-        <p>Profesor de Ingeniería Informática</p>
-        <p>Bienvenido a mi portfolio.</p>
-        <p>
-            Lanzamiento de GitHub Pages y preparando la asignatura
-            <strong>Juegos para Web y Redes Sociales</strong>.
-        </p>
-    </header>
+  <a class="enlace-saltar-contenido" href="#contenido-principal">Saltar al contenido</a>
 
-    <section>
-        <h2>Sobre mí</h2>
-        <p>Profesor universitario interesado en:</p>
-        <ul>
-            <li>Desarrollo web</li>
-            <li>Inteligencia Artificial</li>
-            <li>Programación</li>
-            <li>Videojuegos</li>
+  <header class="cabecera-principal">
+    <nav class="navegacion-principal" aria-label="Navegación principal">
+      <ul class="navegacion-principal__lista" id="menu-navegacion">
+        <li class="navegacion-principal__item--marca">
+          <a class="cabecera-principal__marca" href="#inicio" aria-label="Ir al inicio">
+            <img class="cabecera-principal__logo" src="Assets/Images/PLACEHOLDER.jpg" alt="" width="48" height="48">
+          </a>
+        </li>
+        <li><a class="navegacion-principal__enlace" href="#inicio">Inicio</a></li>
+        <li><a class="navegacion-principal__enlace" href="#sobre-el-estudio">Sobre el estudio</a></li>
+        <li><a class="navegacion-principal__enlace" href="#nuestro-juego">Nuestro juego</a></li>
+        <li><a class="navegacion-principal__enlace" href="#devlog">Devlog</a></li>
+        <li><a class="navegacion-principal__enlace" href="#marketing">Marketing</a></li>
+        <li><a class="navegacion-principal__enlace" href="#aspectos-tecnicos">Aspectos técnicos</a></li>
+        <li><a class="navegacion-principal__enlace" href="#resultados">Resultados</a></li>
+        <li><a class="navegacion-principal__enlace" href="#contacto">Contacto</a></li>
+        <li class="navegacion-principal__item--demo"><a class="navegacion-principal__enlace navegacion-principal__enlace--destacado" href="#jugar-demo">Jugar la demo</a></li>
+        <li class="navegacion-principal__item--idioma">
+          <button class="selector-idioma" id="selector-idioma" type="button" aria-label="Cambiar idioma: pasar a inglés" title="Cambiar idioma: pasar a inglés">
+            <span class="selector-idioma__opcion" data-lang="es" lang="es" aria-hidden="true">ES</span>
+            <span class="selector-idioma__opcion" data-lang="en" lang="en" aria-hidden="true">EN</span>
+          </button>
+        </li>
+        <li class="navegacion-principal__item--menu">
+          <button class="menu-movil" id="boton-menu" type="button" aria-expanded="false" aria-controls="menu-navegacion" aria-label="Abrir menú" title="Abrir menú">
+            <span class="menu-movil__barra" aria-hidden="true"></span>
+            <span class="menu-movil__barra" aria-hidden="true"></span>
+            <span class="menu-movil__barra" aria-hidden="true"></span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido-principal" class="contenido-principal">
+
+    <!-- 1. INICIO: presentación del juego + tráiler + botón a la demo -->
+    <section id="inicio" class="seccion seccion-inicio" aria-labelledby="titulo-inicio">
+      <div class="seccion-inicio__texto">
+        <h1 id="titulo-inicio" class="seccion-inicio__titulo" data-texto="Shift Happens">Shift Happens</h1>
+        <p class="seccion-inicio__presentacion">
+          La noche más estresante del año, un conserje agotado y una residencia universitaria
+          donde ya no sabes qué es real. ¿Podrás completar tu turno antes del amanecer?
+        </p>
+        <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
+        <p class="seccion-inicio__nota">Se juega directamente en el navegador, sin descargas.</p>
+      </div>
+
+      <figure class="seccion-inicio__multimedia">
+        <div class="monitor__barra" aria-hidden="true">
+          <span class="monitor__rec">● REC</span>
+          <span class="monitor__hora">03:07:42</span>
+        </div>
+        <div class="monitor__pantalla">
+          <img class="monitor__gif" src="Assets/Images/trailer.gif" alt="Tráiler de Shift Happens: el conserje recorre un pasillo de la residencia por la noche" width="1280" height="720">
+        </div>
+        <figcaption class="seccion-inicio__pie">Tráiler: una noche de turno en la residencia.</figcaption>
+      </figure>
+    </section>
+
+    <!-- 2. SOBRE EL ESTUDIO -->
+    <section id="sobre-el-estudio" class="seccion seccion-estudio" aria-labelledby="titulo-estudio">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-estudio" class="seccion__titulo">Sobre el estudio</h2>
+      </header>
+
+      <section class="equipo" aria-labelledby="titulo-equipo">
+        <h3 id="titulo-equipo" class="equipo__titulo">El equipo</h3>
+        <ul class="equipo__lista">
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">Aroa Quiroga Martínez</h4>
+              <p class="miembro__rol">Líder de proyecto, artista principal y diseñador narrativo</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Dirige el proyecto y al equipo, redacta el GDD, diseña el trasfondo narrativo y desarrolla el apartado visual principal.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">Raúl Benítez Tiburón</h4>
+              <p class="miembro__rol">Programador principal y codiseñador narrativo</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Define la arquitectura técnica y los límites de programación, valida la viabilidad de las mecánicas y perfecciona el guion y los diálogos.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">Jesús Magallanes Dueñas</h4>
+              <p class="miembro__rol">Diseñador de juego y programador de lógica</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Idea las mecánicas, diseña el gameplay loop y apoya en la programación de los sistemas principales.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">Daniela Tocino Jiménez</h4>
+              <p class="miembro__rol">Programadora de sistemas de jugabilidad y web</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Implementa la lógica interna (estados de los NPCs, tareas y brotes) y exporta y optimiza el juego para navegadores web.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">Ester Díaz Monzonis</h4>
+              <p class="miembro__rol">Compositora de audio y artista de objetos de escenario</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Crea la banda sonora y los efectos de sonido que generan tensión psicológica, e ilustra los assets 2D y objetos del escenario.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">Sandra Sáez Piña</h4>
+              <p class="miembro__rol">Asesora artística y artista conceptual</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Da soporte al área visual, define la coherencia cromática y colabora en los concept arts e ilustraciones de apoyo.</p>
+              </div>
+            </article>
+          </li>
         </ul>
+      </section>
+
+      <section class="mision-vision" aria-labelledby="titulo-mision-vision">
+        <h3 id="titulo-mision-vision" class="mision-vision__titulo">Misión y visión</h3>
+        <div class="mision-vision__contenedor">
+          <article class="mision-vision__bloque mision-vision__bloque--mision">
+            <h4 class="mision-vision__subtitulo">Misión</h4>
+            <p>Crear una experiencia de terror psicológico que mantenga la inmersión, el ritmo y la accesibilidad en el navegador, con controles sencillos, interfaz minimalista y una tensión basada en la atmósfera.</p>
+          </article>
+          <article class="mision-vision__bloque mision-vision__bloque--vision">
+            <h4 class="mision-vision__subtitulo">Visión</h4>
+            <p>Ofrecer juegos independientes sin microtransacciones ni publicidad invasiva que interrumpa la experiencia, con una demo web gratuita fácil de transmitir por streamers y accesible desde cualquier navegador.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="historia" aria-labelledby="titulo-historia">
+        <h3 id="titulo-historia" class="historia__titulo">Nuestra historia</h3>
+        <div class="historia__cuerpo">
+          <p class="historia__texto">
+              Shift Happens nació de una lluvia de ideas en grupo en TALES STUDIO, un equipo multidisciplinar de 6 miembros. Filtramos dinámicas en conjunto y decidimos de forma colaborativa el estilo artístico, la línea musical, las mecánicas y los comportamientos, hasta validar la propuesta base: combinar la gestión de tareas de un conserje de residencia universitaria con el terror de supervivencia en 2D. Desde entonces trabajamos con tres reglas: interfaz minimalista, mecánicas directas y accesibles y terror basado en la atmósfera.
+            </p>
+          <figure class="historia__figura">
+            <img class="historia__gif" src="Assets/Images/historia.gif" alt="Animación del equipo de TALES STUDIO trabajando en Shift Happens" width="640" height="360" loading="lazy">
+          </figure>
+        </div>
+      </section>
     </section>
 
-    <section>
-        <h2>Tecnologías</h2>
-        <ul>
-            <li>HTML5</li>
-            <li>CSS3</li>
-            <li>JavaScript</li>
-            <li>Python</li>
-            <li>GitHub</li>
+    <!-- 3. NUESTRO JUEGO -->
+    <section id="nuestro-juego" class="seccion seccion-juego" aria-labelledby="titulo-juego">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-juego" class="seccion__titulo">Nuestro juego: Shift Happens</h2>
+        <p class="seccion-juego__pitch">
+          Shift Happens combina la gestión de tareas de un conserje de residencia universitaria con el terror de supervivencia en 2D.
+          En la noche más estresante del año, el agotamiento y la esquizofrenia del protagonista hacen que el límite entre los recados cotidianos
+          y las alucinaciones mortales desaparezca. ¿Podrás mantener la cordura y completar tu turno antes del amanecer?
+        </p>
+      </header>
+
+      <!-- Ficha del juego -->
+      <section class="ficha" aria-labelledby="titulo-ficha">
+        <h3 id="titulo-ficha" class="ficha__titulo">Ficha del juego</h3>
+        <dl class="ficha-juego">
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Género</dt>
+            <dd class="ficha-juego__valor">Terror psicológico, supervivencia y gestión de tareas</dd>
+          </div>
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Plataforma</dt>
+            <dd class="ficha-juego__valor">Juego 2D para navegador web</dd>
+          </div>
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Controles</dt>
+            <dd class="ficha-juego__valor">Teclado: WASD, E para interactuar, Espacio para diálogos y Shift para el sigilo</dd>
+          </div>
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Estado</dt>
+            <dd class="ficha-juego__valor">Versión Alpha: prototipo jugable</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Capturas: carrusel + botón a la demo -->
+      <section id="capturas" class="seccion-capturas" aria-labelledby="titulo-capturas">
+        <h3 id="titulo-capturas" class="subtitulo-bloque">Capturas del juego</h3>
+
+        <div class="carrusel" role="region" aria-roledescription="carrusel" aria-label="Capturas del juego">
+          <div class="carrusel__visor">
+            <button class="carrusel__flecha" type="button" data-carrusel="anterior" aria-label="Captura anterior">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <ul class="carrusel__pista" tabindex="0" aria-label="Capturas, desliza o usa las flechas del teclado">
+              <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="1 de 3">
+                <figure class="captura">
+                  <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="1280" height="720" loading="lazy">
+                  <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
+                </figure>
+              </li>
+              <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="2 de 3">
+                <figure class="captura">
+                  <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="1280" height="720" loading="lazy">
+                  <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
+                </figure>
+              </li>
+              <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="3 de 3">
+                <figure class="captura">
+                  <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="1280" height="720" loading="lazy">
+                  <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
+                </figure>
+              </li>
+            </ul>
+            <button class="carrusel__flecha" type="button" data-carrusel="siguiente" aria-label="Captura siguiente">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <div class="carrusel__indicadores">
+              <div class="carrusel__puntos" role="group" aria-label="Elegir captura"></div>
+              <button class="carrusel__pausa" type="button" data-reproduciendo="true" aria-label="Pausar el desplazamiento automático">
+                <svg class="carrusel__icono-pausa" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+                <svg class="carrusel__icono-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="carrusel__barra">
+            <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Jugar la demo: build WebGL de itch.io en grande -->
+      <section id="jugar-demo" class="seccion-demo" aria-labelledby="titulo-demo">
+        <h3 id="titulo-demo" class="subtitulo-bloque">Jugar la demo</h3>
+        <p class="seccion__introduccion">Tu turno empieza cuando pulses «Run game». Mejor con teclado y en pantalla completa.</p>
+
+        <div class="demo">
+          <!-- Sustituye la URL por la de tu build: itch.io → tu juego → Embed → "Embed game" (https://itch.io/embed-upload/XXXXXXX) -->
+          <iframe class="demo__marco" src="https://itch.io/embed-upload/ID_DE_TU_BUILD?color=070908" title="Demo jugable de Shift Happens" allow="fullscreen; autoplay; gamepad" allowfullscreen loading="lazy">
+            <a href="https://TU-USUARIO.itch.io/shift-happens">Juega Shift Happens en itch.io</a>
+          </iframe>
+        </div>
+
+        <p class="demo__nota">¿No carga o prefieres verla aparte? <a href="https://TU-USUARIO.itch.io/shift-happens" target="_blank" rel="noopener">Abrir la demo en itch.io</a></p>
+      </section>
+
+      <section class="caracteristicas" aria-labelledby="titulo-caracteristicas">
+        <h3 id="titulo-caracteristicas" class="caracteristicas__titulo">Características principales</h3>
+        <ul class="caracteristicas__lista">
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Una noche, muchas tareas</h4>
+            <p class="caracteristica__descripcion">Imprimir documentos, arreglar o limpiar el baño, cambiar una bombilla fundida o limpiar un derrame en la cocina. Los NPCs generan las tareas y algunas saltan al azar, así que cada partida es distinta.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Realidad o alucinación</h4>
+            <p class="caracteristica__descripcion">Tras un apagón, el estrés desencadena un brote esquizofrénico: la residencia se vuelve hostil, los estudiantes adquieren un aspecto monstruoso y ya no sabes qué es real.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Interfaz integrada en el mundo</h4>
+            <p class="caracteristica__descripcion">Sin menús recargados: la lista de tareas está en tu teléfono y tu estado se refleja en un indicador sutil de pulso cardíaco en una esquina de la pantalla.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Sigilo o prisa</h4>
+            <p class="caracteristica__descripcion">Con Shift alternas entre caminar y moverte en sigilo. Las entidades ciegas detectan tu sonido y, si algo te ve, tendrás que esconderte en las taquillas.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Terror de atmósfera</h4>
+            <p class="caracteristica__descripcion">La tensión nace de la acumulación de tareas, la gestión de la luz y la ansiedad y el sonido. Sin menús de inventario lentos ni sistemas de crafting complejos.</p>
+          </li>
+          <li class="caracteristica">
+            <h4 class="caracteristica__titulo">Listo para jugar en el navegador</h4>
+            <p class="caracteristica__descripcion">Controles sencillos y una demo web gratuita que se juega directamente en el navegador.</p>
+          </li>
         </ul>
+      </section>
     </section>
 
-    <section>
-        <h2>Proyectos</h2>
-        <h3>Portfolio GitHub Pages</h3>
-        <p>Primer portfolio desarrollado utilizando GitHub Pages.</p>
+    <!-- 4. DEVLOG -->
+    <section id="devlog" class="seccion seccion-devlog" aria-labelledby="titulo-devlog">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-devlog" class="seccion__titulo">Devlog</h2>
+        <p class="seccion__introduccion">Así hemos pasado de una idea a una noche que da miedo completar.</p>
+      </header>
+
+      <ol class="linea-tiempo">
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Alpha: GDD, primeros assets y prototipo jugable</h3>
+              <p class="hito__periodo">Semanas 1 a 4</p>
+            </header>
+            <section class="hito__bloque">
+              <h4 class="hito__subtitulo">Concepto y reglas de diseño</h4>
+              <ul class="hito__tareas">
+                <li>Lluvia de ideas en grupo y validación de la premisa: un conserje, una noche y una lista de tareas.</li>
+                <li>Fijamos los tres principios: interfaz minimalista (UI diegética), mecánicas directas y accesibles y terror basado en la atmósfera.</li>
+                <li>Redacción completa del GDD y definición del estilo artístico: paleta cálida antes del brote y estilo marcador después.</li>
+              </ul>
+            </section>
+            <section class="hito__bloque">
+              <h4 class="hito__subtitulo">Bucle de tareas</h4>
+              <ul class="hito__tareas">
+                <li>Movimiento en 4 direcciones e interacción con los objetos mediante un único botón.</li>
+                <li>Primeras pruebas de programación del bucle de juego y del sistema de tareas.</li>
+                <li>Diseño del mapa de la residencia: planta baja, pisos 1 y 2 y sótano.</li>
+              </ul>
+            </section>
+            <section class="hito__bloque">
+              <h4 class="hito__subtitulo">Terror y cordura</h4>
+              <ul class="hito__tareas">
+                <li>Modo sigilo/caminar con la tecla Shift.</li>
+                <li>Diseño del indicador de pulso cardíaco y del brote esquizofrénico tras el apagón.</li>
+                <li>Concept art de las entidades hostiles: fotosensibles, ciegas y estridentes.</li>
+              </ul>
+            </section>
+          </article>
+        </li>
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Beta: arte definitivo, brote y audio</h3>
+              <p class="hito__periodo">Semanas 5 a 8</p>
+            </header>
+            <div class="proximamente">
+              <p class="sello-proximamente">Próximamente</p>
+            </div>
+          </article>
+        </li>
+        <li class="hito">
+          <article class="hito__contenido">
+            <header class="hito__cabecera">
+              <h3 class="hito__titulo">Release: pulido y lanzamiento final</h3>
+              <p class="hito__periodo">Semanas 9 a 11</p>
+            </header>
+            <div class="proximamente">
+              <p class="sello-proximamente">Próximamente</p>
+            </div>
+          </article>
+        </li>
+      </ol>
     </section>
 
-    <section>
-        <h2>Contacto</h2>
-        <p>
-            <a href="ww.linkedin.comLinkedIn</a>
-        </p>
-        <p>
-            https://github.comGitHub</a>
-        </p>
+    <!-- 5. MARKETING -->
+    <section id="marketing" class="seccion seccion-marketing" aria-labelledby="titulo-marketing">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-marketing" class="seccion__titulo">Marketing</h2>
+      </header>
+
+      <section class="publico-objetivo" aria-labelledby="titulo-publico">
+        <h3 id="titulo-publico" class="publico-objetivo__titulo">Público objetivo</h3>
+        <ul class="publico-objetivo__lista">
+          <li><strong>Edad:</strong> De 16 a 30 años.</li>
+          <li><strong>Perfil:</strong> Jugadores de terror psicológico indie, fans de juegos 2D y usuarios de juegos web de partida rápida.</li>
+          <li><strong>Intereses:</strong> Terror psicológico, mecánicas de cordura y estrés, y contenido de terror de streamers y creadores en Twitch y YouTube.</li>
+          <li><strong>Hábitos:</strong> Usuarios habituales de PC y navegadores web, consumidores del catálogo independiente de plataformas como Itch.io.</li>
+          <li><strong>Conexión:</strong> Público crítico con los modelos Pay-to-Win y la publicidad invasiva en juegos narrativos o de terror.</li>
+        </ul>
+      </section>
+
+      <section class="competencia" aria-labelledby="titulo-competencia">
+        <h3 id="titulo-competencia" class="competencia__titulo">Juegos similares</h3>
+        <div class="competencia__contenedor-tabla">
+          <table class="tabla-competencia" role="table">
+            <caption class="tabla-competencia__titulo">Comparativa con juegos de referencia</caption>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Juego</th>
+                <th scope="col" role="columnheader">Qué hace bien</th>
+                <th scope="col" role="columnheader">Cómo nos diferenciamos</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup">
+              <tr role="row">
+                <th scope="row" role="rowheader">Five Nights at Freddy's</th>
+                <td role="cell" data-label="Qué hace bien">Mecánicas rutinarias de trabajo que se tuercen hacia el terror, con ambientación opresiva en el turno de noche.</td>
+                <td role="cell" data-label="Cómo nos diferenciamos">Aquí recorres toda la residencia completando tareas y la amenaza nace de las alucinaciones del propio conserje.</td>
+              </tr>
+              <tr role="row">
+                <th scope="row" role="rowheader">The Mortuary Assistant</th>
+                <td role="cell" data-label="Qué hace bien">Trabajo nocturno rutinario que se convierte en terror, con éxito basado en el pago único y los creadores de contenido.</td>
+                <td role="cell" data-label="Cómo nos diferenciamos">Sumamos un sistema de tareas con NPCs autónomos y un brote que cambia su comportamiento.</td>
+              </tr>
+              <tr role="row">
+                <th scope="row" role="rowheader">Don't Starve</th>
+                <td role="cell" data-label="Qué hace bien">Mecánicas de cordura y estrés con un apartado gráfico 2D dibujado a mano.</td>
+                <td role="cell" data-label="Cómo nos diferenciamos">Menos sistemas complejos: sin inventarios lentos ni crafting, controles simples y partida directa desde el navegador.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="estrategia" aria-labelledby="titulo-estrategia">
+        <h3 id="titulo-estrategia" class="estrategia__titulo">Estrategia de lanzamiento</h3>
+        <ol class="estrategia__fases">
+          <li class="estrategia__fase">
+            <h4 class="estrategia__fase-titulo">Antes del lanzamiento</h4>
+            <p>Imagen promocional y página web de presentación del juego para dar a conocer el proyecto antes de la entrega final.</p>
+          </li>
+          <li class="estrategia__fase">
+            <h4 class="estrategia__fase-titulo">Lanzamiento de la demo</h4>
+            <p>Publicación de la demo web gratuita (Noche 1) en Itch.io, jugable desde el navegador y pensada para que streamers y creadores de contenido puedan transmitirla fácilmente.</p>
+          </li>
+          <li class="estrategia__fase">
+            <h4 class="estrategia__fase-titulo">Después del lanzamiento</h4>
+            <p>Campaña de marketing para convertir a los jugadores de la demo en compradores de la versión comercial completa, de pago único (3,99 €) y sin microtransacciones.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="plataformas" aria-labelledby="titulo-plataformas">
+        <h3 id="titulo-plataformas" class="plataformas__titulo">Plataformas</h3>
+        <ul class="plataformas__lista">
+          <li class="plataforma">
+            <a class="plataforma__enlace" href="https://itch.io/" target="_blank" rel="noopener">
+              <svg class="plataforma__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4.6 2.5h14.800c.9 0 1.500.5 2 1.300l1.300 3.600c.2 1.500-.9 2.600-2.400 2.600-1.200 0-2-.7-2.400-1.500-.4.800-1.200 1.500-2.500 1.500-1.200 0-2.100-.7-2.500-1.500-.4.800-1.300 1.500-2.500 1.500-1.300 0-2.100-.7-2.500-1.500-.4.800-1.200 1.500-2.400 1.500-1.500 0-2.600-1.100-2.400-2.600l1.300-3.600c.5-.8 1.100-1.300 2-1.300ZM4.300 12.200c.6.200 1.200.2 1.800.1V20h12v-7.700c.6.100 1.200.1 1.800-.1v9.200c0 .6-.4 1-1 1H5.300c-.6 0-1-.4-1-1ZM9 14.400h6v1.800c0 1-.6 1.700-1.500 2.100l-1.500.7-1.500-.7c-.9-.4-1.500-1.100-1.500-2.100Z"/></svg>
+              <span class="plataforma__nombre">Itch.io</span>
+            </a>
+            <p class="plataforma__descripcion">Plataforma principal: demo web gratuita en el navegador, con aportación voluntaria (Pay What You Want) desde 1 €.</p>
+          </li>
+          <li class="plataforma">
+            <a class="plataforma__enlace" href="https://gamejolt.com/" target="_blank" rel="noopener">
+              <svg class="plataforma__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M13.6 4.6 7 13.2h4.3l-.9 6.2 6.6-8.6h-4.3Z"/></svg>
+              <span class="plataforma__nombre">Game Jolt</span>
+            </a>
+            <p class="plataforma__descripcion">Para llegar a más comunidad de juegos indie.</p>
+          </li>
+          <li class="plataforma">
+            <a class="plataforma__enlace" href="https://store.steampowered.com/" target="_blank" rel="noopener">
+              <svg class="plataforma__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="15.3" cy="9.4" r="3.1" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.2" cy="15.2" r="2.3" fill="currentColor"/><path d="M9.6 13.7 13.2 11.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span class="plataforma__nombre">Steam</span>
+            </a>
+            <p class="plataforma__descripcion">Objetivo a futuro con una versión ampliada.</p>
+          </li>
+        </ul>
+      </section>
     </section>
 
-    <footer>
-        <p>&copy; 2026 Raúl Cacho Domínguez</p>
-    </footer>
+    <!-- 6. ASPECTOS TÉCNICOS -->
+    <section id="aspectos-tecnicos" class="seccion seccion-tecnica" aria-labelledby="titulo-tecnica">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-tecnica" class="seccion__titulo">Aspectos técnicos</h2>
+      </header>
+
+      <article class="bloque-tecnico bloque-tecnico--programacion">
+        <h3 class="bloque-tecnico__titulo">Programación destacada</h3>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
+      </article>
+
+      <article class="bloque-tecnico bloque-tecnico--arte">
+        <h3 class="bloque-tecnico__titulo">Arte y diseño</h3>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
+      </article>
+
+      <article class="bloque-tecnico bloque-tecnico--audio">
+        <h3 class="bloque-tecnico__titulo">Audio y efectos</h3>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- 7. RESULTADOS -->
+    <section id="resultados" class="seccion seccion-resultados" aria-labelledby="titulo-resultados">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-resultados" class="seccion__titulo">Resultados</h2>
+      </header>
+
+      <section class="metricas" aria-labelledby="titulo-metricas">
+        <h3 id="titulo-metricas" class="metricas__titulo">Métricas del proyecto</h3>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
+      </section>
+
+      <section class="estadisticas" aria-labelledby="titulo-estadisticas">
+        <h3 id="titulo-estadisticas" class="estadisticas__titulo">Estadísticas de desarrollo</h3>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
+      </section>
+
+      <section class="feedback" aria-labelledby="titulo-feedback">
+        <h3 id="titulo-feedback" class="feedback__titulo">Feedback y pruebas realizadas</h3>
+        <div class="proximamente">
+          <p class="sello-proximamente">Próximamente</p>
+        </div>
+      </section>
+    </section>
+
+    <!-- 8. CONTACTO Y RRSS -->
+    <section id="contacto" class="seccion seccion-contacto" aria-labelledby="titulo-contacto">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-contacto" class="seccion__titulo">Contacto y redes sociales</h2>
+        <p class="seccion__introduccion">¿Has sobrevivido a la noche? Cuéntanoslo. Escríbenos para dar tu opinión, proponer una colaboración o contactar con la prensa.</p>
+      </header>
+
+      <div class="contacto__rejilla">
+        <div class="contacto__redes">
+          <nav class="redes-sociales" aria-label="Redes sociales">
+            <ul class="redes-sociales__lista">
+              <li><a class="red-social" href="https://linktr.ee/" target="_blank" rel="noopener"><svg class="red-social__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="m13.73635 5.85251 4.00467-4.11665 2.3248 2.3808-4.20064 4.00466h5.9085v3.30473h-5.9365l4.22865 4.10766-2.3248 2.3338L12.0005 12.099l-5.74052 5.76852-2.3248-2.3248 4.22864-4.10766h-5.9375V8.12132h5.9085L3.93417 4.11666l2.3248-2.3808 4.00468 4.11665V0h3.4727zm-3.4727 10.30614h3.4727V24h-3.4727z"/></svg>Linktree</a></li>
+              <li><a class="red-social" href="https://www.instagram.com/" target="_blank" rel="noopener"><svg class="red-social__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg>Instagram</a></li>
+              <li><a class="red-social" href="https://x.com/" target="_blank" rel="noopener"><svg class="red-social__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>X (Twitter)</a></li>
+              <li><a class="red-social" href="https://www.youtube.com/" target="_blank" rel="noopener"><svg class="red-social__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M12 4.5c-2.4 0-6.1.1-7.6.4A3.1 3.1 0 0 0 2.2 7C2 8.4 2 10.2 2 12s0 3.6.2 5a3.1 3.1 0 0 0 2.2 2.1c1.5.4 5.2.4 7.6.4s6.1 0 7.6-.4a3.1 3.1 0 0 0 2.2-2.1c.2-1.400.2-3.200.2-5s0-3.600-.2-5a3.100 3.100 0 0 0-2.200-2.100c-1.500-.4-5.200-.4-7.600-.4ZM9.800 8.700 15.500 12l-5.700 3.300Z"/></svg>YouTube</a></li>
+              <li><a class="red-social" href="https://github.com/" target="_blank" rel="noopener"><svg class="red-social__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a></li>
+              <li><a class="red-social" href="https://itch.io/" target="_blank" rel="noopener"><svg class="red-social__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4.6 2.5h14.800c.9 0 1.500.5 2 1.300l1.300 3.600c.2 1.500-.9 2.600-2.400 2.600-1.200 0-2-.7-2.400-1.500-.4.800-1.200 1.500-2.500 1.500-1.200 0-2.100-.7-2.500-1.500-.4.800-1.300 1.500-2.500 1.500-1.300 0-2.100-.7-2.500-1.500-.4.800-1.200 1.500-2.400 1.500-1.500 0-2.600-1.100-2.400-2.600l1.300-3.600c.5-.8 1.100-1.300 2-1.300ZM4.300 12.200c.6.200 1.200.2 1.800.1V20h12v-7.700c.6.100 1.200.1 1.800-.1v9.200c0 .6-.4 1-1 1H5.300c-.6 0-1-.4-1-1ZM9 14.400h6v1.800c0 1-.6 1.700-1.500 2.100l-1.500.7-1.500-.7c-.9-.4-1.500-1.100-1.500-2.100Z"/></svg>itch.io</a></li>
+            </ul>
+          </nav>
+
+          <address class="datos-contacto">
+            <p>Correo: <a href="mailto:hola@estudio.com">tales.studio.26@gmail.com</a></p>
+          </address>
+        </div>
+
+        <button class="boton boton--principal contacto__desplegar" id="contacto-desplegar" type="button" aria-expanded="false" aria-controls="formulario-contacto">
+          <span>Enviar mensaje</span>
+          <svg class="contacto__chevron" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <!-- Envío con FormSubmit (formsubmit.co): sin cuenta ni servidor propio. Cambiar hola@estudio.com por el correo real.
+             La primera vez que alguien envía un mensaje, FormSubmit manda un correo de activación a esa dirección: hay que
+             confirmarlo una vez. contact.js lo envía sin recargar la página; sin JavaScript el formulario sigue funcionando
+             como envío normal. -->
+        <form class="formulario-contacto" id="formulario-contacto" action="https://formsubmit.co/tales.studio.26@gmail.com" method="post">
+          <input type="hidden" name="_subject" value="Nuevo mensaje desde la web de Shift Happens">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <!-- Cebo anti-spam: las personas no lo ven; los bots lo rellenan y el mensaje se descarta -->
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <div class="formulario-contacto__campo">
+            <label class="formulario-contacto__etiqueta" for="contacto-nombre">Nombre</label>
+            <input class="formulario-contacto__entrada" type="text" id="contacto-nombre" name="nombre" autocomplete="name" required>
+          </div>
+          <div class="formulario-contacto__campo">
+            <label class="formulario-contacto__etiqueta" for="contacto-correo">Correo electrónico</label>
+            <input class="formulario-contacto__entrada" type="email" id="contacto-correo" name="correo" autocomplete="email" required>
+          </div>
+          <div class="formulario-contacto__campo">
+            <label class="formulario-contacto__etiqueta" for="contacto-mensaje">Mensaje</label>
+            <textarea class="formulario-contacto__entrada" id="contacto-mensaje" name="mensaje" rows="4" required></textarea>
+          </div>
+          <button class="boton boton--principal" type="submit">Enviar mensaje</button>
+          <p class="formulario-contacto__estado" id="contacto-estado" role="status" aria-live="polite" hidden></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie-pagina">
+    <p class="pie-pagina__copyright">© 2026 TALES STUDIO. Todos los derechos reservados.</p>
+    <nav class="pie-pagina__navegacion" aria-label="Enlaces legales">
+      <ul class="pie-pagina__lista">
+        <li><a href="aviso-legal.html">Aviso legal</a></li>
+        <li><a href="privacidad.html">Política de privacidad</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <button class="boton-subir" id="boton-subir" type="button" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 
 </body>
 </html>

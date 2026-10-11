@@ -1,0 +1,3701 @@
+/* =====================================================================
+   SHIFT HAPPENS · La noche en la residencia, a las tres de la madrugada
+   Concepto: luz de fluorescente enferma, pared de bloque, partes de
+   trabajo, cámara de seguridad y el latido del protagonista.
+   ===================================================================== */
+
+/* ---------- 1. TOKENS ---------- */
+:root {
+  /* Color */
+  --negro-pasillo: #070908;   /* fondo: el pasillo sin luz */
+  --pared: #0e1210;           /* superficies */
+  --pared-alta: #151b18;      /* superficies elevadas */
+  --linoleo: #232d28;         /* bordes y separadores */
+  --fluorescente: #e3ebd3;    /* texto: luz de tubo, verdosa */
+  --niebla: #a0ab9b;          /* texto secundario */
+  --moho: #7fae6a;            /* verde de cámara, LED y consola */
+  --sangre: #6e0f15;          /* rojo seco: sombras duras */
+  --latido: #c8202a;          /* rojo vivo: acento principal */
+  --latido-claro: #ff4b52;    /* rojo para texto sobre fondo oscuro */
+  --papel: #d9d2ba;           /* cinta adhesiva y papel */
+  --hueso: #f6f1e2;           /* texto sobre rojo */
+
+  /* Tipografía */
+  --fuente-titulos: "Big Shoulders Display", "Barlow Condensed", Impact, "Haettenschweiler", "Arial Narrow Bold", sans-serif;
+  --fuente-texto: "Spectral", Georgia, "Times New Roman", serif;
+  --fuente-codigo: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Geometría: superficies duras, casi sin redondeo */
+  --radio: 2px;
+
+  /* Espaciado */
+  --espacio-xs: 8px;
+  --espacio-s: 16px;
+  --espacio-m: 24px;
+  --espacio-l: 40px;
+  --espacio-xl: 72px;
+  --ancho-contenido: 1200px;
+
+  /* Escala tipográfica del texto: pocos pasos, usados de forma coherente */
+  --fs-xs: 0.9375rem;                              /* 15px: pies de foto, notas, legales */
+  --fs-s: 1rem;                                    /* 16px: texto dentro de tarjetas */
+  --fs-m: 1.125rem;                                /* 18px: texto de lectura */
+  --fs-l: clamp(1.1rem, 1rem + 0.4vw, 1.25rem);    /* 18-20px: introducciones y relato */
+  --fs-xl: clamp(1.2rem, 1.05rem + 0.6vw, 1.4rem); /* 19-22px: frases de gancho */
+
+  /* Jerarquía de títulos (fuente condensada: los tamaños pueden ser grandes) */
+  --fs-titulo-h2: clamp(2rem, 1.1rem + 3vw, 3.25rem);           /* título de sección: 32-52px */
+  --fs-titulo-h3: clamp(1.625rem, 1.4rem + 1vw, 2.25rem);       /* subtítulo de bloque: 26-36px */
+  --fs-titulo-tarjeta: clamp(1.5rem, 1.35rem + 0.55vw, 1.75rem); /* título dentro de tarjeta: 24-28px */
+  --lh-ui: 1.2;                                    /* interlineado de textos de interfaz (botones, etiquetas) */
+
+  /* Ritmo vertical */
+  --pad-seccion: clamp(48px, 6.5vw, 88px);  /* aire sobre y bajo cada sección */
+  --gap-bloques: clamp(40px, 5vw, 64px);    /* separación entre bloques de una sección */
+  --gap-titulo: 32px;                       /* del título de sección a su contenido */
+  --gap-cards: clamp(16px, 2vw, 24px);      /* entre tarjetas */
+  --gap-cards-l: clamp(24px, 3vw, 32px);    /* entre tarjetas inclinadas o con cinta */
+  --pad-tarjeta: clamp(20px, 2.2vw, 28px);  /* relleno interior de tarjeta */
+  --pad-panel: clamp(22px, 3.2vw, 40px);    /* relleno de paneles grandes */
+  --sep-titulo-fijo: 28px;                  /* aire entre la cabecera y el título que se queda fijo */
+  --alto-cabecera: 84px;                    /* el script lo ajusta a la altura real */
+
+  /* Sombras: duras, como papel recortado, más una caída difusa */
+  --sombra-dura: 6px 6px 0 rgba(0, 0, 0, 0.65);
+  --sombra-caida: 0 26px 50px rgba(0, 0, 0, 0.55);
+
+  /* Grano de película */
+  --grano: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='220'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='.85'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20values='0%200%200%200%201%20%200%200%200%200%201%20%200%200%200%200%201%20%200%200%200%20.09%200'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* Latido: un pulso de electrocardiograma y su línea base */
+  --ecg: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2018'%20width='120'%20height='18'%3E%3Cpath%20d='M0%2014H32L37%2011L42%2014H52L56%2016L61%201L66%2017L70%2014H84L90%209L97%2014H120'%20fill='none'%20stroke='rgb(255,75,82)'%20stroke-width='1.5'%20stroke-linejoin='round'%20stroke-linecap='round'/%3E%3C/svg%3E");
+  /* Pulso para los separadores y la cabecera: trazo de 2px, igual que la línea base,
+     para que ambos empalmen sin escalón. El tramo recto de sus extremos hace de unión */
+  --ecg-pulso: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2018'%20width='120'%20height='18'%3E%3Cpath%20d='M0%2014H32L37%2011L42%2014H52L56%2016L61%201L66%2017L70%2014H84L90%209L97%2014H120'%20fill='none'%20stroke='rgb(255,75,82)'%20stroke-width='2'%20stroke-linejoin='round'%20stroke-linecap='butt'/%3E%3C/svg%3E");
+
+  /* Barrido del monitor cardíaco: una máscara tres veces más ancha que el separador.
+     El frente (borde nítido a la derecha) deja tras de sí una estela que se apaga */
+  --barrido-mascara: linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0 36%, #000 45.5%, rgba(0, 0, 0, 0.35) 45.5% 100%);
+
+  /* Esquinas de visor */
+  --esq: linear-gradient(var(--fluorescente), var(--fluorescente));
+}
+
+/* ---------- 2. BASE ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  scroll-padding-top: var(--alto-cabecera);
+  -webkit-text-size-adjust: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--latido) var(--negro-pasillo);
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--negro-pasillo);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--latido);
+    border: 3px solid var(--negro-pasillo);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--latido-claro);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--negro-pasillo);
+  color: var(--fluorescente);
+  font-family: var(--fuente-texto);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+audio {
+  width: 100%;
+  accent-color: var(--latido);
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+ul, ol, dl {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+dd {
+  margin: 0;
+}
+
+a {
+  color: var(--latido-claro);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--fluorescente);
+}
+
+::selection {
+  background: var(--latido);
+  color: var(--hueso);
+}
+
+:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
+
+/* ---------- 3. ACCESIBILIDAD ---------- */
+.enlace-saltar-contenido {
+  position: absolute;
+  left: var(--espacio-s);
+  top: -100px;
+  z-index: 100;
+  padding: 12px 20px;
+  background: var(--fluorescente);
+  color: var(--negro-pasillo);
+  font-family: var(--fuente-titulos);
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.enlace-saltar-contenido:focus {
+  top: var(--espacio-s);
+}
+
+/* ---------- 4. ATMÓSFERA GLOBAL ---------- */
+/* El pasillo: cono de luz del tubo en el techo, charco rojo en el suelo
+   y las juntas verticales de una pared de bloque */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 60% at 50% -12%, rgba(196, 226, 160, 0.15), transparent 72%),
+    radial-gradient(ellipse 90% 32% at 50% 112%, rgba(110, 15, 21, 0.45), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(227, 235, 211, 0.014) 0 1px, transparent 1px 168px);
+  animation: tubo 9s linear infinite;
+}
+
+/* Viñeta suave (que no impida leer en los márgenes) y grano de película sobre toda la web */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 50% 38%, transparent 55%, rgba(0, 0, 0, 0.3) 100%),
+    var(--grano);
+  background-size: 100% 100%, 220px 220px;
+}
+
+/* Fluorescente defectuoso: dos fallos cada 9 s. Lo comparten el fondo y el título */
+@keyframes tubo {
+  0%, 86%, 89%, 93%, 95%, 100% { opacity: 1; }
+  87%                           { opacity: 0.45; }
+  94%                           { opacity: 0.75; }
+}
+
+/* ---------- 5. CABECERA Y NAVEGACIÓN ---------- */
+.cabecera-principal {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 0 0 14px;
+  background: linear-gradient(180deg, rgba(21, 27, 24, 0.97), rgba(7, 9, 8, 0.94));
+  border-bottom: 1px solid rgba(227, 235, 211, 0.1);
+  box-shadow: inset 0 1px 0 rgba(227, 235, 211, 0.08), 0 18px 40px rgba(0, 0, 0, 0.65);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Electrocardiograma bajo la barra: un latido a cada lado */
+.cabecera-principal::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  pointer-events: none;
+  /* Una sola traza continua: la línea base se corta bajo cada latido (20% y 80%) y el propio
+     latido la sustituye; el solape de 4px con sus tramos rectos evita huecos en la unión */
+  background-image:
+    var(--ecg-pulso),
+    var(--ecg-pulso),
+    linear-gradient(90deg,
+      transparent 0, rgb(255, 75, 82) 14%,
+      rgb(255, 75, 82) calc((100% - 120px) * 0.2 + 4px),
+      transparent calc((100% - 120px) * 0.2 + 4px),
+      transparent calc((100% - 120px) * 0.2 + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * 0.2 + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * 0.8 + 4px),
+      transparent calc((100% - 120px) * 0.8 + 4px),
+      transparent calc((100% - 120px) * 0.8 + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * 0.8 + 116px),
+      rgb(255, 75, 82) 86%, transparent 100%);
+  background-position: 20% 0, 80% 0, 0 13px;
+  background-size: 120px 18px, 120px 18px, 100% 2px;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  /* Traza apagada que un barrido de izquierda a derecha enciende a su paso, latidos incluidos */
+  -webkit-mask-image: var(--barrido-mascara);
+  mask-image: var(--barrido-mascara);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: barrido 6s linear infinite;
+}
+
+.navegacion-principal {
+  width: 100%;
+  overflow-x: auto;
+  padding: 14px clamp(12px, 3vw, 40px) 6px; /* aire sobre el menú */
+  scrollbar-width: none;
+}
+
+.navegacion-principal::-webkit-scrollbar {
+  display: none;
+}
+
+/* Menú de una sola fila, centrado. En escritorio navigation.js reduce --menu-escala (de 1 hacia abajo)
+   hasta que todo cabe sin desplazarse; si ni así cabe en una fila, usa la variante en dos filas.
+   En móvil y tablet (≤ 1199 px) hay menú hamburguesa: la escala es 1 y no se aplica nada de esto */
+.navegacion-principal__lista {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(clamp(6px, 1.3vw, 24px) * var(--menu-escala, 1));
+  width: max-content;
+  min-width: 100%;
+  margin-inline: auto;
+}
+
+/* Variante en dos filas: el menú nunca se sale de la pantalla, así que nunca se desplaza */
+.navegacion-principal__lista--en-filas {
+  flex-wrap: wrap;
+  row-gap: 2px;
+  width: 100%;
+  min-width: 0;
+}
+
+.navegacion-principal__item--marca {
+  flex-shrink: 0;
+  margin-right: calc(clamp(10px, 1.8vw, 32px) * var(--menu-escala, 1));
+}
+
+.cabecera-principal__marca {
+  display: block;
+  border-radius: 50%;
+}
+
+/* Logo redondo, sin aro ni halo alrededor */
+.cabecera-principal__logo {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.cabecera-principal__marca:hover .cabecera-principal__logo {
+  transform: scale(1.04);
+}
+
+.navegacion-principal__enlace {
+  position: relative;
+  display: block;
+  padding: 12px calc(clamp(8px, 1.05vw, 16px) * var(--menu-escala, 1)) 10px;
+  color: var(--niebla);
+  font-family: var(--fuente-titulos);
+  font-size: calc(clamp(1.1rem, 0.95rem + 0.35vw, 1.3rem) * var(--menu-escala, 1));
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+/* Cada enlace cuelga de un tubo fluorescente: apagado hasta que importa */
+.navegacion-principal__enlace::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  width: 30px;
+  height: 3px;
+  background: #2b352f;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Cono de luz que cae del tubo sobre el texto */
+.navegacion-principal__enlace::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 5px;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(200, 230, 170, 0.11), transparent 92%);
+  clip-path: polygon(36% 0, 64% 0, 100% 100%, 0 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.navegacion-principal__enlace:hover,
+.navegacion-principal__enlace:focus-visible,
+.navegacion-principal__enlace[aria-current="location"] {
+  color: var(--fluorescente);
+}
+
+.navegacion-principal__enlace:hover::before,
+.navegacion-principal__enlace:focus-visible::before,
+.navegacion-principal__enlace[aria-current="location"]::before {
+  background: #f1f8e2;
+  box-shadow: 0 0 8px 1px rgba(200, 230, 170, 0.4), 0 6px 16px rgba(200, 230, 170, 0.12);
+}
+
+/* Hover, foco y sección activa comparten exactamente el mismo efecto:
+   la luz del tubo cae hasta el fondo del enlace */
+.navegacion-principal__enlace:hover::after,
+.navegacion-principal__enlace:focus-visible::after,
+.navegacion-principal__enlace[aria-current="location"]::after {
+  opacity: 1;
+}
+
+/* Texto encendido y subrayado del color de la lámpara (igual al pasar el ratón que en la sección activa) */
+.navegacion-principal__enlace:hover,
+.navegacion-principal__enlace:focus-visible,
+.navegacion-principal__enlace[aria-current="location"] {
+  background: linear-gradient(#f1f8e2, #f1f8e2) left bottom 2px / 100% 3px no-repeat;
+  text-shadow: 0 0 8px rgba(227, 235, 211, 0.18);
+}
+
+/* Al pasar el ratón el tubo parpadea antes de encenderse */
+.navegacion-principal__enlace:hover::before {
+  animation: encender 0.45s linear;
+}
+
+@keyframes encender {
+  0%   { opacity: 0.15; }
+  20%  { opacity: 1; }
+  32%  { opacity: 0.3; }
+  48%  { opacity: 1; }
+  62%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Enlace a la demo: botón rojo que late, el único del menú con relleno */
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado {
+  margin-left: calc(clamp(4px, 1vw, 16px) * var(--menu-escala, 1));
+  padding: 11px calc(clamp(14px, 1.4vw, 22px) * var(--menu-escala, 1)) 9px;
+  background: var(--latido);
+  border-radius: var(--radio);
+  box-shadow: 4px 4px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  color: var(--hueso);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  animation: latido-menu 1.6s ease-out infinite;
+}
+
+.navegacion-principal__enlace--destacado::before,
+.navegacion-principal__enlace--destacado::after {
+  content: none;
+}
+
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado:hover,
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado:focus-visible,
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado[aria-current="location"] {
+  background: #dc2832;
+  color: var(--hueso);
+  text-shadow: none;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  animation: none;
+}
+
+.navegacion-principal__enlace--destacado:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
+
+@keyframes latido-menu {
+  0%, 100% { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0); }
+  10%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0.55); }
+  20%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 10px rgba(255, 75, 82, 0); }
+  30%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0.4); }
+  42%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 8px rgba(255, 75, 82, 0); }
+}
+
+/* ---------- 6. ESTRUCTURA GENERAL ---------- */
+.contenido-principal {
+  width: min(var(--ancho-contenido), calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.seccion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-bloques);
+  padding-block: var(--pad-seccion);
+}
+
+/* Al navegar desde el menú, el título de la sección queda justo bajo la cabecera:
+   se descuenta el aire superior de la sección */
+.seccion + .seccion {
+  scroll-margin-top: calc(var(--sep-titulo-fijo) - var(--pad-seccion));
+}
+
+/* Separador entre secciones: la línea de un monitor cardíaco con un latido */
+.seccion + .seccion::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  height: 18px;
+  pointer-events: none;
+  --pos: 0.5; /* posición horizontal del latido, de 0 a 1 */
+  /* Una sola traza continua: la línea base se corta bajo el latido y él la sustituye */
+  background-image:
+    var(--ecg-pulso),
+    linear-gradient(90deg,
+      transparent 0, rgb(255, 75, 82) 14%,
+      rgb(255, 75, 82) calc((100% - 120px) * var(--pos) + 4px),
+      transparent calc((100% - 120px) * var(--pos) + 4px),
+      transparent calc((100% - 120px) * var(--pos) + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * var(--pos) + 116px),
+      rgb(255, 75, 82) 86%, transparent 100%);
+  background-position: calc(var(--pos) * 100%) 0, 0 13px;
+  background-size: 120px 18px, 100% 2px;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  /* La traza queda apagada y un barrido de izquierda a derecha la enciende a su paso,
+     latido incluido, como el haz de un monitor cardíaco */
+  -webkit-mask-image: var(--barrido-mascara);
+  mask-image: var(--barrido-mascara);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: barrido 6s linear infinite;
+}
+
+.seccion:nth-child(3n + 2)::before {
+  --pos: 0.24;
+  animation-delay: -2s; /* los separadores no barren todos a la vez */
+}
+
+.seccion:nth-child(3n)::before {
+  --pos: 0.78;
+  animation-delay: -4s;
+}
+
+/* El barrido cruza el separador en poco más de la mitad del ciclo y descansa el resto */
+@keyframes barrido {
+  0%       { -webkit-mask-position: 70% 0; mask-position: 70% 0; }
+  55%,100% { -webkit-mask-position: 0% 0;  mask-position: 0% 0; }
+}
+
+/* Manchas de humedad y moho: cada sección tiene la suya, en un lado distinto */
+.seccion::after {
+  content: "";
+  position: absolute;
+  top: 12%;
+  left: 0;
+  z-index: -1;
+  width: min(520px, 70%);
+  aspect-ratio: 1.25;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 52% 46% at 38% 42%, rgba(108, 94, 40, 0.16), transparent 70%),
+    radial-gradient(ellipse 30% 34% at 64% 66%, rgba(52, 78, 44, 0.18), transparent 72%),
+    radial-gradient(ellipse 18% 20% at 22% 70%, rgba(110, 15, 21, 0.2), transparent 75%);
+}
+
+.seccion:nth-child(even)::after {
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 8%;
+}
+
+/* El encabezado no genera caja: así el título puede quedarse fijo mientras dure toda la sección */
+.seccion__encabezado {
+  display: contents;
+}
+
+.seccion__titulo + p {
+  margin-top: calc(var(--espacio-s) - var(--gap-titulo));
+}
+
+/* Títulos de sección: rotulación de pasillo con aberración cromática.
+   Se quedan fijos bajo la cabecera hasta que entra la sección siguiente */
+.seccion__titulo {
+  position: sticky;
+  top: calc(var(--alto-cabecera) + var(--sep-titulo-fijo));
+  z-index: 30;
+  /* Rejilla de una columna del ancho del texto: la cinta (::after) mide lo que el texto, y la caja
+     del título sigue ocupando todo el ancho, de modo que el velo del estado fijo no cambia */
+  display: grid;
+  justify-content: start;
+  margin-bottom: calc(var(--gap-titulo) - var(--gap-bloques));
+  color: var(--hueso); /* más brillante que el texto de lectura y que los subtítulos */
+  font-size: var(--fs-titulo-h2);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 0.92;
+  text-transform: uppercase;
+  /* Solo bordes nítidos de color: sin halos difuminados, para que las letras se vean limpias */
+  text-shadow:
+    2px 0 0 rgba(255, 75, 82, 0.5),
+    -2px 0 0 rgba(95, 215, 190, 0.22);
+}
+
+/* Cinta de precaución: el conserje acordona lo que no debe pisarse. Se extiende hasta el final del texto */
+.seccion__titulo::after {
+  content: "";
+  display: block;
+  height: 12px;
+  margin-top: 14px;
+  background: repeating-linear-gradient(-45deg, var(--latido) 0 9px, #0a0a0a 9px 18px);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 18px rgba(200, 32, 42, 0.35);
+}
+
+/* Estado fijo: el título conserva exactamente su aspecto (tamaño, aberración cromática y cinta).
+   Solo aparece un velo oscuro detrás para que el contenido que pasa por debajo no lo ensucie */
+.seccion__titulo::before {
+  content: "";
+  position: absolute;
+  inset: calc(-10px - var(--sep-titulo-fijo)) -16px -30px; /* el velo también cubre el hueco bajo la cabecera */
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 9, 8, 0.97) 0, rgba(7, 9, 8, 0.97) 64%, rgba(7, 9, 8, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.seccion__titulo--fijo::before {
+  opacity: 1;
+}
+
+.seccion__introduccion {
+  color: var(--niebla);
+  font-size: var(--fs-l);
+  font-style: italic;
+}
+
+/* Subtítulos de bloque (h3) */
+.equipo__titulo,
+.mision-vision__titulo,
+.historia__titulo,
+.caracteristicas__titulo,
+.publico-objetivo__titulo,
+.competencia__titulo,
+.estrategia__titulo,
+.plataformas__titulo,
+.metricas__titulo,
+.estadisticas__titulo,
+.feedback__titulo,
+.ficha__titulo,
+.subtitulo-bloque {
+  margin-bottom: var(--espacio-m);
+  padding-left: 18px;
+  border-left: 6px solid var(--latido);
+  font-size: var(--fs-titulo-h3);
+  font-weight: 800;
+}
+
+/* ---------- 7. BOTONES ---------- */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 36px 16px;
+  border: 0;
+  border-radius: var(--radio);
+  font-family: var(--fuente-titulos);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.boton--principal {
+  background: var(--latido);
+  color: var(--hueso);
+  box-shadow:
+    6px 6px 0 var(--sangre),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.boton--principal:hover {
+  background: #dc2832;
+  color: var(--hueso);
+  transform: translate(3px, 3px);
+  box-shadow:
+    3px 3px 0 var(--sangre),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+
+.boton--principal:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--sangre), inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- 8. INICIO ---------- */
+.seccion-inicio {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  padding-block: clamp(40px, 6vw, 72px);
+}
+
+/* Resplandor rojo detrás del monitor */
+.seccion-inicio::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: -1;
+  width: min(75%, 760px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(200, 32, 42, 0.26), transparent 62%);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.seccion-inicio__texto {
+  display: grid;
+  justify-items: start;
+  gap: var(--espacio-m);
+  min-width: 0;
+}
+
+.seccion-inicio__titulo {
+  position: relative;
+  color: var(--fluorescente);
+  font-size: clamp(3rem, 7.2vw, 6.5rem);
+  font-weight: 900;
+  letter-spacing: 0.005em;
+  line-height: 0.84;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+  text-shadow:
+    0 0 40px rgba(200, 226, 160, 0.25),
+    3px 0 0 rgba(255, 75, 82, 0.4),
+    -3px 0 0 rgba(95, 215, 190, 0.2);
+  animation: tubo 9s linear infinite;
+}
+
+/* Alucinación: dos copias del título se desdoblan un instante, entre parpadeo y parpadeo */
+.seccion-inicio__titulo::before,
+.seccion-inicio__titulo::after {
+  content: attr(data-texto);
+  content: attr(data-texto) / "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: none;
+}
+
+.seccion-inicio__titulo::before {
+  color: var(--latido-claro);
+  animation: alucinacion-roja 9s linear infinite;
+}
+
+.seccion-inicio__titulo::after {
+  color: #5fd7be;
+  animation: alucinacion-verde 9s linear infinite;
+}
+
+@keyframes alucinacion-roja {
+  0%, 90%, 92.6%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+  90.4%                { opacity: 0.9; transform: translate(-9px, 2px); clip-path: inset(12% 0 58% 0); }
+  91.5%                { opacity: 0.9; transform: translate(6px, -1px); clip-path: inset(55% 0 12% 0); }
+}
+
+@keyframes alucinacion-verde {
+  0%, 90.3%, 92.8%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+  90.7%                  { opacity: 0.8; transform: translate(8px, -2px); clip-path: inset(38% 0 36% 0); }
+  91.8%                  { opacity: 0.8; transform: translate(-5px, 1px); clip-path: inset(70% 0 4% 0); }
+}
+
+.seccion-inicio__presentacion {
+  max-width: min(34em, 100%);
+  padding-left: 20px;
+  border-left: 3px solid var(--latido);
+  color: var(--fluorescente);
+  font-size: var(--fs-xl);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.seccion-inicio__nota {
+  color: var(--niebla);
+  font-size: var(--fs-xs);
+}
+
+/* El monitor de seguridad: marco grueso, barra con REC y hora congelada, y el tráiler como pantalla.
+   REC y hora van en una barra propia para no tapar los controles del reproductor */
+.seccion-inicio__multimedia {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: #040605;
+  border: 1px solid rgba(227, 235, 211, 0.16);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 10px #0b0f0d,
+    0 0 0 11px rgba(227, 235, 211, 0.09),
+    0 36px 90px rgba(0, 0, 0, 0.85),
+    0 0 110px rgba(200, 32, 42, 0.2);
+}
+
+.monitor__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 8px;
+  background: #0b0f0d;
+  border-bottom: 1px solid rgba(227, 235, 211, 0.1);
+  font-family: var(--fuente-titulos);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.monitor__rec {
+  color: var(--latido-claro);
+  text-shadow: 0 0 12px rgba(255, 75, 82, 0.7);
+  animation: rec 1.6s steps(1) infinite;
+}
+
+.monitor__hora {
+  color: var(--fluorescente);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+@keyframes rec {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.15; }
+}
+
+.monitor__pantalla {
+  position: relative;
+}
+
+/* Scanlines suaves sobre el vídeo (sin tinte, para que se vea bien) */
+.monitor__pantalla::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+.monitor__gif {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 0;
+}
+
+.seccion-inicio__pie {
+  padding: 12px 18px 14px;
+  color: var(--niebla);
+  font-size: var(--fs-xs);
+  font-style: italic;
+}
+
+@keyframes latido {
+  0%, 100% { transform: scale(1);    box-shadow: 6px 6px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0); }
+  10%      { transform: scale(1.03); box-shadow: 6px 6px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0.55); }
+  20%      { transform: scale(1);    box-shadow: 6px 6px 0 var(--sangre), 0 0 0 16px rgba(255, 75, 82, 0); }
+  30%      { transform: scale(1.02); box-shadow: 6px 6px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0.4); }
+  42%      { transform: scale(1);    box-shadow: 6px 6px 0 var(--sangre), 0 0 0 12px rgba(255, 75, 82, 0); }
+}
+
+.seccion-inicio .boton--principal {
+  animation: latido 1.6s ease-out infinite;
+}
+
+.seccion-inicio .boton--principal:hover,
+.seccion-inicio .boton--principal:focus-visible {
+  animation: none;
+}
+
+/* ---------- 9. SOBRE EL ESTUDIO ---------- */
+/* Credenciales de empleado, colgadas de un cordón */
+.equipo__lista {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr)); /* los 6 miembros en una sola fila */
+  gap: var(--gap-cards-l) var(--gap-cards);
+  --codigo-barras: repeating-linear-gradient(
+    90deg,
+    rgba(227, 235, 211, 0.55) 0 2px, transparent 2px 5px,
+    rgba(227, 235, 211, 0.55) 5px 6px, transparent 6px 10px,
+    rgba(227, 235, 211, 0.55) 10px 13px, transparent 13px 15px
+  );
+}
+
+.miembro__tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 36px 20px 20px;
+  background-image: var(--grano), linear-gradient(170deg, #1a221e, var(--pared) 60%);
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  border-radius: 3px;
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+  transition: transform 0.3s ease;
+}
+
+/* Ranura del cordón */
+.miembro__tarjeta::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  width: 54px;
+  height: 10px;
+  background: var(--negro-pasillo);
+  border-radius: 6px;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(227, 235, 211, 0.12);
+  transform: translateX(-50%);
+}
+
+/* Código de barras */
+.miembro__tarjeta::after {
+  content: "";
+  flex-shrink: 0;
+  height: 22px;
+  margin-top: auto; /* el código de barras queda siempre al pie, alineado entre tarjetas */
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(227, 235, 211, 0.55) 0 2px, transparent 2px 5px,
+    rgba(227, 235, 211, 0.55) 5px 6px, transparent 6px 10px,
+    rgba(227, 235, 211, 0.55) 10px 13px, transparent 13px 15px
+  );
+  opacity: 0.4;
+}
+
+.miembro:nth-child(odd) .miembro__tarjeta {
+  transform: rotate(-0.7deg);
+}
+
+.miembro:nth-child(even) .miembro__tarjeta {
+  transform: rotate(0.6deg);
+}
+
+.miembro:hover .miembro__tarjeta {
+  transform: rotate(0deg) translateY(-6px);
+}
+
+.miembro__foto {
+  align-self: center;
+  width: min(calc(100% - 10px), 240px);
+  aspect-ratio: 1;
+  margin-block: 6px 10px;
+  object-fit: cover;
+  background: var(--pared-alta);
+  border-radius: var(--radio);
+  box-shadow: 0 0 0 4px #0a0d0c, 0 0 0 5px var(--linoleo);
+  filter: grayscale(0.85) contrast(1.15) brightness(0.85);
+  transition: filter 0.4s ease;
+}
+
+.miembro:hover .miembro__foto {
+  filter: grayscale(0.2) contrast(1.05) brightness(1);
+}
+
+.miembro__nombre {
+  font-size: var(--fs-titulo-tarjeta);
+  line-height: 1.1;
+}
+
+.miembro__rol {
+  color: var(--latido-claro);
+  font-size: var(--fs-s);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.miembro__descripcion {
+  margin-bottom: 12px;
+  color: var(--niebla);
+  font-size: var(--fs-s);
+}
+
+/* Equipo: 6 credenciales en una sola fila, en vista compacta (foto, nombre y rol).
+   Al pasar el ratón o enfocar con teclado, la tarjeta crece en ancho y alto y muestra la descripción.
+   El script añade .equipo__lista--flotante solo si hay hover real y pantalla ancha;
+   sin él (móvil, táctil, sin JS) se ve la ficha completa de siempre */
+.miembro__detalle {
+  display: contents;
+}
+
+.equipo__lista--flotante .miembro {
+  --ext-izq: 36px; /* cuánto crece la tarjeta hacia cada lado al desplegarse */
+  --ext-der: 36px;
+  position: relative;
+  z-index: 1;
+  container-type: inline-size; /* referencia (cqw) para fijar el ancho del texto y evitar que se recoloque */
+}
+
+/* Las tarjetas de los extremos crecen hacia dentro para no salirse de la página */
+.equipo__lista--flotante .miembro:first-child {
+  --ext-izq: 0px;
+  --ext-der: 72px;
+}
+
+.equipo__lista--flotante .miembro:last-child {
+  --ext-izq: 72px;
+  --ext-der: 0px;
+}
+
+.equipo__lista--flotante .miembro:hover,
+.equipo__lista--flotante .miembro:focus-within {
+  z-index: 10; /* la tarjeta abierta queda por encima de las vecinas y de las filas siguientes */
+}
+
+/* La tarjeta flota sobre su hueco: el hueco (li) conserva la altura compacta que mide el script,
+   así que al desplegarse nada de la página se mueve */
+.equipo__lista--flotante .miembro__tarjeta {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  padding: 32px 10px 14px;
+  text-align: center;
+  transition: left 0.35s ease, right 0.35s ease, transform 0.35s ease, padding 0.35s ease,
+    opacity 0.3s ease, filter 0.3s ease;
+}
+
+.equipo__lista--flotante .miembro__tarjeta:focus-visible {
+  outline-offset: 4px;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__tarjeta,
+.equipo__lista--flotante .miembro:focus-within .miembro__tarjeta {
+  left: calc(var(--ext-izq) * -1);
+  right: calc(var(--ext-der) * -1);
+  transform: rotate(0deg) translateY(-6px);
+  padding: 34px 16px 16px;
+  box-shadow: var(--sombra-dura), 0 0 0 1px rgba(255, 75, 82, 0.45), 0 40px 70px rgba(0, 0, 0, 0.7),
+    0 0 50px rgba(200, 32, 42, 0.25);
+}
+
+/* Mientras una tarjeta está abierta, las demás se apagan para destacarla */
+.equipo__lista--flotante:has(.miembro:hover, .miembro:focus-within) .miembro:not(:hover):not(:focus-within) .miembro__tarjeta {
+  opacity: 0.8;
+  filter: saturate(0.85) brightness(0.92);
+}
+
+/* Cerrada: foto y textos pequeños. Abierta: todo crece de forma muy evidente */
+.equipo__lista--flotante .miembro__foto {
+  width: min(calc(100% - 10px), 92px);
+  transition: width 0.35s ease, filter 0.4s ease;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__foto,
+.equipo__lista--flotante .miembro:focus-within .miembro__foto {
+  width: min(calc(100% - 10px), 124px);
+  filter: grayscale(0.2) contrast(1.05) brightness(1);
+}
+
+/* Nombre y rol mantienen siempre el ancho y el tamaño de letra de la tarjeta cerrada, así sus líneas
+   no se recolocan mientras la tarjeta se ensancha. El efecto de crecer se hace con transform (no
+   afecta al layout) y el texto se limita a centrarse en el espacio nuevo */
+.equipo__lista--flotante .miembro__nombre {
+  width: calc(100cqw - 22px); /* ancho útil de la tarjeta cerrada (hueco - borde - padding) */
+  margin-inline: auto;
+  font-size: clamp(1.05rem, 0.95rem + 0.25vw, 1.2rem);
+  text-wrap: balance;
+  transition: transform 0.35s ease, margin 0.35s ease;
+}
+
+.equipo__lista--flotante .miembro__rol {
+  width: calc(100cqw - 22px);
+  margin-inline: auto;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  transition: transform 0.35s ease;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__nombre,
+.equipo__lista--flotante .miembro:focus-within .miembro__nombre {
+  margin-block: 4px;
+  transform: scale(1.3);
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__rol,
+.equipo__lista--flotante .miembro:focus-within .miembro__rol {
+  transform: scale(1.18);
+}
+
+/* La descripción se despliega con una transición de altura real (0 → su altura) */
+.equipo__lista--flotante .miembro__detalle {
+  display: grid;
+  grid-template-rows: 0fr;
+  justify-items: start;
+  overflow: hidden; /* el texto, ya con su ancho final, se va revelando al ensancharse la tarjeta */
+  transition: grid-template-rows 0.35s ease;
+}
+
+.equipo__lista--flotante .miembro__descripcion {
+  /* ancho interior de la tarjeta ya abierta: así el texto se coloca una sola vez, con sus líneas finales */
+  width: calc(100cqw + var(--ext-izq) + var(--ext-der) - 34px);
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  transition: opacity 0.25s ease;
+}
+
+.equipo__lista--flotante .miembro__descripcion::before {
+  content: "";
+  display: block;
+  height: 10px;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__detalle,
+.equipo__lista--flotante .miembro:focus-within .miembro__detalle {
+  grid-template-rows: 1fr;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__descripcion,
+.equipo__lista--flotante .miembro:focus-within .miembro__descripcion {
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+/* Misión y visión: dos hojas pegadas en la pared con cinta */
+.mision-vision__contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--gap-cards-l);
+}
+
+.mision-vision__bloque {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--espacio-s);
+  padding: calc(var(--pad-panel) + 10px) var(--pad-panel) var(--pad-panel);
+  background-image: var(--grano), linear-gradient(180deg, #19211d, var(--pared));
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+}
+
+.mision-vision__bloque::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 104px;
+  height: 28px;
+  background: rgba(217, 210, 186, 0.2);
+  border-inline: 1px dashed rgba(217, 210, 186, 0.28);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transform: translateX(-50%) rotate(-2.5deg);
+}
+
+.mision-vision__bloque--mision {
+  transform: rotate(-0.5deg);
+}
+
+.mision-vision__bloque--vision {
+  margin-top: 24px;
+  transform: rotate(0.6deg);
+}
+
+.mision-vision__bloque--vision::before {
+  transform: translateX(-50%) rotate(2deg);
+}
+
+.mision-vision__subtitulo {
+  font-size: clamp(1.75rem, 1.5rem + 0.8vw, 2.125rem); /* un peldaño por debajo del h3 que lo contiene */
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.mision-vision__bloque p {
+  color: var(--niebla);
+}
+
+.historia {
+  max-width: none;
+}
+
+/* Texto a la izquierda y gif a la derecha; en tablet y móvil se apilan */
+.historia__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--espacio-m) var(--espacio-l);
+  align-items: center;
+}
+
+.historia__figura {
+  margin: 0;
+  border: 1px solid var(--linoleo);
+  box-shadow: var(--sombra-dura);
+  background: #000;
+}
+
+.historia__gif {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .historia__cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .historia__figura {
+    max-width: 560px;
+  }
+}
+
+.historia__texto {
+  max-width: 66ch;
+  color: var(--fluorescente);
+  font-size: var(--fs-l);
+  line-height: 1.7;
+}
+
+.historia__texto::first-letter {
+  float: left;
+  padding: 0.05em 0.05em 0 0;
+  color: var(--latido-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 4em; /* ocupa justo dos líneas de texto */
+  font-weight: 900;
+  line-height: 0.75;
+}
+
+/* ---------- 10. NUESTRO JUEGO ---------- */
+.seccion-juego__pitch {
+  max-width: 60ch;
+  color: var(--fluorescente);
+  font-size: var(--fs-xl);
+  line-height: 1.6;
+}
+
+/* Ficha técnica: una sola placa de datos con divisiones, no cuatro tarjetas */
+.ficha-juego {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--linoleo);
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+}
+
+.ficha-juego__dato {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 22px var(--pad-tarjeta) 24px;
+  background-image: var(--grano), linear-gradient(180deg, var(--pared-alta), var(--pared));
+}
+
+.ficha-juego__etiqueta {
+  color: var(--niebla);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.ficha-juego__valor {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* LED de estado en el último dato */
+.ficha-juego__dato:last-child .ficha-juego__etiqueta::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 8px;
+  background: var(--moho);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--moho);
+  vertical-align: middle;
+}
+
+.caracteristicas__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--gap-cards-l);
+}
+
+/* Partes de trabajo: cinta de precaución arriba y esquina doblada */
+.caracteristica {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: calc(var(--pad-tarjeta) + 12px) var(--pad-tarjeta) var(--pad-tarjeta);
+  background-image: var(--grano), linear-gradient(165deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  border-radius: 0;
+  box-shadow: var(--sombra-dura);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.caracteristica::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(-45deg, var(--latido) 0 8px, #0a0a0a 8px 16px);
+  opacity: 0.85;
+}
+
+.caracteristica::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(225deg, var(--negro-pasillo) 50%, #2d3832 50%);
+  box-shadow: -3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.caracteristica:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 75, 82, 0.5);
+}
+
+/* Móvil y tablet: el mismo resaltado, pero lo activa features-highlight.js en la tarjeta que está
+   en el centro de la pantalla al hacer scroll (no hay hover). Un destello rojo lo hace más visible */
+.caracteristica--activa {
+  transform: translateY(-4px);
+  border-color: rgba(255, 75, 82, 0.5);
+  box-shadow: var(--sombra-dura), 0 0 28px rgba(200, 32, 42, 0.22);
+}
+
+.caracteristica--activa::before {
+  opacity: 1;
+}
+
+/* En táctil el :hover se queda «pegado» tras un toque: solo cuenta la tarjeta activa */
+@media (hover: none) {
+  .caracteristica:hover:not(.caracteristica--activa) {
+    transform: none;
+    border-color: var(--linoleo);
+  }
+}
+
+.caracteristica__titulo {
+  font-size: var(--fs-titulo-tarjeta);
+  line-height: 1.1;
+}
+
+.caracteristica__descripcion {
+  color: var(--niebla);
+  font-size: 1rem;
+}
+
+/* Capturas: fotos impresas pegadas con cinta, ligeramente torcidas */
+.captura {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  padding: 10px 10px 0;
+  background: #0f1411;
+  border: 1px solid var(--linoleo);
+  border-radius: 0;
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+  transition: transform 0.3s ease;
+}
+
+.captura::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  z-index: 1;
+  width: 84px;
+  height: 24px;
+  background: rgba(217, 210, 186, 0.2);
+  border-inline: 1px dashed rgba(217, 210, 186, 0.28);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+/* Degradado oscuro en la parte baja de la imagen, bajo los indicadores del carrusel */
+.captura::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 68%, rgba(7, 9, 8, 0.7) 100%);
+}
+
+.captura__imagen {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--pared-alta);
+  filter: grayscale(0.7) contrast(1.15) brightness(0.82);
+  transition: filter 0.4s ease;
+}
+
+.captura:hover .captura__imagen {
+  filter: grayscale(0) contrast(1.05) brightness(1);
+}
+
+.captura__pie,
+.bloque-tecnico__figura figcaption {
+  padding: 12px 6px 14px;
+  color: var(--niebla);
+  font-size: var(--fs-xs);
+  font-style: italic;
+}
+
+/* Capturas y demo son bloques dentro de Nuestro juego, no secciones: sin separador ni relleno propio.
+   Conservan el ritmo vertical de una sección (columna con gap), porque las distancias de su
+   subtítulo, introducción y nota están medidas contando con ese gap */
+.seccion-capturas,
+.seccion-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-bloques);
+}
+
+/* Al venir del botón «Jugar la demo», el subtítulo debe quedar bajo la cabecera y también
+   bajo el título fijo de Nuestro juego: su alto REAL (scroll-offset.js lo mide, porque en móvil
+   ocupa dos líneas), más el aire que lo separa de la cabecera y un respiro bajo él.
+   Si el script no corre, se usa el alto de una línea (escritorio) o de dos (móvil) */
+#capturas,
+#jugar-demo {
+  --alto-titulo-fijo: var(--alto-titulo-juego, calc(var(--fs-titulo-h2) * 0.92 + 26px));
+  scroll-margin-top: calc(var(--sep-titulo-fijo) + var(--alto-titulo-fijo) + 14px);
+}
+
+@media (max-width: 720px) {
+  #capturas,
+  #jugar-demo {
+    --alto-titulo-fijo: var(--alto-titulo-juego, calc(var(--fs-titulo-h2) * 1.84 + 26px));
+  }
+}
+
+.subtitulo-bloque {
+  margin-bottom: calc(var(--espacio-m) - var(--gap-bloques));
+}
+
+.subtitulo-bloque + p {
+  margin-top: calc(var(--espacio-s) - var(--gap-bloques) - var(--espacio-m) + var(--gap-bloques));
+}
+
+/* ---------- 10b. CAPTURAS (CARRUSEL) ---------- */
+.carrusel {
+  display: grid;
+  gap: var(--espacio-m);
+}
+
+/* Visor: aloja la pista (una sola captura a la vista), las flechas a sus lados y los indicadores sobre la imagen.
+   Es contenedor de consultas para medir con cqw el ancho de la captura; de ese ancho se deduce el alto
+   de la imagen y, con él, dónde van las flechas (a media altura) y los indicadores (abajo) */
+.carrusel__visor {
+  --flecha: 48px;
+  --sep-flecha: 16px; /* aire entre la captura y cada flecha */
+  /* Ancho limitado por el alto de pantalla para que, al llegar a «Capturas del juego», se vean la captura entera
+     y el botón de la demo sin hacer scroll. Al alto de pantalla se le resta la cabecera fija (la mide el script) y
+     400 px que ocupan el título fijo de sección, el subtítulo, el marco y pie de la foto, el botón y un margen */
+  --alto-img-max: calc(100svh - var(--alto-cabecera) - 400px);
+  --ancho-diap: min(100cqw - 2 * (var(--flecha) + var(--sep-flecha)) - 8px, 880px, max(300px, calc(var(--alto-img-max) * 16 / 9 + 22px)));
+  --alto-img: calc((var(--ancho-diap) - 22px) * 9 / 16); /* la foto pierde 22 px en su marco */
+  --y-img: 31px;      /* borde superior de la imagen: relleno de la pista + marco de la foto */
+  position: relative;
+  container-type: inline-size;
+}
+
+/* Pista con scroll-snap: se desliza con dedo, rueda o flechas; el script añade botones, puntos y avance automático.
+   Mide justo una captura (más 4 px de aire a cada lado para la sombra) y va centrada en el visor */
+.carrusel__pista {
+  display: flex;
+  gap: var(--gap-cards-l);
+  width: calc(var(--ancho-diap) + 8px);
+  margin-inline: auto;
+  padding: 20px 4px 28px; /* aire para la cinta y la sombra, que si no se recortan */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  scrollbar-width: none;
+}
+
+.carrusel__pista::-webkit-scrollbar {
+  display: none;
+}
+
+.carrusel__pista:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 2px;
+}
+
+.carrusel__diapositiva {
+  flex: 0 0 var(--ancho-diap);
+  scroll-snap-align: start;
+}
+
+/* Botón de la demo, centrado bajo el carrusel: queda en el eje de la mirada */
+.carrusel__barra {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+}
+
+.carrusel__barra .boton {
+  padding: 22px 52px 20px;
+  font-size: 1.6rem;
+  animation: latido 1.6s ease-out infinite; /* el mismo latido que el botón de la portada */
+}
+
+.carrusel__barra .boton:hover,
+.carrusel__barra .boton:focus-visible {
+  animation: none;
+}
+
+/* Flechas a los lados de la captura, a la altura del centro de la imagen */
+.carrusel__flecha {
+  position: absolute;
+  top: calc(var(--y-img) + var(--alto-img) / 2 - var(--flecha) / 2);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: var(--flecha);
+  height: var(--flecha);
+  padding: 0;
+  background: var(--pared-alta);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.65);
+  color: var(--fluorescente);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.carrusel__flecha[data-carrusel="anterior"] {
+  left: calc(50% - var(--ancho-diap) / 2 - 4px - var(--sep-flecha) - var(--flecha));
+}
+
+.carrusel__flecha[data-carrusel="siguiente"] {
+  right: calc(50% - var(--ancho-diap) / 2 - 4px - var(--sep-flecha) - var(--flecha));
+}
+
+.carrusel__flecha:hover:not(:disabled) {
+  background: var(--latido);
+  border-color: var(--latido);
+  color: var(--hueso);
+}
+
+.carrusel__flecha:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Indicadores: sobre el borde inferior de la imagen, centrados en la captura (sobre el degradado de .captura::after) */
+.carrusel__indicadores {
+  position: absolute;
+  top: calc(var(--y-img) + var(--alto-img) - 24px - 10px); /* 24 px de alto + 10 de aire */
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+}
+
+.carrusel__puntos {
+  display: flex;
+  align-items: center;
+}
+
+/* El punto es pequeño, pero su zona de pulsación mide 24 px */
+.carrusel__punto {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.carrusel__punto::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: rgba(246, 241, 226, 0.6);
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  transition: width 0.25s ease, background-color 0.2s ease;
+}
+
+/* La captura activa se alarga, como el indicador de pulso */
+.carrusel__punto[aria-current="true"]::before {
+  width: 22px;
+  background: var(--latido-claro);
+  box-shadow: 0 0 10px rgba(255, 75, 82, 0.6);
+}
+
+.carrusel__pausa {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: rgba(10, 13, 11, 0.55);
+  border: 1px solid rgba(246, 241, 226, 0.4);
+  border-radius: 50%;
+  color: var(--hueso);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.carrusel__pausa:hover {
+  background: var(--latido);
+}
+
+.carrusel__pausa[data-reproduciendo="true"] .carrusel__icono-play,
+.carrusel__pausa[data-reproduciendo="false"] .carrusel__icono-pausa {
+  display: none;
+}
+
+.carrusel__flecha:focus-visible,
+.carrusel__punto:focus-visible,
+.carrusel__pausa:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 2px;
+}
+
+/* ---------- 10c. JUGAR LA DEMO ---------- */
+.seccion-demo {
+  --demo-ancho: 16;  /* proporción de tu build de WebGL (ancho : alto) */
+  --demo-alto: 9;
+  --demo-reserva: 430px; /* alto que ocupan cabecera, título fijo de la sección, subtítulo, texto y nota: lo que sobra es para la ventana */
+}
+
+/* Introducción, ventana y alternativa de itch.io quedan juntas: se resta la separación general
+   entre bloques (el aro del monitor ya ocupa 11 px por fuera) */
+.seccion-demo .seccion__introduccion {
+  margin-bottom: calc(24px - var(--gap-bloques));
+}
+
+/* La ventana se ajusta al alto de la pantalla: se ve entera sin desplazarse.
+   Si la pantalla es baja, se estrecha manteniendo la proporción */
+.demo {
+  position: relative;
+  width: min(
+    calc(100% - 22px),
+    max(320px, calc((100svh - var(--demo-reserva)) * var(--demo-ancho) / var(--demo-alto)))
+  );
+  margin: 11px auto;
+  overflow: hidden;
+  background: #040605;
+  border: 1px solid rgba(227, 235, 211, 0.16);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 10px #0b0f0d,
+    0 0 0 11px rgba(227, 235, 211, 0.09),
+    0 40px 100px rgba(0, 0, 0, 0.85),
+    0 0 140px rgba(200, 32, 42, 0.28);
+}
+
+.demo__marco {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--demo-ancho) / var(--demo-alto);
+  border: 0;
+}
+
+/* Justo bajo la ventana y centrada con ella; entra en la reserva de alto de la ventana,
+   así se ve a primera vista sin desplazarse */
+.demo__nota {
+  max-width: none; /* sin el límite de ancho de los párrafos, para centrarla de verdad bajo la ventana */
+  margin-top: calc(12px - var(--gap-bloques));
+  color: var(--niebla); /* el mismo color que el texto de introducción de la sección */
+  font-size: var(--fs-m);
+  text-align: center;
+  /* .demo es position: relative y su sombra (negra y roja) se pintaría encima de la nota,
+     oscureciéndola. Al posicionarla, la nota queda por encima de esa sombra */
+  position: relative;
+  z-index: 1;
+}
+
+.demo__nota a {
+  color: var(--latido-claro);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.demo__nota a:hover,
+.demo__nota a:focus-visible {
+  color: var(--hueso);
+}
+
+/* ---------- 11. DEVLOG (secuencia real: línea de tiempo) ---------- */
+.linea-tiempo {
+  --tl-pad: 52px;
+  --tl-x: 12px;
+  position: relative;
+  display: grid;
+  gap: var(--gap-cards-l);
+  padding-left: var(--tl-pad);
+}
+
+.linea-tiempo::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-x) - 1px);
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: repeating-linear-gradient(180deg, var(--latido) 0 10px, transparent 10px 16px);
+  opacity: 0.55;
+}
+
+.hito {
+  position: relative;
+}
+
+/* Nodo en rombo y conector hasta la hoja */
+.hito::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-x) - 9px - var(--tl-pad));
+  top: calc(var(--pad-tarjeta) + 4px); /* centrado con la primera línea del título */
+  width: 18px;
+  height: 18px;
+  background: var(--negro-pasillo);
+  border: 3px solid var(--latido);
+  box-shadow: 0 0 14px rgba(200, 32, 42, 0.6);
+  transform: rotate(45deg);
+}
+
+.hito::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-x) + 13px - var(--tl-pad));
+  top: calc(var(--pad-tarjeta) + 12px);
+  width: calc(var(--tl-pad) - var(--tl-x) - 13px);
+  height: 2px;
+  background: var(--latido);
+  opacity: 0.5;
+}
+
+.hito__contenido {
+  display: grid;
+  gap: var(--espacio-s);
+  padding: var(--pad-tarjeta) calc(var(--pad-tarjeta) + 6px);
+  background-image: var(--grano), linear-gradient(170deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  border-left: 4px solid var(--sangre);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-dura);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.hito__contenido:hover {
+  transform: translateX(6px);
+  border-left-color: var(--latido-claro);
+}
+
+.hito__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-s);
+}
+
+.hito__titulo {
+  font-size: var(--fs-titulo-tarjeta);
+  line-height: 1.1;
+}
+
+/* Sello de goma con el periodo. El mismo sello se usa para «Próximamente» en los apartados sin publicar */
+.hito__periodo,
+.sello-proximamente {
+  padding: 5px 14px 4px;
+  border: 2px solid var(--latido-claro);
+  border-radius: 3px;
+  outline: 1px solid rgba(255, 75, 82, 0.35);
+  outline-offset: 2px;
+  color: var(--latido-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: var(--lh-ui);
+  text-transform: uppercase;
+  opacity: 0.92;
+  transform: rotate(-3deg);
+}
+
+/* Apartado sin publicar: el sello «Próximamente» ocupa el lugar del contenido */
+.proximamente {
+  display: flex;
+  justify-content: center;
+  padding: var(--espacio-m) 0;
+}
+
+/* En los paneles técnicos de dos columnas (escritorio) el sello ocupa toda la fila */
+.bloque-tecnico .proximamente {
+  grid-column: 1 / -1;
+}
+
+/* Bloques de trabajo dentro de cada fase (alpha, beta, release) */
+.hito__bloque {
+  display: grid;
+  gap: 12px;
+}
+
+.hito__bloque + .hito__bloque {
+  margin-top: var(--espacio-s);
+  padding-top: var(--espacio-s);
+  border-top: 1px dashed var(--linoleo);
+}
+
+.hito__subtitulo {
+  color: var(--hueso);
+  font-family: var(--fuente-titulos);
+  font-size: var(--fs-m);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-ui);
+  text-transform: uppercase;
+}
+
+/* Tareas con casilla, como la lista del teléfono del conserje */
+.hito__tareas,
+.bloque-tecnico__lista {
+  display: grid;
+  gap: 10px;
+}
+
+.hito__tareas li,
+.bloque-tecnico__lista li {
+  position: relative;
+  padding-left: 36px;
+  color: var(--niebla);
+}
+
+.hito__tareas li::before,
+.bloque-tecnico__lista li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--latido-claro);
+  border-radius: var(--radio);
+  transition: background-color 0.2s ease;
+}
+
+.hito__tareas li::after,
+.bloque-tecnico__lista li::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--hueso);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+
+.hito__tareas li:hover::before,
+.bloque-tecnico__lista li:hover::before {
+  background: var(--latido);
+}
+
+.hito__tareas li:hover::after,
+.bloque-tecnico__lista li:hover::after {
+  transform: rotate(45deg) scale(1);
+}
+
+/* Devlog interactivo (devlog.js añade .linea-tiempo--progresiva y los estados según el scroll):
+   la línea roja se pinta hasta la «línea de lectura», los nodos se iluminan al llegar a su fase y se marcan
+   cuando están todas sus tareas, y cada tarea se tickea al pasar por ella. Sin el script nada de esto aplica */
+.linea-tiempo--progresiva::before {
+  opacity: 0.22; /* camino por recorrer */
+}
+
+.linea-tiempo--progresiva::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-x) - 1px);
+  top: 10px;
+  z-index: 0;
+  width: 2px;
+  height: var(--progreso, 0px); /* lo escribe el script */
+  background: repeating-linear-gradient(180deg, var(--latido) 0 10px, transparent 10px 16px); /* mismas rayas que el camino */
+  filter: drop-shadow(0 0 5px rgba(255, 75, 82, 0.7));
+  pointer-events: none;
+}
+
+.linea-tiempo--progresiva .hito::before {
+  z-index: 1; /* el nodo queda por encima de la línea pintada */
+  border-color: rgba(200, 32, 42, 0.45);
+  box-shadow: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.linea-tiempo--progresiva .hito::after {
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.linea-tiempo--progresiva .hito--alcanzado::before {
+  background: var(--latido);
+  border-color: var(--latido);
+  box-shadow: 0 0 22px rgba(255, 75, 82, 0.85);
+}
+
+.linea-tiempo--progresiva .hito--alcanzado::after {
+  opacity: 0.8;
+}
+
+/* Fase completa: el rombo lleva una marca de verificación (girada -45° para compensar el giro del rombo) */
+.linea-tiempo--progresiva .hito--completo::before {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23f6f1e2' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-45 12 12)'/%3E%3C/svg%3E")
+    center / 12px no-repeat,
+    var(--latido);
+}
+
+.linea-tiempo--progresiva .hito--completo .hito__contenido {
+  border-left-color: var(--latido);
+}
+
+/* Móvil/tablet (devlog.js añade .hito--activo a la fase bajo la línea de lectura): misma elevación y borde
+   que el hover de escritorio. Va después de .hito--completo para ganar en el color del borde */
+.linea-tiempo--progresiva .hito--activo .hito__contenido {
+  transform: translateX(6px);
+  border-left-color: var(--latido-claro);
+}
+
+/* En táctil el :hover se queda «pegado» tras un toque: solo cuenta la fase activa */
+@media (hover: none) {
+  .hito:not(.hito--activo) .hito__contenido:hover {
+    transform: none;
+  }
+
+  .hito:not(.hito--activo):not(.hito--completo) .hito__contenido:hover {
+    border-left-color: var(--sangre);
+  }
+}
+
+/* Tarea hecha: casilla roja con su marca, igual que el aspecto al pasar el ratón, y un pequeño rebote al marcarse */
+.hito__tareas li.tarea--hecha {
+  color: var(--fluorescente);
+}
+
+.hito__tareas li.tarea--hecha::before {
+  background: var(--latido);
+  animation: tarea-marcada 0.35s ease;
+}
+
+.hito__tareas li.tarea--hecha::after {
+  transform: rotate(45deg) scale(1);
+}
+
+@keyframes tarea-marcada {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- 12. MARKETING ---------- */
+.publico-objetivo__lista {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr)); /* 3 arriba + 2 abajo: sin tarjeta huérfana */
+  gap: var(--gap-cards);
+}
+
+.publico-objetivo__lista li {
+  grid-column: span 2;
+  padding: 20px 22px 22px 24px;
+  background-image: var(--grano), linear-gradient(170deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  border-left: 4px solid var(--sangre);
+  color: var(--niebla);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
+}
+
+.publico-objetivo__lista li:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.publico-objetivo__lista strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--latido-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 1.375rem;
+  font-weight: 800;
+  line-height: var(--lh-ui);
+}
+
+/* Tabla: un expediente comparativo */
+.competencia__contenedor-tabla {
+  overflow-x: auto;
+  background-image: var(--grano), linear-gradient(180deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+}
+
+.tabla-competencia {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tabla-competencia__titulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.tabla-competencia th,
+.tabla-competencia td {
+  padding: 18px var(--espacio-m);
+  vertical-align: top;
+  border-bottom: 1px dashed rgba(227, 235, 211, 0.16);
+}
+
+.tabla-competencia thead th {
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid var(--linoleo);
+  color: var(--fluorescente);
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: var(--lh-ui);
+}
+
+.tabla-competencia tbody th {
+  width: 22%;
+  min-width: 11rem; /* que «Five Nights at Freddy's» no se parta en dos líneas */
+  color: var(--latido-claro);
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: var(--lh-ui);
+}
+
+.tabla-competencia td {
+  color: var(--niebla);
+}
+
+.tabla-competencia tbody tr:last-child th,
+.tabla-competencia tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tabla-competencia tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.tabla-competencia tbody tr:hover {
+  background: rgba(200, 32, 42, 0.09);
+}
+
+/* Fases del lanzamiento: sí son una secuencia, con numerales huecos */
+.estrategia__fases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-cards);
+  counter-reset: fase;
+}
+
+.estrategia__fase {
+  counter-increment: fase;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: var(--pad-tarjeta) var(--pad-tarjeta) calc(var(--pad-tarjeta) + 4px);
+  background-image: var(--grano), linear-gradient(170deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  box-shadow: var(--sombra-dura);
+}
+
+.estrategia__fase::before {
+  content: counter(fase);
+  color: transparent;
+  font-family: var(--fuente-titulos);
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 0.8;
+  opacity: 0.85;
+  -webkit-text-stroke: 1.5px var(--latido-claro);
+}
+
+.estrategia__fase-titulo {
+  font-size: var(--fs-titulo-tarjeta);
+  line-height: 1.1;
+}
+
+.estrategia__fase p {
+  color: var(--niebla);
+  font-size: 1rem;
+}
+
+.plataformas__lista {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-cards);
+}
+
+.plataforma {
+  display: grid;
+  align-content: start;
+  gap: var(--espacio-s);
+  padding: var(--pad-tarjeta);
+  background-image: var(--grano), linear-gradient(170deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  box-shadow: var(--sombra-dura);
+}
+
+.plataforma__enlace {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 12px;
+  padding: 8px 18px 8px 8px;
+  background: #1b231f;
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+  color: var(--fluorescente);
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.plataforma__enlace:hover {
+  background: var(--latido);
+  color: var(--hueso);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+.plataforma__icono {
+  flex: none;
+  width: 32px;
+  height: 32px;
+}
+
+.plataforma__descripcion {
+  color: var(--niebla);
+  font-size: 1rem;
+}
+
+/* ---------- 13. ASPECTOS TÉCNICOS ---------- */
+/* Paneles con marcas de corte en las esquinas, como un plano */
+.bloque-tecnico {
+  position: relative;
+  display: grid;
+  gap: var(--espacio-m);
+  padding: calc(var(--pad-panel) + 8px) var(--pad-panel) var(--pad-panel);
+  background-image: var(--grano), linear-gradient(180deg, #121815, #0a0e0c);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.5), var(--sombra-dura), var(--sombra-caida);
+}
+
+.bloque-tecnico::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    var(--esq), var(--esq), var(--esq), var(--esq),
+    var(--esq), var(--esq), var(--esq), var(--esq);
+  background-position:
+    left top, left top,
+    right top, right top,
+    left bottom, left bottom,
+    right bottom, right bottom;
+  background-size:
+    16px 1px, 1px 16px,
+    16px 1px, 1px 16px,
+    16px 1px, 1px 16px,
+    16px 1px, 1px 16px;
+  background-repeat: no-repeat;
+}
+
+.bloque-tecnico__titulo {
+  font-size: var(--fs-titulo-h3);
+}
+
+.bloque-tecnico__texto {
+  color: var(--niebla);
+}
+
+/* Código como en una consola: fósforo verde y scanlines */
+.bloque-tecnico__codigo {
+  margin: 0;
+  padding: 22px 24px;
+  overflow-x: auto;
+  background-color: #030504;
+  background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 3px);
+  border: 1px solid #1d2a22;
+  border-left: 4px solid var(--moho);
+  color: #b4e5a0;
+  font-family: var(--fuente-codigo);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  text-shadow: 0 0 8px rgba(127, 174, 106, 0.45);
+}
+
+.bloque-tecnico__figura {
+  margin: 0;
+  overflow: hidden;
+  background: #0a0e0c;
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+}
+
+.bloque-tecnico__figura img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  filter: grayscale(0.7) contrast(1.15) brightness(0.82);
+  transition: filter 0.4s ease;
+}
+
+.bloque-tecnico__figura:hover img {
+  filter: grayscale(0) contrast(1.05) brightness(1);
+}
+
+.bloque-tecnico__figura figcaption {
+  padding-inline: var(--espacio-s);
+}
+
+.bloque-tecnico__figura audio {
+  padding: var(--espacio-s) var(--espacio-s) 0;
+}
+
+/* ---------- 14. RESULTADOS ---------- */
+.metricas__lista {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-cards);
+}
+
+/* Constantes vitales: cada cifra con su propio electrocardiograma debajo */
+.metrica {
+  display: grid;
+  grid-template-areas: "valor" "etiqueta";
+  gap: 8px;
+  padding: 26px 22px 56px;
+  background-image:
+    var(--ecg),
+    linear-gradient(90deg, transparent, rgba(255, 75, 82, 0.5) 12%, rgba(255, 75, 82, 0.5) 88%, transparent),
+    var(--grano),
+    linear-gradient(170deg, var(--pared-alta), var(--pared));
+  background-position: right 24px bottom 12px, left 0 bottom 16px, 0 0, 0 0;
+  background-size: 120px 18px, 100% 1px, 220px 220px, 100% 100%;
+  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+  transition: border-color 0.3s ease;
+}
+
+.metrica:hover {
+  border-color: rgba(255, 75, 82, 0.5);
+}
+
+.metrica__valor {
+  grid-area: valor;
+  color: var(--latido-claro);
+  font-family: var(--fuente-titulos);
+  font-size: clamp(2.5rem, 1.5rem + 2vw, 3.25rem);
+  white-space: nowrap; /* «[00] min» nunca se parte y desalinea la tarjeta */
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+  text-shadow: 0 0 26px rgba(255, 75, 82, 0.5);
+}
+
+.metrica__etiqueta {
+  grid-area: etiqueta;
+  color: var(--niebla);
+  font-size: var(--fs-s);
+  font-style: italic;
+}
+
+.estadisticas__lista {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espacio-s);
+}
+
+.estadisticas__lista li {
+  padding: 12px 22px 12px 18px;
+  background: var(--pared-alta);
+  border: 1px solid var(--linoleo);
+  border-left: 4px solid var(--moho);
+  color: var(--niebla);
+}
+
+.estadisticas__lista strong {
+  color: var(--fluorescente);
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: var(--lh-ui);
+}
+
+.feedback {
+  display: grid;
+  gap: var(--gap-cards-l);
+}
+
+.feedback__titulo {
+  margin-bottom: 0;
+}
+
+.feedback__comentarios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-cards-l);
+}
+
+.comentario {
+  display: grid;
+  gap: var(--espacio-s);
+  height: 100%;
+  margin: 0;
+  padding: calc(var(--pad-tarjeta) + 4px) var(--pad-tarjeta) var(--pad-tarjeta) calc(var(--pad-tarjeta) + 6px);
+  background-image: var(--grano), linear-gradient(170deg, #19211d, var(--pared));
+  border: 1px solid var(--linoleo);
+  border-left: 5px solid var(--latido);
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+  font-size: var(--fs-l);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.feedback__comentarios li:nth-child(even) .comentario {
+  transform: rotate(0.6deg);
+}
+
+.feedback__comentarios li:nth-child(odd) .comentario {
+  transform: rotate(-0.5deg);
+}
+
+.comentario__autor {
+  color: var(--niebla);
+  font-family: var(--fuente-titulos);
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+}
+
+.feedback__mejoras {
+  max-width: none; /* ocupa el mismo ancho que las tarjetas de arriba */
+  padding: 18px 24px;
+  background: rgba(21, 27, 24, 0.55);
+  border: 1px dashed rgba(227, 235, 211, 0.28);
+  color: var(--niebla);
+}
+
+.feedback__mejoras strong {
+  color: var(--fluorescente);
+}
+
+/* ---------- 15. CONTACTO ---------- */
+.seccion-contacto {
+  --gap-bloques: var(--espacio-m); /* menos aire entre título, introducción y contenido */
+  --pad-seccion: clamp(32px, 4vw, 56px);
+  --reserva-pie: 170px; /* altura aproximada del pie de página */
+  padding-bottom: var(--espacio-l); /* el pie ya aporta su propia separación */
+  /* Al llegar desde el menú, título, redes y formulario ocupan justo la pantalla bajo la cabecera */
+  min-height: calc(100svh - var(--alto-cabecera) + var(--pad-seccion) - var(--sep-titulo-fijo) - var(--reserva-pie));
+}
+
+/* Formulario: un parte de incidencias */
+.formulario-contacto {
+  display: grid;
+  gap: var(--espacio-s);
+  padding: var(--pad-tarjeta);
+  background-image: var(--grano), linear-gradient(170deg, #19211d, var(--pared));
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+}
+
+.formulario-contacto__campo {
+  display: grid;
+  gap: 6px;
+}
+
+.formulario-contacto__etiqueta {
+  font-family: var(--fuente-titulos);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: var(--lh-ui);
+}
+
+.formulario-contacto__entrada {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--linoleo);
+  border-bottom: 2px solid var(--niebla);
+  border-radius: var(--radio);
+  color: var(--fluorescente);
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formulario-contacto__entrada:hover {
+  border-color: rgba(227, 235, 211, 0.3);
+  border-bottom-color: var(--niebla);
+}
+
+.formulario-contacto__entrada:focus {
+  outline: none;
+  border-color: var(--latido-claro);
+  box-shadow: 0 0 0 3px rgba(255, 75, 82, 0.22), 0 0 24px rgba(200, 32, 42, 0.25);
+}
+
+textarea.formulario-contacto__entrada {
+  min-height: 104px;
+  resize: vertical;
+}
+
+.formulario-contacto .boton {
+  justify-self: start;
+}
+
+/* Botón que despliega el formulario: solo existe en móvil y tablet */
+.contacto__desplegar {
+  display: none;
+}
+
+.datos-contacto {
+  color: var(--niebla);
+  font-style: normal;
+}
+
+/* Dos columnas: redes sociales a la izquierda, formulario a la derecha */
+.contacto__rejilla {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--espacio-m) var(--espacio-l);
+  align-items: stretch;
+}
+
+.contacto__redes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-s);
+}
+
+.redes-sociales {
+  flex: 1;
+}
+
+.redes-sociales__lista {
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+  height: 100%;
+}
+
+.redes-sociales__lista li {
+  display: grid;
+}
+
+.red-social {
+  display: flex;
+  align-items: center;
+  padding: 10px 22px 8px;
+  background: var(--pared-alta);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+  color: var(--fluorescente);
+  font-family: var(--fuente-titulos);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: var(--lh-ui);
+  text-decoration: none;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.red-social {
+  gap: 14px;
+}
+
+.red-social__icono {
+  flex: none;
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: -2px; /* compensa el padding superior mayor del botón */
+}
+
+.red-social:hover {
+  background: var(--latido);
+  border-color: var(--latido);
+  color: var(--hueso);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- 16. PIE DE PÁGINA Y VOLVER ARRIBA ---------- */
+.pie-pagina {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-s) var(--espacio-m);
+  width: min(var(--ancho-contenido), calc(100% - 32px));
+  margin: var(--espacio-l) auto 16px;
+  padding: calc(var(--pad-tarjeta) + 8px) var(--pad-panel) var(--pad-tarjeta);
+  background-image: var(--grano), linear-gradient(180deg, var(--pared-alta), var(--pared));
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  color: var(--niebla);
+  font-size: var(--fs-xs);
+}
+
+.pie-pagina::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(-45deg, var(--latido) 0 9px, #0a0a0a 9px 18px);
+  opacity: 0.85;
+}
+
+.pie-pagina__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-m);
+}
+
+.pie-pagina a {
+  display: inline-block;
+  padding-block: 8px; /* zona de toque cómoda en móvil */
+  color: var(--niebla);
+}
+
+.pie-pagina a:hover {
+  color: var(--fluorescente);
+}
+
+.boton-subir {
+  position: fixed;
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  background: var(--latido);
+  border: 2px solid var(--hueso);
+  border-radius: var(--radio);
+  box-shadow: 4px 4px 0 var(--sangre);
+  color: var(--hueso);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.boton-subir--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.boton-subir--visible:hover {
+  background: #dc2832;
+  box-shadow: 4px 8px 0 var(--sangre);
+  transform: translateY(-3px);
+}
+
+.boton-subir:active {
+  transform: scale(0.94);
+}
+
+/* ---------- 17. RESPONSIVE ---------- */
+/* Criterio: las rejillas pasan de 4 a 2 y de 2 a 1 columnas sin dejar tarjetas huérfanas,
+   y el texto, el relleno y los títulos se adaptan con los tokens de la sección 1 */
+
+/* Escritorio: dos paneles con texto + imagen/audio en paralelo, para no estirar una imagen a todo el ancho */
+@media (min-width: 1001px) {
+  .bloque-tecnico--arte,
+  .bloque-tecnico--audio {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    column-gap: var(--espacio-l);
+    align-items: start;
+  }
+
+  .bloque-tecnico--arte .bloque-tecnico__titulo,
+  .bloque-tecnico--audio .bloque-tecnico__titulo {
+    grid-column: 1 / -1;
+  }
+
+  .bloque-tecnico--arte .bloque-tecnico__texto,
+  .bloque-tecnico--audio .bloque-tecnico__texto {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .bloque-tecnico--arte .bloque-tecnico__figura,
+  .bloque-tecnico--audio .bloque-tecnico__figura {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* Portátil pequeño y tablet: de 4 columnas a 2 */
+@media (max-width: 1000px) {
+  .equipo__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .equipo__lista--flotante .miembro:nth-child(3n + 1) {
+    --ext-izq: 0px;
+    --ext-der: 72px;
+  }
+
+  .equipo__lista--flotante .miembro:nth-child(3n + 2) {
+    --ext-izq: 36px;
+    --ext-der: 36px;
+  }
+
+  .equipo__lista--flotante .miembro:nth-child(3n) {
+    --ext-izq: 72px;
+    --ext-der: 0px;
+  }
+
+  .ficha-juego,
+  .metricas__lista,
+  .publico-objetivo__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .publico-objetivo__lista li,
+  .publico-objetivo__lista li:nth-child(n + 4) {
+    grid-column: auto;
+  }
+
+  .publico-objetivo__lista li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Tablet vertical: portada en una columna y fases con la cifra a un lado */
+@media (max-width: 900px) {
+  .contacto__rejilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Portada en una columna, en este orden: título, descripción, tráiler, botón de la demo y nota.
+     El contenedor de texto deja de ser una caja para que el tráiler pueda colarse entre
+     la descripción y el botón */
+  .seccion-inicio {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--espacio-m);
+  }
+
+  .seccion-inicio__texto {
+    display: contents;
+  }
+
+  .seccion-inicio__titulo {
+    order: 1;
+    justify-self: start;
+  }
+
+  .seccion-inicio__presentacion {
+    order: 2;
+    justify-self: start;
+  }
+
+  .seccion-inicio__multimedia {
+    order: 3;
+    margin-block: 12px; /* aire para el marco grueso del monitor */
+  }
+
+  .seccion-inicio .boton--principal {
+    order: 4;
+    justify-self: stretch;
+    text-align: center;
+  }
+
+  .seccion-inicio__nota {
+    order: 5;
+    justify-self: start;
+  }
+
+  .estrategia__fases {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .estrategia__fase {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    column-gap: var(--espacio-m);
+    row-gap: 8px;
+  }
+
+  .estrategia__fase::before {
+    grid-row: 1 / span 2;
+  }
+}
+
+/* Pantallas de poca altura (portátiles): contacto aún más compacto para que se vea entero */
+@media (min-width: 901px) and (max-height: 780px) {
+  .seccion-contacto {
+    --pad-seccion: 28px;
+    --reserva-pie: 0px;
+  }
+
+  .formulario-contacto {
+    gap: 12px;
+    padding: 18px 22px;
+  }
+
+  .formulario-contacto__etiqueta {
+    font-size: 1rem;
+  }
+
+  .formulario-contacto__entrada {
+    padding: 8px 12px;
+  }
+
+  textarea.formulario-contacto__entrada {
+    min-height: 72px;
+  }
+
+  .red-social {
+    padding: 6px 20px 4px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Tablet vertical y menos: el botón de la demo ocupa todo el ancho */
+@media (max-width: 720px) {
+  .carrusel__barra .boton {
+    justify-self: stretch;
+  }
+}
+
+/* Móvil grande: el logo pasa al principio, el menú se desplaza y todo se apila */
+@media (max-width: 720px) {
+  .mision-vision__bloque--vision {
+    margin-top: 0;
+  }
+
+  .plataformas__lista,
+  .feedback__comentarios,
+  .estadisticas__lista {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Tabla: cada juego pasa a ser una ficha, para que no se esconda ninguna columna fuera de la pantalla */
+  .competencia__contenedor-tabla {
+    overflow: visible;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .tabla-competencia,
+  .tabla-competencia tbody {
+    display: block;
+    min-width: 0;
+  }
+
+  .tabla-competencia thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .tabla-competencia tbody {
+    display: grid;
+    gap: var(--gap-cards);
+  }
+
+  .tabla-competencia tbody tr {
+    display: block;
+    padding: var(--pad-tarjeta);
+    background-image: var(--grano), linear-gradient(170deg, var(--pared-alta), var(--pared));
+    border: 1px solid var(--linoleo);
+    border-top: 3px solid var(--latido);
+    box-shadow: var(--sombra-dura);
+  }
+
+  .tabla-competencia tbody th,
+  .tabla-competencia td {
+    display: block;
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .tabla-competencia tbody th {
+    margin-bottom: 12px;
+    font-size: var(--fs-titulo-tarjeta);
+  }
+
+  .tabla-competencia td + td {
+    margin-top: 12px;
+  }
+
+  .tabla-competencia td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    color: var(--moho);
+    font-family: var(--fuente-titulos);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+/* Móvil */
+@media (max-width: 560px) {
+  body {
+    font-size: 1.0625rem;
+  }
+
+  .ficha-juego,
+  .metricas__lista,
+  .publico-objetivo__lista {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .publico-objetivo__lista li:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  /* Los subtítulos de bloque pierden algo de sangría para ganar ancho de lectura */
+  .equipo__titulo,
+  .mision-vision__titulo,
+  .historia__titulo,
+  .caracteristicas__titulo,
+    .publico-objetivo__titulo,
+  .competencia__titulo,
+  .estrategia__titulo,
+  .plataformas__titulo,
+  .metricas__titulo,
+  .estadisticas__titulo,
+  .feedback__titulo,
+  .ficha__titulo,
+  .subtitulo-bloque {
+    padding-left: 14px;
+    border-left-width: 5px;
+  }
+
+  /* Credenciales compactas: foto a la izquierda y datos a la derecha (de ~560 px de alto a ~260 px) */
+  .equipo__lista {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .miembro__tarjeta {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    column-gap: 16px;
+    row-gap: 4px;
+    align-content: start;
+    padding: 38px 16px 16px;
+  }
+
+  .miembro__foto {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
+    width: 96px;
+    margin: 4px 0 0;
+  }
+
+  .miembro__nombre,
+  .miembro__rol,
+  .miembro__descripcion {
+    grid-column: 2;
+  }
+
+  .miembro__descripcion {
+    margin-bottom: 0;
+  }
+
+  .miembro__tarjeta::after {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+  }
+
+  /* Fases: cifra encima del texto, como en una tarjeta normal */
+  .estrategia__fase {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .estrategia__fase::before {
+    grid-row: auto;
+    font-size: 3rem;
+  }
+
+  .linea-tiempo {
+    --tl-pad: 30px;
+    --tl-x: 8px;
+  }
+
+  .hito__contenido {
+    padding: 20px 18px;
+  }
+
+  .bloque-tecnico__codigo {
+    padding: 16px;
+    font-size: 0.875rem;
+  }
+
+  .boton {
+    width: 100%;
+  }
+
+  /* Sin hueco lateral: la captura ocupa todo el ancho y las flechas flotan sobre sus bordes */
+  .carrusel__visor {
+    --flecha: 40px;
+    --ancho-diap: calc(100cqw - 8px);
+  }
+
+  .carrusel__flecha {
+    background: rgba(15, 20, 17, 0.78);
+  }
+
+  .carrusel__flecha[data-carrusel="anterior"] {
+    left: 20px;
+  }
+
+  .carrusel__flecha[data-carrusel="siguiente"] {
+    right: 20px;
+  }
+
+}
+
+/* Pantallas bajas (móvil en horizontal): el título fijo ocuparía media pantalla, así que fluye con el contenido */
+@media (max-height: 600px) {
+  .seccion__titulo {
+    position: static;
+  }
+
+  .seccion__titulo::before {
+    display: none;
+  }
+}
+
+/* ---------- 18. MOVIMIENTO REDUCIDO ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .cabecera-principal::after {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0.5;
+  }
+
+  .seccion + .seccion::before {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0.45;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- SELECTOR DE IDIOMA ---------- */
+.navegacion-principal__item--idioma {
+  flex-shrink: 0;
+  margin-left: calc(clamp(2px, 0.6vw, 10px) * var(--menu-escala, 1));
+}
+
+.selector-idioma {
+  display: inline-flex;
+  align-items: stretch;
+  padding: 0;
+  background: var(--pared);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  color: var(--niebla);
+  font-family: var(--fuente-titulos);
+  font-size: calc(1.05rem * var(--menu-escala, 1));
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-ui);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.selector-idioma__opcion {
+  padding: 9px calc(11px * var(--menu-escala, 1)) 7px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.selector-idioma__opcion + .selector-idioma__opcion {
+  border-left: 1px solid var(--linoleo);
+}
+
+/* El idioma activo se enciende como un tubo fluorescente */
+html:not([lang="en"]) .selector-idioma__opcion[data-lang="es"],
+html[lang="en"] .selector-idioma__opcion[data-lang="en"] {
+  background: var(--fluorescente);
+  color: var(--negro-pasillo);
+}
+
+.selector-idioma:hover {
+  border-color: var(--fluorescente);
+  color: var(--fluorescente);
+}
+
+.selector-idioma:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
+
+/* ---------- MENÚ HAMBURGUESA (móvil) ----------
+   Barra de una fila: logo, jugar la demo, idioma y botón de menú, siempre a la vista.
+   Los enlaces de sección viven en un panel que se despliega bajo la barra, sin empujar la página.
+   Todo cuelga de .cabecera-principal--menu-js, que añade menu.js: sin JavaScript no se aplica. */
+.navegacion-principal__item--menu {
+  display: none; /* en escritorio no hay botón */
+}
+
+.menu-movil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 40px;
+  padding: 0;
+  background: var(--pared);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .menu-movil:hover {
+    border-color: var(--fluorescente);
+  }
+}
+
+.menu-movil:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
+
+.menu-movil__barra {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--fluorescente);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-movil[aria-expanded="true"] {
+  background: var(--latido);
+  border-color: var(--latido);
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra {
+  background: var(--hueso);
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-movil[aria-expanded="true"] .menu-movil__barra:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@keyframes menu-fila {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Hamburguesa en móvil y tablet (≤ 1199 px). Con 11 elementos, el menú de escritorio no cabe en una fila por
+   debajo de ~1200 px (iPad vertical y horizontal) y acababa en dos filas descolocadas. Si se cambia este valor,
+   hay que cambiarlo también en menu.js y navigation.js (MENU_HAMBURGUESA) */
+@media (max-width: 1199px) {
+  /* ---- Barra: una fila de 40 px con todo a la misma altura ---- */
+  .cabecera-principal--menu-js .navegacion-principal {
+    height: 54px; /* fija: el panel se desborda hacia abajo y no mueve la página */
+    padding: 10px 16px 4px; /* 16 px: el mismo margen lateral que el texto de la página */
+    overflow: visible;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista {
+    position: relative;
+    z-index: 2; /* el panel queda por encima del latido de la cabecera */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0 8px;
+    width: auto;
+    min-width: 0;
+    margin-inline: -16px; /* la lista ocupa todo el ancho: las filas del panel van de borde a borde */
+    padding-inline: 16px; /* el logo arranca donde empieza el texto, y el último botón acaba donde acaba */
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--marca {
+    order: 1;
+    flex-shrink: 0;
+    margin-right: auto; /* empuja el resto hacia la derecha */
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--demo {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--idioma {
+    order: 3;
+    flex-shrink: 0;
+    margin-left: 0;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__item--menu {
+    display: block;
+    order: 4;
+    flex-shrink: 0;
+  }
+
+  .cabecera-principal--menu-js .cabecera-principal__logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__enlace.navegacion-principal__enlace--destacado {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin-left: 0;
+    padding: 0 14px;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    box-shadow: 3px 3px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .cabecera-principal--menu-js .selector-idioma {
+    height: 40px;
+    font-size: 0.95rem;
+  }
+
+  .cabecera-principal--menu-js .selector-idioma__opcion {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  /* ---- Panel: arranca justo bajo la cabecera y cubre el ancho entero ---- */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) {
+    display: none;
+    order: 10;
+    flex: 0 0 100%;
+  }
+
+  .cabecera-principal--menu-abierto .navegacion-principal__lista > li:not([class]) {
+    display: block;
+    background: var(--pared);
+    border-bottom: 1px solid rgba(227, 235, 211, 0.08);
+    animation: menu-fila 0.2s ease-out both;
+  }
+
+  /* Primera fila: deja pasar el resto de la cabecera (barra + latido) antes de empezar el panel */
+  .cabecera-principal--menu-abierto .navegacion-principal__item--marca + li {
+    margin-top: 18px;
+    border-top: 2px solid var(--latido);
+  }
+
+  /* Cierre del panel: borde inferior y sombra */
+  .cabecera-principal--menu-abierto .navegacion-principal__lista::after {
+    content: "";
+    order: 11;
+    flex: 0 0 100%;
+    height: 8px;
+    background: var(--pared);
+    border-bottom: 1px solid rgba(227, 235, 211, 0.14);
+    box-shadow: 0 24px 40px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Velo oscuro sobre la página mientras el menú está abierto; al tocarlo se cierra */
+  .cabecera-principal--menu-abierto::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 100svh;
+    background: rgba(4, 6, 5, 0.62);
+  }
+
+  /* ---- Filas del panel ---- */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace {
+    position: relative;
+    padding: 15px 44px 13px 13px; /* + 3 px de borde = 16 px, alineado con el texto de la página */
+    background: none;
+    border-left: 3px solid transparent;
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: none;
+  }
+
+  /* Se sustituye el tubo fluorescente de escritorio por una flecha a la derecha */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace::before {
+    display: none;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace::after {
+    content: "";
+    position: absolute;
+    left: auto;
+    right: 16px;
+    top: 50%;
+    bottom: auto;
+    width: 8px;
+    height: 8px;
+    background: none;
+    border: solid currentColor;
+    border-width: 2px 2px 0 0;
+    clip-path: none;
+    opacity: 0.45;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace:focus-visible {
+    background: rgba(227, 235, 211, 0.05);
+    color: var(--fluorescente);
+  }
+
+  /* El hover solo con ratón: en pantallas táctiles se queda «pegado» tras el toque */
+  @media (hover: hover) {
+    .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace:hover {
+      background: rgba(227, 235, 211, 0.05);
+      color: var(--fluorescente);
+    }
+  }
+
+  /* Sección actual */
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace[aria-current="location"] {
+    background: rgba(200, 32, 42, 0.14);
+    border-left-color: var(--latido-claro);
+    color: var(--hueso);
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace[aria-current="location"]::after {
+    opacity: 1;
+    color: var(--latido-claro);
+  }
+}
+
+/* Pantallas bajas (móvil en horizontal): filas más compactas y panel con desplazamiento propio */
+@media (max-width: 720px) and (max-height: 560px) {
+  .cabecera-principal--menu-abierto .navegacion-principal__lista {
+    max-height: calc(100svh - 12px);
+    overflow-y: auto;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__lista > li:not([class]) .navegacion-principal__enlace {
+    padding-block: 10px 8px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Móviles estrechos */
+@media (max-width: 400px) {
+  .cabecera-principal--menu-js .navegacion-principal__lista {
+    gap: 0 6px;
+  }
+
+  .cabecera-principal--menu-js .navegacion-principal__enlace.navegacion-principal__enlace--destacado {
+    padding: 0 10px;
+    font-size: 0.88rem;
+  }
+
+  .cabecera-principal--menu-js .selector-idioma {
+    font-size: 0.88rem;
+  }
+
+  .cabecera-principal--menu-js .selector-idioma__opcion {
+    padding: 0 8px;
+  }
+
+  .menu-movil {
+    width: 38px;
+  }
+}
+
+/* ---------- PANTALLAS TÁCTILES: sin hover «pegado» en la cabecera ----------
+   Tras tocar un enlace, el móvil mantiene su :hover hasta que se toca otra cosa, y el enlace tocado
+   seguía iluminado junto al de la sección actual. Aquí solo cuenta la sección actual (aria-current)
+   y el foco de teclado. */
+@media (hover: none) {
+  .navegacion-principal__enlace:hover:not(.navegacion-principal__enlace--destacado):not([aria-current="location"]):not(:focus-visible) {
+    background: none;
+    color: var(--niebla);
+    text-shadow: none;
+  }
+
+  .navegacion-principal__enlace:hover:not(.navegacion-principal__enlace--destacado):not([aria-current="location"]):not(:focus-visible)::before {
+    background: #2b352f;
+    box-shadow: none;
+    animation: none;
+  }
+
+  .navegacion-principal__enlace:hover:not(.navegacion-principal__enlace--destacado):not([aria-current="location"]):not(:focus-visible)::after {
+    opacity: 0;
+  }
+
+  /* Botón de la demo: no se queda «pulsado» */
+  .navegacion-principal__enlace.navegacion-principal__enlace--destacado:hover:not([aria-current="location"]):not(:focus-visible) {
+    background: var(--latido);
+    transform: none;
+  }
+
+  .selector-idioma:hover:not(:focus-visible) {
+    border-color: var(--linoleo);
+    color: var(--niebla);
+  }
+}
+
+/* ---------- EQUIPO EN MÓVIL: credenciales plegables ----------
+   Cada tarjeta arranca compacta (foto, nombre y rol) y se despliega al tocarla.
+   Solo se aplica si team-accordion.js ha añadido .equipo__lista--plegable */
+@keyframes invita-miembro {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 75, 82, 0); }
+  15%      { box-shadow: 0 0 0 0 rgba(255, 75, 82, 0.6); }
+  60%      { box-shadow: 0 0 0 12px rgba(255, 75, 82, 0); }
+}
+
+@media (max-width: 560px) {
+  .equipo__lista--plegable {
+    gap: 22px;
+  }
+
+  .equipo__lista--plegable .miembro__tarjeta {
+    padding: 34px 16px 14px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Cabecera de la credencial: foto a la izquierda; nombre y rol a la derecha, centrados en vertical */
+  .equipo__lista--plegable .miembro__foto {
+    grid-row: 1 / span 2;
+    width: 80px;
+  }
+
+  .equipo__lista--plegable .miembro__nombre {
+    align-self: end;
+    padding-right: 44px; /* hueco para el botón */
+  }
+
+  .equipo__lista--plegable .miembro__rol {
+    align-self: start;
+    padding-right: 44px;
+  }
+
+  /* Descripción: oculta hasta desplegar. La fila crece de 0 a su alto con una transición suave */
+  .equipo__lista--plegable .miembro__detalle {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .equipo__lista--plegable .miembro__descripcion {
+    grid-column: 1;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__detalle {
+    grid-template-rows: 1fr;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__descripcion {
+    padding-top: 14px;
+    border-top: 1px dashed rgba(227, 235, 211, 0.18);
+    margin-top: 12px;
+    opacity: 1;
+  }
+
+  /* El código de barras solo aparece con la credencial abierta */
+  .equipo__lista--plegable .miembro__tarjeta::after {
+    display: none;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__tarjeta::after {
+    display: block;
+  }
+
+  /* La foto se «enciende» a color cuando la credencial está abierta (igual que el hover de escritorio) */
+  .equipo__lista--plegable .miembro:hover .miembro__foto {
+    filter: grayscale(0.85) contrast(1.15) brightness(0.85);
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__foto,
+  .equipo__lista--plegable .miembro--abierto:hover .miembro__foto {
+    filter: grayscale(0.2) contrast(1.05) brightness(1);
+  }
+
+  /* Sin el salto del hover (en táctil se queda «pegado» tras el toque) */
+  .equipo__lista--plegable .miembro:nth-child(odd),
+  .equipo__lista--plegable .miembro:nth-child(odd):hover {
+    --giro: -0.7deg;
+  }
+
+  .equipo__lista--plegable .miembro:nth-child(even),
+  .equipo__lista--plegable .miembro:nth-child(even):hover {
+    --giro: 0.6deg;
+  }
+
+  .equipo__lista--plegable .miembro .miembro__tarjeta,
+  .equipo__lista--plegable .miembro:hover .miembro__tarjeta {
+    transform: rotate(var(--giro, 0deg));
+    transition: transform 0.15s ease;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__tarjeta,
+  .equipo__lista--plegable .miembro--abierto:hover .miembro__tarjeta {
+    transform: rotate(0deg);
+  }
+
+  .equipo__lista--plegable .miembro .miembro__tarjeta:active {
+    transform: rotate(0deg) scale(0.985);
+  }
+
+  /* Botón + / ×: invita a tocar */
+  .miembro__alternar {
+    position: absolute;
+    top: 56px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(227, 235, 211, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .miembro__alternar::before,
+  .miembro__alternar::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    margin: -1px 0 0 -8px;
+    background: var(--fluorescente);
+    border-radius: 1px;
+  }
+
+  .miembro__alternar::after {
+    transform: rotate(90deg);
+  }
+
+  .miembro__alternar:focus-visible {
+    outline: 3px solid var(--fluorescente);
+    outline-offset: 3px;
+  }
+
+  .miembro__alternar--invita {
+    border-color: var(--latido-claro);
+    animation: invita-miembro 2.2s ease-out infinite;
+  }
+
+  .miembro--abierto .miembro__alternar {
+    background: var(--latido);
+    border-color: var(--latido);
+    transform: rotate(45deg);
+    animation: none;
+  }
+}
+
+/* Fuera de móvil el botón no existe (lo crea el script solo en ≤ 560 px) */
+
+/* ---------- CONTACTO PLEGABLE (móvil y tablet) ----------
+   El formulario ocupa mucho: arranca plegado y se despliega con un botón.
+   Solo se aplica si contact.js ha añadido .contacto--plegable */
+@media (max-width: 900px) {
+  .contacto--plegable .contacto__desplegar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 20px 14px;
+    font-size: 1.25rem;
+  }
+
+  .contacto__chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .contacto--abierto .contacto__chevron {
+    transform: rotate(180deg);
+  }
+
+  .contacto--plegable .formulario-contacto {
+    display: none;
+  }
+
+  .contacto--plegable.contacto--abierto .formulario-contacto {
+    display: grid;
+  }
+
+  .contacto--plegable {
+    gap: var(--espacio-s);
+  }
+
+  /* Al estar plegado no hace falta reservar una pantalla entera para la sección */
+  .seccion-contacto {
+    min-height: 0;
+  }
+}
+
+/* ---------- EQUIPO EN TABLET TÁCTIL (iPad, 561–1199 px, sin ratón) ----------
+   Sin hover no hay efecto flotante (team.js) y el acordeón solo existe en móvil (≤ 560 px), así que la
+   tablet recibía las 6 credenciales verticales y estrechas (3 columnas en vertical y 6 en horizontal) con la
+   descripción entera, muy altas y desiguales. Aquí se usa la credencial compacta del móvil (foto a la
+   izquierda, datos a la derecha) con la descripción visible, en 2 columnas y, en horizontal, en 3.
+   Con ratón o trackpad (hover: hover) no se toca nada: sigue el efecto flotante de siempre */
+@media (hover: none) and (min-width: 561px) and (max-width: 1199px) {
+  .equipo__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px var(--gap-cards);
+  }
+
+  .miembro__tarjeta {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    column-gap: 18px;
+    row-gap: 4px;
+    align-content: start;
+    padding: 38px 18px 16px;
+  }
+
+  .miembro__foto {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
+    width: 112px;
+    margin: 4px 0 0;
+  }
+
+  .miembro__nombre,
+  .miembro__rol,
+  .miembro__descripcion {
+    grid-column: 2;
+  }
+
+  .miembro__descripcion {
+    margin-bottom: 0;
+  }
+
+  .miembro__tarjeta::after {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+  }
+
+  /* Sin el salto del hover (en táctil se queda «pegado» tras el toque) y sin foto apagada: aquí no hay nada que revelar */
+  .miembro .miembro__tarjeta,
+  .miembro:hover .miembro__tarjeta {
+    transform: none;
+  }
+
+  .miembro .miembro__foto,
+  .miembro:hover .miembro__foto {
+    filter: grayscale(0.2) contrast(1.05) brightness(1);
+  }
+}
+
+@media (hover: none) and (min-width: 901px) and (max-width: 1199px) {
+  .equipo__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- ESTADO DEL ENVÍO DEL FORMULARIO DE CONTACTO ---------- */
+.formulario-contacto__estado {
+  padding: 12px 14px 10px;
+  border-left: 4px solid var(--linoleo);
+  background: rgba(227, 235, 211, 0.05);
+  color: var(--fluorescente);
+  font-size: var(--fs-s);
+}
+
+.formulario-contacto__estado[hidden] {
+  display: none;
+}
+
+.formulario-contacto__estado[data-tipo="ok"] {
+  border-left-color: var(--fluorescente);
+}
+
+.formulario-contacto__estado[data-tipo="error"] {
+  border-left-color: var(--latido-claro);
+  color: var(--latido-claro);
+}
+
+.formulario-contacto .boton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
