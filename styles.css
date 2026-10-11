@@ -2658,3 +2658,52 @@ textarea.formulario-contacto__entrada {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- SELECTOR DE IDIOMA ---------- */
+.navegacion-principal__item--idioma {
+  flex-shrink: 0;
+  margin-left: clamp(2px, 0.6vw, 10px);
+}
+
+.selector-idioma {
+  display: inline-flex;
+  align-items: stretch;
+  padding: 0;
+  background: var(--pared);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  color: var(--niebla);
+  font-family: var(--fuente-titulos);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-ui);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.selector-idioma__opcion {
+  padding: 9px 11px 7px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.selector-idioma__opcion + .selector-idioma__opcion {
+  border-left: 1px solid var(--linoleo);
+}
+
+/* El idioma activo se enciende como un tubo fluorescente */
+html:not([lang="en"]) .selector-idioma__opcion[data-lang="es"],
+html[lang="en"] .selector-idioma__opcion[data-lang="en"] {
+  background: var(--fluorescente);
+  color: var(--negro-pasillo);
+}
+
+.selector-idioma:hover {
+  border-color: var(--fluorescente);
+  color: var(--fluorescente);
+}
+
+.selector-idioma:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
