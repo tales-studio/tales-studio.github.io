@@ -328,18 +328,16 @@ body::after {
   border-radius: 50%;
 }
 
+/* Logo redondo, sin aro ni halo alrededor */
 .cabecera-principal__logo {
   width: 46px;
   height: 46px;
   object-fit: cover;
-  border: 2px solid rgba(227, 235, 211, 0.6);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--negro-pasillo), 0 0 0 5px rgba(227, 235, 211, 0.16), 0 0 16px rgba(200, 32, 42, 0.5);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .cabecera-principal__marca:hover .cabecera-principal__logo {
-  box-shadow: 0 0 0 4px var(--negro-pasillo), 0 0 0 5px rgba(255, 75, 82, 0.5), 0 0 16px rgba(255, 75, 82, 0.65);
   transform: scale(1.04);
 }
 
@@ -408,11 +406,11 @@ body::after {
   opacity: 1;
 }
 
-/* Texto encendido y subrayado rojo (igual al pasar el ratón que en la sección activa) */
+/* Texto encendido y subrayado del color de la lámpara (igual al pasar el ratón que en la sección activa) */
 .navegacion-principal__enlace:hover,
 .navegacion-principal__enlace:focus-visible,
 .navegacion-principal__enlace[aria-current="location"] {
-  background: linear-gradient(var(--latido-claro), var(--latido-claro)) left bottom 2px / 100% 3px no-repeat;
+  background: linear-gradient(#f1f8e2, #f1f8e2) left bottom 2px / 100% 3px no-repeat;
   text-shadow: 0 0 8px rgba(227, 235, 211, 0.18);
 }
 
