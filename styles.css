@@ -69,7 +69,13 @@
 
   /* Latido: un pulso de electrocardiograma y su línea base */
   --ecg: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2018'%20width='120'%20height='18'%3E%3Cpath%20d='M0%2014H32L37%2011L42%2014H52L56%2016L61%201L66%2017L70%2014H84L90%209L97%2014H120'%20fill='none'%20stroke='rgb(255,75,82)'%20stroke-width='1.5'%20stroke-linejoin='round'%20stroke-linecap='round'/%3E%3C/svg%3E");
-  --ecg-linea: linear-gradient(90deg, transparent, rgba(255, 75, 82, 0.85) 14%, rgba(255, 75, 82, 0.85) 86%, transparent);
+  /* Pulso para los separadores y la cabecera: trazo de 2px, igual que la línea base,
+     para que ambos empalmen sin escalón. El tramo recto de sus extremos hace de unión */
+  --ecg-pulso: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2018'%20width='120'%20height='18'%3E%3Cpath%20d='M0%2014H32L37%2011L42%2014H52L56%2016L61%201L66%2017L70%2014H84L90%209L97%2014H120'%20fill='none'%20stroke='rgb(255,75,82)'%20stroke-width='2'%20stroke-linejoin='round'%20stroke-linecap='butt'/%3E%3C/svg%3E");
+
+  /* Barrido del monitor cardíaco: una máscara tres veces más ancha que el separador.
+     El frente (borde nítido a la derecha) deja tras de sí una estela que se apaga */
+  --barrido-mascara: linear-gradient(90deg, rgba(0, 0, 0, 0.35) 0 36%, #000 45.5%, rgba(0, 0, 0, 0.35) 45.5% 100%);
 
   /* Esquinas de visor */
   --esq: linear-gradient(var(--fluorescente), var(--fluorescente));
@@ -238,15 +244,6 @@ body::after {
   94%                           { opacity: 0.75; }
 }
 
-/* El latido de la web: botón principal y línea de la cabecera laten a la vez */
-@keyframes latido-linea {
-  0%, 100% { opacity: 0.4; }
-  10%      { opacity: 1; }
-  20%      { opacity: 0.45; }
-  30%      { opacity: 0.85; }
-  42%      { opacity: 0.4; }
-}
-
 /* ---------- 5. CABECERA Y NAVEGACIÓN ---------- */
 .cabecera-principal {
   position: sticky;
@@ -269,12 +266,34 @@ body::after {
   bottom: 0;
   height: 18px;
   pointer-events: none;
-  background-image: var(--ecg), var(--ecg), var(--ecg-linea);
+  /* Una sola traza continua: la línea base se corta bajo cada latido (20% y 80%) y el propio
+     latido la sustituye; el solape de 4px con sus tramos rectos evita huecos en la unión */
+  background-image:
+    var(--ecg-pulso),
+    var(--ecg-pulso),
+    linear-gradient(90deg,
+      transparent 0, rgb(255, 75, 82) 14%,
+      rgb(255, 75, 82) calc((100% - 120px) * 0.2 + 4px),
+      transparent calc((100% - 120px) * 0.2 + 4px),
+      transparent calc((100% - 120px) * 0.2 + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * 0.2 + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * 0.8 + 4px),
+      transparent calc((100% - 120px) * 0.8 + 4px),
+      transparent calc((100% - 120px) * 0.8 + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * 0.8 + 116px),
+      rgb(255, 75, 82) 86%, transparent 100%);
   background-position: 20% 0, 80% 0, 0 13px;
   background-size: 120px 18px, 120px 18px, 100% 2px;
   background-repeat: no-repeat;
-  opacity: 0.5;
-  animation: latido-linea 1.6s ease-out infinite;
+  opacity: 0.85;
+  /* Traza apagada que un barrido de izquierda a derecha enciende a su paso, latidos incluidos */
+  -webkit-mask-image: var(--barrido-mascara);
+  mask-image: var(--barrido-mascara);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: barrido 6s linear infinite;
 }
 
 .navegacion-principal {
@@ -440,19 +459,46 @@ body::after {
   top: -14px;
   height: 18px;
   pointer-events: none;
-  background-image: var(--ecg), var(--ecg-linea);
-  background-position: center 0, 0 13px;
+  --pos: 0.5; /* posición horizontal del latido, de 0 a 1 */
+  /* Una sola traza continua: la línea base se corta bajo el latido y él la sustituye */
+  background-image:
+    var(--ecg-pulso),
+    linear-gradient(90deg,
+      transparent 0, rgb(255, 75, 82) 14%,
+      rgb(255, 75, 82) calc((100% - 120px) * var(--pos) + 4px),
+      transparent calc((100% - 120px) * var(--pos) + 4px),
+      transparent calc((100% - 120px) * var(--pos) + 116px),
+      rgb(255, 75, 82) calc((100% - 120px) * var(--pos) + 116px),
+      rgb(255, 75, 82) 86%, transparent 100%);
+  background-position: calc(var(--pos) * 100%) 0, 0 13px;
   background-size: 120px 18px, 100% 2px;
   background-repeat: no-repeat;
-  opacity: 0.45;
+  opacity: 0.85;
+  /* La traza queda apagada y un barrido de izquierda a derecha la enciende a su paso,
+     latido incluido, como el haz de un monitor cardíaco */
+  -webkit-mask-image: var(--barrido-mascara);
+  mask-image: var(--barrido-mascara);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: barrido 6s linear infinite;
 }
 
 .seccion:nth-child(3n + 2)::before {
-  background-position: 24% 0, 0 13px;
+  --pos: 0.24;
+  animation-delay: -2s; /* los separadores no barren todos a la vez */
 }
 
 .seccion:nth-child(3n)::before {
-  background-position: 78% 0, 0 13px;
+  --pos: 0.78;
+  animation-delay: -4s;
+}
+
+/* El barrido cruza el separador en poco más de la mitad del ciclo y descansa el resto */
+@keyframes barrido {
+  0%       { -webkit-mask-position: 70% 0; mask-position: 70% 0; }
+  55%,100% { -webkit-mask-position: 0% 0;  mask-position: 0% 0; }
 }
 
 /* Manchas de humedad y moho: cada sección tiene la suya, en un lado distinto */
@@ -2305,6 +2351,18 @@ textarea.formulario-contacto__entrada {
 
 /* ---------- 18. MOVIMIENTO REDUCIDO ---------- */
 @media (prefers-reduced-motion: reduce) {
+  .cabecera-principal::after {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0.5;
+  }
+
+  .seccion + .seccion::before {
+    -webkit-mask-image: none;
+    mask-image: none;
+    opacity: 0.45;
+  }
+
   *,
   *::before,
   *::after {
