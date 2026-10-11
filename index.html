@@ -73,35 +73,63 @@
         <h3 id="titulo-equipo" class="equipo__titulo">El equipo</h3>
         <ul class="equipo__lista">
           <li class="miembro">
-            <article class="miembro__tarjeta">
+            <article class="miembro__tarjeta" tabindex="0">
               <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
               <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
               <p class="miembro__rol">Dirección y diseño de juego</p>
-              <p class="miembro__descripcion">Define las reglas de la noche y vigila que cada mecánica sirva a la tensión.</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Define las reglas de la noche y vigila que cada mecánica sirva a la tensión.</p>
+              </div>
             </article>
           </li>
           <li class="miembro">
-            <article class="miembro__tarjeta">
+            <article class="miembro__tarjeta" tabindex="0">
               <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
               <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
               <p class="miembro__rol">Programación</p>
-              <p class="miembro__descripcion">Da vida al sistema de tareas, la cordura y las alucinaciones.</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Da vida al sistema de tareas, la cordura y las alucinaciones.</p>
+              </div>
             </article>
           </li>
           <li class="miembro">
-            <article class="miembro__tarjeta">
+            <article class="miembro__tarjeta" tabindex="0">
               <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
               <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
               <p class="miembro__rol">Arte y animación 2D</p>
-              <p class="miembro__descripcion">Construye una residencia que parece normal hasta que deja de serlo.</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Construye una residencia que parece normal hasta que deja de serlo.</p>
+              </div>
             </article>
           </li>
           <li class="miembro">
-            <article class="miembro__tarjeta">
+            <article class="miembro__tarjeta" tabindex="0">
               <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
               <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
               <p class="miembro__rol">Sonido y comunicación</p>
-              <p class="miembro__descripcion">Diseña el audio que hace que se te acelere el pulso y cuenta el proyecto al mundo.</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Diseña el audio que hace que se te acelere el pulso y cuenta el proyecto al mundo.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
+              <p class="miembro__rol">Diseño de niveles y narrativa</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Coloca cada tarea y cada susto por la residencia y escribe la historia que une toda la noche.</p>
+              </div>
+            </article>
+          </li>
+          <li class="miembro">
+            <article class="miembro__tarjeta" tabindex="0">
+              <img class="miembro__foto" src="Assets/Images/PLACEHOLDER.jpg" alt="Retrato de [Nombre y Apellidos]" width="200" height="200" loading="lazy">
+              <h4 class="miembro__nombre">[Nombre y Apellidos]</h4>
+              <p class="miembro__rol">Producción y pruebas</p>
+              <div class="miembro__detalle">
+                <p class="miembro__descripcion">Organiza el calendario del equipo, coordina los tests con jugadores y caza los errores antes de la demo.</p>
+              </div>
             </article>
           </li>
         </ul>
@@ -698,6 +726,43 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
 
       medirCabecera();
       actualizar();
+    })();
+  </script>
+
+  <script>
+    // Equipo: tarjetas compactas que se despliegan al pasar el ratón.
+    // Cada tarjeta flota sobre su hueco; aquí se fija la altura del hueco a la de la tarjeta cerrada
+    (function () {
+      var lista = document.querySelector('.equipo__lista');
+      if (!lista) { return; }
+      var consulta = window.matchMedia('(hover: hover) and (min-width: 561px)');
+      var huecos = Array.prototype.slice.call(lista.querySelectorAll('.miembro'));
+
+      function medir() {
+        huecos.forEach(function (hueco) {
+          hueco.style.height = '';
+        });
+        if (!lista.classList.contains('equipo__lista--flotante')) { return; }
+        var alturas = huecos.map(function (hueco) {
+          var tarjeta = hueco.querySelector('.miembro__tarjeta');
+          var detalle = hueco.querySelector('.miembro__detalle');
+          return tarjeta.offsetHeight - detalle.offsetHeight; // altura de la tarjeta cerrada
+        });
+        var maxima = Math.max.apply(null, alturas); // todas las tarjetas de la fila, igual de altas
+        huecos.forEach(function (hueco) { hueco.style.height = maxima + 'px'; });
+      }
+
+      function aplicar() {
+        lista.classList.toggle('equipo__lista--flotante', consulta.matches);
+        medir();
+      }
+
+      aplicar();
+      window.addEventListener('resize', medir);
+      window.addEventListener('load', medir);
+      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(medir); }
+      if (consulta.addEventListener) { consulta.addEventListener('change', aplicar); }
+      else if (consulta.addListener) { consulta.addListener(aplicar); }
     })();
   </script>
 

@@ -923,8 +923,14 @@ body::after {
 /* Credenciales de empleado, colgadas de un cordón */
 .equipo__lista {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr)); /* los 6 miembros en una sola fila */
   gap: var(--gap-cards-l) var(--gap-cards);
+  --codigo-barras: repeating-linear-gradient(
+    90deg,
+    rgba(227, 235, 211, 0.55) 0 2px, transparent 2px 5px,
+    rgba(227, 235, 211, 0.55) 5px 6px, transparent 6px 10px,
+    rgba(227, 235, 211, 0.55) 10px 13px, transparent 13px 15px
+  );
 }
 
 .miembro__tarjeta {
@@ -1016,6 +1022,152 @@ body::after {
   margin-bottom: 12px;
   color: var(--niebla);
   font-size: var(--fs-s);
+}
+
+/* Equipo: 6 credenciales en una sola fila, en vista compacta (foto, nombre y rol).
+   Al pasar el ratón o enfocar con teclado, la tarjeta crece en ancho y alto y muestra la descripción.
+   El script añade .equipo__lista--flotante solo si hay hover real y pantalla ancha;
+   sin él (móvil, táctil, sin JS) se ve la ficha completa de siempre */
+.miembro__detalle {
+  display: contents;
+}
+
+.equipo__lista--flotante .miembro {
+  --ext-izq: 36px; /* cuánto crece la tarjeta hacia cada lado al desplegarse */
+  --ext-der: 36px;
+  position: relative;
+  z-index: 1;
+  container-type: inline-size; /* referencia (cqw) para fijar el ancho del texto y evitar que se recoloque */
+}
+
+/* Las tarjetas de los extremos crecen hacia dentro para no salirse de la página */
+.equipo__lista--flotante .miembro:first-child {
+  --ext-izq: 0px;
+  --ext-der: 72px;
+}
+
+.equipo__lista--flotante .miembro:last-child {
+  --ext-izq: 72px;
+  --ext-der: 0px;
+}
+
+.equipo__lista--flotante .miembro:hover,
+.equipo__lista--flotante .miembro:focus-within {
+  z-index: 10; /* la tarjeta abierta queda por encima de las vecinas y de las filas siguientes */
+}
+
+/* La tarjeta flota sobre su hueco: el hueco (li) conserva la altura compacta que mide el script,
+   así que al desplegarse nada de la página se mueve */
+.equipo__lista--flotante .miembro__tarjeta {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  padding: 32px 10px 14px;
+  text-align: center;
+  transition: left 0.35s ease, right 0.35s ease, transform 0.35s ease, padding 0.35s ease,
+    opacity 0.3s ease, filter 0.3s ease;
+}
+
+.equipo__lista--flotante .miembro__tarjeta:focus-visible {
+  outline-offset: 4px;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__tarjeta,
+.equipo__lista--flotante .miembro:focus-within .miembro__tarjeta {
+  left: calc(var(--ext-izq) * -1);
+  right: calc(var(--ext-der) * -1);
+  transform: rotate(0deg) translateY(-6px);
+  padding: 34px 16px 16px;
+  box-shadow: var(--sombra-dura), 0 0 0 1px rgba(255, 75, 82, 0.45), 0 40px 70px rgba(0, 0, 0, 0.7),
+    0 0 50px rgba(200, 32, 42, 0.25);
+}
+
+/* Mientras una tarjeta está abierta, las demás se apagan para destacarla */
+.equipo__lista--flotante:has(.miembro:hover, .miembro:focus-within) .miembro:not(:hover):not(:focus-within) .miembro__tarjeta {
+  opacity: 0.8;
+  filter: saturate(0.85) brightness(0.92);
+}
+
+/* Cerrada: foto y textos pequeños. Abierta: todo crece de forma muy evidente */
+.equipo__lista--flotante .miembro__foto {
+  width: min(calc(100% - 10px), 92px);
+  transition: width 0.35s ease, filter 0.4s ease;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__foto,
+.equipo__lista--flotante .miembro:focus-within .miembro__foto {
+  width: min(calc(100% - 10px), 124px);
+  filter: grayscale(0.2) contrast(1.05) brightness(1);
+}
+
+/* Nombre y rol mantienen siempre el ancho y el tamaño de letra de la tarjeta cerrada, así sus líneas
+   no se recolocan mientras la tarjeta se ensancha. El efecto de crecer se hace con transform (no
+   afecta al layout) y el texto se limita a centrarse en el espacio nuevo */
+.equipo__lista--flotante .miembro__nombre {
+  width: calc(100cqw - 22px); /* ancho útil de la tarjeta cerrada (hueco - borde - padding) */
+  margin-inline: auto;
+  font-size: clamp(1.05rem, 0.95rem + 0.25vw, 1.2rem);
+  text-wrap: balance;
+  transition: transform 0.35s ease, margin 0.35s ease;
+}
+
+.equipo__lista--flotante .miembro__rol {
+  width: calc(100cqw - 22px);
+  margin-inline: auto;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  transition: transform 0.35s ease;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__nombre,
+.equipo__lista--flotante .miembro:focus-within .miembro__nombre {
+  margin-block: 4px;
+  transform: scale(1.3);
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__rol,
+.equipo__lista--flotante .miembro:focus-within .miembro__rol {
+  transform: scale(1.18);
+}
+
+/* La descripción se despliega con una transición de altura real (0 → su altura) */
+.equipo__lista--flotante .miembro__detalle {
+  display: grid;
+  grid-template-rows: 0fr;
+  justify-items: start;
+  overflow: hidden; /* el texto, ya con su ancho final, se va revelando al ensancharse la tarjeta */
+  transition: grid-template-rows 0.35s ease;
+}
+
+.equipo__lista--flotante .miembro__descripcion {
+  /* ancho interior de la tarjeta ya abierta: así el texto se coloca una sola vez, con sus líneas finales */
+  width: calc(100cqw + var(--ext-izq) + var(--ext-der) - 34px);
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  transition: opacity 0.25s ease;
+}
+
+.equipo__lista--flotante .miembro__descripcion::before {
+  content: "";
+  display: block;
+  height: 10px;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__detalle,
+.equipo__lista--flotante .miembro:focus-within .miembro__detalle {
+  grid-template-rows: 1fr;
+}
+
+.equipo__lista--flotante .miembro:hover .miembro__descripcion,
+.equipo__lista--flotante .miembro:focus-within .miembro__descripcion {
+  opacity: 1;
+  transition-delay: 0.1s;
 }
 
 /* Misión y visión: dos hojas pegadas en la pared con cinta */
@@ -2090,7 +2242,25 @@ textarea.formulario-contacto__entrada {
 
 /* Portátil pequeño y tablet: de 4 columnas a 2 */
 @media (max-width: 1000px) {
-  .equipo__lista,
+  .equipo__lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .equipo__lista--flotante .miembro:nth-child(3n + 1) {
+    --ext-izq: 0px;
+    --ext-der: 72px;
+  }
+
+  .equipo__lista--flotante .miembro:nth-child(3n + 2) {
+    --ext-izq: 36px;
+    --ext-der: 36px;
+  }
+
+  .equipo__lista--flotante .miembro:nth-child(3n) {
+    --ext-izq: 72px;
+    --ext-der: 0px;
+  }
+
   .ficha-juego,
   .metricas__lista,
   .publico-objetivo__lista {
