@@ -307,20 +307,30 @@ body::after {
   display: none;
 }
 
-/* Logo en el centro, cuatro enlaces a cada lado. Si no caben, el menú se desplaza */
+/* Menú de una sola fila, centrado. En escritorio navigation.js reduce --menu-escala (de 1 hacia abajo)
+   hasta que todo cabe sin desplazarse; si ni así cabe en una fila, usa la variante en dos filas.
+   En móvil (≤ 720 px) la escala es 1 y el menú se desplaza de lado */
 .navegacion-principal__lista {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(6px, 1.3vw, 24px);
+  gap: calc(clamp(6px, 1.3vw, 24px) * var(--menu-escala, 1));
   width: max-content;
   min-width: 100%;
   margin-inline: auto;
 }
 
+/* Variante en dos filas: el menú nunca se sale de la pantalla, así que nunca se desplaza */
+.navegacion-principal__lista--en-filas {
+  flex-wrap: wrap;
+  row-gap: 2px;
+  width: 100%;
+  min-width: 0;
+}
+
 .navegacion-principal__item--marca {
   flex-shrink: 0;
-  margin-right: clamp(10px, 1.8vw, 32px);
+  margin-right: calc(clamp(10px, 1.8vw, 32px) * var(--menu-escala, 1));
 }
 
 .cabecera-principal__marca {
@@ -344,10 +354,10 @@ body::after {
 .navegacion-principal__enlace {
   position: relative;
   display: block;
-  padding: 12px clamp(8px, 1.05vw, 16px) 10px;
+  padding: 12px calc(clamp(8px, 1.05vw, 16px) * var(--menu-escala, 1)) 10px;
   color: var(--niebla);
   font-family: var(--fuente-titulos);
-  font-size: clamp(1.1rem, 0.95rem + 0.35vw, 1.3rem);
+  font-size: calc(clamp(1.1rem, 0.95rem + 0.35vw, 1.3rem) * var(--menu-escala, 1));
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: var(--lh-ui);
@@ -430,8 +440,8 @@ body::after {
 
 /* Enlace a la demo: botón rojo que late, el único del menú con relleno */
 .navegacion-principal__enlace.navegacion-principal__enlace--destacado {
-  margin-left: clamp(4px, 1vw, 16px);
-  padding: 11px clamp(14px, 1.4vw, 22px) 9px;
+  margin-left: calc(clamp(4px, 1vw, 16px) * var(--menu-escala, 1));
+  padding: 11px calc(clamp(14px, 1.4vw, 22px) * var(--menu-escala, 1)) 9px;
   background: var(--latido);
   border-radius: var(--radio);
   box-shadow: 4px 4px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
@@ -2659,7 +2669,7 @@ textarea.formulario-contacto__entrada {
 /* ---------- SELECTOR DE IDIOMA ---------- */
 .navegacion-principal__item--idioma {
   flex-shrink: 0;
-  margin-left: clamp(2px, 0.6vw, 10px);
+  margin-left: calc(clamp(2px, 0.6vw, 10px) * var(--menu-escala, 1));
 }
 
 .selector-idioma {
@@ -2671,7 +2681,7 @@ textarea.formulario-contacto__entrada {
   border-radius: var(--radio);
   color: var(--niebla);
   font-family: var(--fuente-titulos);
-  font-size: 1.05rem;
+  font-size: calc(1.05rem * var(--menu-escala, 1));
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: var(--lh-ui);
@@ -2680,7 +2690,7 @@ textarea.formulario-contacto__entrada {
 }
 
 .selector-idioma__opcion {
-  padding: 9px 11px 7px;
+  padding: 9px calc(11px * var(--menu-escala, 1)) 7px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 

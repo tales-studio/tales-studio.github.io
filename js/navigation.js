@@ -9,6 +9,9 @@
   var destino = null;       // sección a la que se viaja tras pulsar un enlace del menú
   var finViaje = null;      // temporizador que detecta cuándo termina el desplazamiento
   var sepTitulo = 28;       // aire entre cabecera y título fijo (se lee de --sep-titulo-fijo)
+  var lista = nav.querySelector('.navegacion-principal__lista');
+  var menuDesplazable = window.matchMedia('(max-width: 720px)'); // en móvil el menú se desplaza de lado
+  var ESCALA_MIN = 0.82;    // por debajo de esta escala el texto sería demasiado pequeño: el menú pasa a dos filas
 
   // Cada enlace del menú con su sección y el título de esa sección.
   // El botón «Jugar la demo» no es una categoría: la demo está dentro de Nuestro juego, que se ilumina al llegar
@@ -37,7 +40,44 @@
     if (!isNaN(sep)) { sepTitulo = sep; }
   }
 
+  // Ancho que ocuparía el menú en una sola fila, sin recortarlo
+  function anchoNatural() {
+    lista.style.width = 'max-content';
+    lista.style.minWidth = '0';
+    var ancho = lista.getBoundingClientRect().width;
+    lista.style.width = '';
+    lista.style.minWidth = '';
+    return ancho;
+  }
+
+  // En escritorio el menú tiene que caber siempre entero: si no, se desplazaría de lado
+  // al cambiar de sección y dejaría enlaces fuera de la pantalla. Se reduce la escala de
+  // textos y separaciones hasta que cabe; si ni así, pasa a dos filas.
+  // Se repite al cambiar el tamaño de la ventana, al cargar las fuentes y al cambiar de idioma
+  function ajustarMenu() {
+    lista.classList.remove('navegacion-principal__lista--en-filas');
+    lista.style.setProperty('--menu-escala', '1');
+    nav.scrollLeft = 0;
+    if (menuDesplazable.matches) { return; }
+
+    var estilo = getComputedStyle(nav);
+    var disponible = nav.clientWidth - parseFloat(estilo.paddingLeft) - parseFloat(estilo.paddingRight);
+    var escala = 1;
+
+    for (var i = 0; i < 5; i++) {
+      var natural = anchoNatural();
+      if (natural <= disponible) { return; }
+      escala *= (disponible / natural) * 0.995;
+      if (escala < ESCALA_MIN) { break; }
+      lista.style.setProperty('--menu-escala', escala.toFixed(3));
+    }
+
+    lista.classList.add('navegacion-principal__lista--en-filas');
+    lista.style.setProperty('--menu-escala', '0.9');
+  }
+
   function remedir() {
+    ajustarMenu();
     medirCabecera();
     pedirActualizacion();
   }
@@ -46,8 +86,9 @@
     secciones.forEach(function (s) { s.enlace.removeAttribute('aria-current'); });
     actual.enlace.setAttribute('aria-current', 'location');
 
-    // En móvil el menú se desplaza: centramos el enlace activo
-    if (nav.scrollWidth > nav.clientWidth) {
+    // Solo en móvil el menú se desplaza: centramos el enlace activo.
+    // En escritorio no se toca: el menú no debe moverse al avanzar por la página
+    if (menuDesplazable.matches && nav.scrollWidth > nav.clientWidth) {
       var e = actual.enlace.getBoundingClientRect();
       var n = nav.getBoundingClientRect();
       nav.scrollLeft += (e.left - n.left) - (n.width - e.width) / 2;
@@ -130,6 +171,7 @@
     window.addEventListener(tipo, terminarViaje, { passive: true });
   });
   window.addEventListener('resize', remedir);
+  document.addEventListener('idiomacambiado', remedir); // los textos en inglés miden distinto
   window.addEventListener('load', remedir);
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(remedir); }
 
@@ -139,6 +181,7 @@
     window.scrollTo({ top: 0, behavior: reducido ? 'auto' : 'smooth' });
   });
 
+  ajustarMenu();
   medirCabecera();
   actualizar();
 })();
