@@ -316,30 +316,30 @@
       <section class="competencia" aria-labelledby="titulo-competencia">
         <h3 id="titulo-competencia" class="competencia__titulo">Juegos similares</h3>
         <div class="competencia__contenedor-tabla">
-          <table class="tabla-competencia">
+          <table class="tabla-competencia" role="table">
             <caption class="tabla-competencia__titulo">Comparativa con juegos de referencia</caption>
-            <thead>
-              <tr>
-                <th scope="col">Juego</th>
-                <th scope="col">Qué hace bien</th>
-                <th scope="col">Cómo nos diferenciamos</th>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Juego</th>
+                <th scope="col" role="columnheader">Qué hace bien</th>
+                <th scope="col" role="columnheader">Cómo nos diferenciamos</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Five Nights at Freddy's</th>
-                <td>Tensión por turnos de noche y recursos limitados.</td>
-                <td>Nosotros te movemos libremente por el mapa y la amenaza puede ser una alucinación.</td>
+            <tbody role="rowgroup">
+              <tr role="row">
+                <th scope="row" role="rowheader">Five Nights at Freddy's</th>
+                <td role="cell" data-label="Qué hace bien">Tensión por turnos de noche y recursos limitados.</td>
+                <td role="cell" data-label="Cómo nos diferenciamos">Nosotros te movemos libremente por el mapa y la amenaza puede ser una alucinación.</td>
               </tr>
-              <tr>
-                <th scope="row">Papers, Please</th>
-                <td>Presión constante al gestionar tareas rutinarias.</td>
-                <td>Aplicamos esa presión a un contexto de terror de supervivencia.</td>
+              <tr role="row">
+                <th scope="row" role="rowheader">Papers, Please</th>
+                <td role="cell" data-label="Qué hace bien">Presión constante al gestionar tareas rutinarias.</td>
+                <td role="cell" data-label="Cómo nos diferenciamos">Aplicamos esa presión a un contexto de terror de supervivencia.</td>
               </tr>
-              <tr>
-                <th scope="row">Darkwood</th>
-                <td>Atmósfera opresiva en 2D vista desde arriba.</td>
-                <td>Menos sistemas complejos: controles simples y partida directa desde el navegador.</td>
+              <tr role="row">
+                <th scope="row" role="rowheader">Darkwood</th>
+                <td role="cell" data-label="Qué hace bien">Atmósfera opresiva en 2D vista desde arriba.</td>
+                <td role="cell" data-label="Cómo nos diferenciamos">Menos sistemas complejos: controles simples y partida directa desde el navegador.</td>
               </tr>
             </tbody>
           </table>
@@ -629,7 +629,7 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
 
         // Título de la sección: al quedarse fijo bajo la cabecera se activa el velo de fondo
         titulos.forEach(function (t) {
-          t.classList.toggle('seccion__titulo--fijo', t.getBoundingClientRect().top <= bajoCabecera + 1);
+          t.classList.toggle('seccion__titulo--fijo', t.getBoundingClientRect().top <= bajoCabecera + 17);
         });
 
         // Botón de volver arriba
