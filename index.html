@@ -567,6 +567,9 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
       var umbralSubir = 300;
       var pendiente = false;
       var activa = null;
+      var destino = null;       // sección a la que se viaja tras pulsar un enlace del menú
+      var finViaje = null;      // temporizador que detecta cuándo termina el desplazamiento
+      var sepTitulo = 28;       // aire entre cabecera y título fijo (se lee de --sep-titulo-fijo)
 
       // Cada enlace del menú con su sección y el título de esa sección
       var secciones = Array.prototype.slice
@@ -587,6 +590,8 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
       // La cabecera fija el punto donde se pegan los títulos
       function medirCabecera() {
         document.documentElement.style.setProperty('--alto-cabecera', cabecera.offsetHeight + 'px');
+        var sep = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sep-titulo-fijo'));
+        if (!isNaN(sep)) { sepTitulo = sep; }
       }
 
       function remedir() {
@@ -622,14 +627,15 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
             if (s.seccion.getBoundingClientRect().top <= sonda) { actual = s; }
           });
         }
-        if (actual !== activa) {
+        // Mientras se viaja a una sección elegida, el menú no ilumina las intermedias
+        if (!destino && actual !== activa) {
           activa = actual;
           marcarActiva(actual);
         }
 
         // Título de la sección: al quedarse fijo bajo la cabecera se activa el velo de fondo
         titulos.forEach(function (t) {
-          t.classList.toggle('seccion__titulo--fijo', t.getBoundingClientRect().top <= bajoCabecera + 17);
+          t.classList.toggle('seccion__titulo--fijo', t.getBoundingClientRect().top <= bajoCabecera + sepTitulo + 1);
         });
 
         // Botón de volver arriba
@@ -643,13 +649,50 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
         }
       }
 
-      window.addEventListener('scroll', pedirActualizacion, { passive: true });
+      // Viaje: al pulsar un enlace se ilumina directamente el destino y se ignoran las secciones
+      // por las que pasa el desplazamiento. Termina cuando el scroll se detiene o el usuario
+      // retoma el control con la rueda, el dedo o el teclado
+      function terminarViaje() {
+        clearTimeout(finViaje);
+        if (destino) {
+          destino = null;
+          pedirActualizacion();
+        }
+      }
+
+      function iniciarViaje(s) {
+        destino = s;
+        activa = s;
+        marcarActiva(s);
+        clearTimeout(finViaje);
+        finViaje = setTimeout(terminarViaje, 250);
+      }
+
+      document.querySelector('.cabecera-principal').addEventListener('click', function (e) {
+        var enlace = e.target.closest('a[href^="#"]');
+        if (!enlace || e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey) { return; }
+        var id = enlace.getAttribute('href').slice(1);
+        var s = secciones.filter(function (x) { return x.seccion.id === id; })[0];
+        if (s) { iniciarViaje(s); }
+      });
+
+      window.addEventListener('scroll', function () {
+        if (destino) {
+          clearTimeout(finViaje);
+          finViaje = setTimeout(terminarViaje, 150);
+        }
+        pedirActualizacion();
+      }, { passive: true });
+      ['wheel', 'touchstart', 'keydown'].forEach(function (tipo) {
+        window.addEventListener(tipo, terminarViaje, { passive: true });
+      });
       window.addEventListener('resize', remedir);
       window.addEventListener('load', remedir);
       if (document.fonts && document.fonts.ready) { document.fonts.ready.then(remedir); }
 
       boton.addEventListener('click', function () {
         var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        iniciarViaje(secciones[0]);
         window.scrollTo({ top: 0, behavior: reducido ? 'auto' : 'smooth' });
       });
 
