@@ -224,7 +224,7 @@ body::before {
   animation: tubo 9s linear infinite;
 }
 
-/* Viñeta y grano de película sobre toda la web */
+/* Viñeta suave (que no impida leer en los márgenes) y grano de película sobre toda la web */
 body::after {
   content: "";
   position: fixed;
@@ -232,7 +232,7 @@ body::after {
   z-index: 40;
   pointer-events: none;
   background-image:
-    radial-gradient(ellipse at 50% 38%, transparent 42%, rgba(0, 0, 0, 0.72) 100%),
+    radial-gradient(ellipse at 50% 38%, transparent 55%, rgba(0, 0, 0, 0.3) 100%),
     var(--grano);
   background-size: 100% 100%, 220px 220px;
 }
@@ -428,6 +428,51 @@ body::after {
   100% { opacity: 1; }
 }
 
+/* Enlace a la demo: botón rojo que late, el único del menú con relleno */
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado {
+  margin-left: clamp(4px, 1vw, 16px);
+  padding: 11px clamp(14px, 1.4vw, 22px) 9px;
+  background: var(--latido);
+  border-radius: var(--radio);
+  box-shadow: 4px 4px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  color: var(--hueso);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  animation: latido-menu 1.6s ease-out infinite;
+}
+
+.navegacion-principal__enlace--destacado::before,
+.navegacion-principal__enlace--destacado::after {
+  content: none;
+}
+
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado:hover,
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado:focus-visible,
+.navegacion-principal__enlace.navegacion-principal__enlace--destacado[aria-current="location"] {
+  background: #dc2832;
+  color: var(--hueso);
+  text-shadow: none;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--sangre), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  animation: none;
+}
+
+.navegacion-principal__enlace--destacado:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 3px;
+}
+
+@keyframes latido-menu {
+  0%, 100% { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0); }
+  10%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0.55); }
+  20%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 10px rgba(255, 75, 82, 0); }
+  30%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 0 rgba(255, 75, 82, 0.4); }
+  42%      { box-shadow: 4px 4px 0 var(--sangre), 0 0 0 8px rgba(255, 75, 82, 0); }
+}
+
 /* ---------- 6. ESTRUCTURA GENERAL ---------- */
 .contenido-principal {
   width: min(var(--ancho-contenido), calc(100% - 32px));
@@ -591,14 +636,14 @@ body::after {
 .mision-vision__titulo,
 .historia__titulo,
 .caracteristicas__titulo,
-.galeria__titulo,
 .publico-objetivo__titulo,
 .competencia__titulo,
 .estrategia__titulo,
 .plataformas__titulo,
 .metricas__titulo,
 .estadisticas__titulo,
-.feedback__titulo {
+.feedback__titulo,
+.subtitulo-inicio {
   margin-bottom: var(--espacio-m);
   padding-left: 18px;
   border-left: 6px solid var(--latido);
@@ -653,10 +698,9 @@ body::after {
 /* ---------- 8. INICIO ---------- */
 .seccion-inicio {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   align-items: center;
-  gap: clamp(48px, 6vw, 96px);
-  min-height: min(calc(100svh - var(--alto-cabecera)), 52rem);
+  gap: clamp(32px, 5vw, 72px);
   padding-block: clamp(40px, 6vw, 72px);
 }
 
@@ -684,7 +728,7 @@ body::after {
 .seccion-inicio__titulo {
   position: relative;
   color: var(--fluorescente);
-  font-size: clamp(3.4rem, 9vw, 7.5rem);
+  font-size: clamp(3rem, 7.2vw, 6.5rem);
   font-weight: 900;
   letter-spacing: 0.005em;
   line-height: 0.84;
@@ -732,7 +776,7 @@ body::after {
 }
 
 .seccion-inicio__presentacion {
-  max-width: 34em;
+  max-width: min(34em, 100%);
   padding-left: 20px;
   border-left: 3px solid var(--latido);
   color: var(--fluorescente);
@@ -746,7 +790,8 @@ body::after {
   font-size: var(--fs-xs);
 }
 
-/* El monitor de seguridad: marco grueso, pantalla con scanlines, REC y hora congelada */
+/* El monitor de seguridad: marco grueso, barra con REC y hora congelada, y el tráiler como pantalla.
+   REC y hora van en una barra propia para no tapar los controles del reproductor */
 .seccion-inicio__multimedia {
   position: relative;
   margin: 0;
@@ -761,59 +806,29 @@ body::after {
     0 0 110px rgba(200, 32, 42, 0.2);
 }
 
-.seccion-inicio__multimedia::before {
-  content: "03:07:42";
-  position: absolute;
-  top: 22px;
-  right: 28px;
-  z-index: 2;
-  color: var(--fluorescente);
+.monitor__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 8px;
+  background: #0b0f0d;
+  border-bottom: 1px solid rgba(227, 235, 211, 0.1);
   font-family: var(--fuente-titulos);
-  font-size: 1.15rem;
-  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: 0.14em;
-  opacity: 0.85;
-  text-shadow: 0 1px 6px #000;
 }
 
-/* Banda de interferencia que baja por la pantalla de vez en cuando */
-.seccion-inicio__multimedia::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -22%;
-  z-index: 2;
-  height: 20%;
-  background: linear-gradient(180deg, transparent, rgba(227, 235, 211, 0.07) 50%, transparent);
-  pointer-events: none;
-  animation: interferencia 8s linear infinite;
-}
-
-@keyframes interferencia {
-  0%, 62% { top: -22%; }
-  100%    { top: 122%; }
-}
-
-.seccion-inicio__jugar {
-  position: relative;
-  display: block;
-}
-
-.seccion-inicio__jugar::before {
-  content: "● REC";
-  position: absolute;
-  top: 22px;
-  left: 28px;
-  z-index: 2;
+.monitor__rec {
   color: var(--latido-claro);
-  font-family: var(--fuente-titulos);
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
   text-shadow: 0 0 12px rgba(255, 75, 82, 0.7);
   animation: rec 1.6s steps(1) infinite;
+}
+
+.monitor__hora {
+  color: var(--fluorescente);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
 }
 
 @keyframes rec {
@@ -821,85 +836,40 @@ body::after {
   61%, 100% { opacity: 0.15; }
 }
 
-/* Visor: esquinas, scanlines, viñeta y un tinte verdoso de cámara */
-.seccion-inicio__jugar::after {
+.monitor__pantalla {
+  position: relative;
+}
+
+/* Scanlines suaves sobre el vídeo (sin tinte, para que se vea bien) */
+.monitor__pantalla::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
   pointer-events: none;
-  background-image:
-    var(--esq), var(--esq), var(--esq), var(--esq),
-    var(--esq), var(--esq), var(--esq), var(--esq),
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 4px),
-    radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(2, 4, 3, 0.8) 100%),
-    linear-gradient(rgba(95, 130, 80, 0.12), rgba(95, 130, 80, 0.12));
-  background-position:
-    left 16px top 16px, left 16px top 16px,
-    right 16px top 16px, right 16px top 16px,
-    left 16px bottom 16px, left 16px bottom 16px,
-    right 16px bottom 16px, right 16px bottom 16px,
-    0 0, center, 0 0;
-  background-size:
-    26px 2px, 2px 26px,
-    26px 2px, 2px 26px,
-    26px 2px, 2px 26px,
-    26px 2px, 2px 26px,
-    auto, 100% 100%, 100% 100%;
-  background-repeat:
-    no-repeat, no-repeat, no-repeat, no-repeat,
-    no-repeat, no-repeat, no-repeat, no-repeat,
-    repeat, no-repeat, no-repeat;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.35) 100%);
 }
 
-.seccion-inicio__imagen {
+.monitor__pantalla iframe {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  filter: grayscale(0.7) contrast(1.2) brightness(0.78);
-  transition: filter 0.4s ease;
-}
-
-.seccion-inicio__jugar:hover .seccion-inicio__imagen,
-.seccion-inicio__jugar:focus-visible .seccion-inicio__imagen {
-  filter: grayscale(0.2) contrast(1.1) brightness(0.95);
-}
-
-.seccion-inicio__play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 92px;
-  height: 92px;
-  padding-left: 5px;
-  background: rgba(200, 32, 42, 0.92);
-  border: 2px solid rgba(246, 241, 226, 0.85);
-  border-radius: 50%;
-  box-shadow: 0 0 0 10px rgba(200, 32, 42, 0.18), 0 0 40px rgba(200, 32, 42, 0.6);
-  color: var(--hueso);
-  transform: translate(-50%, -50%);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.seccion-inicio__jugar:hover .seccion-inicio__play,
-.seccion-inicio__jugar:focus-visible .seccion-inicio__play {
-  background: #dc2832;
-  transform: translate(-50%, -50%) scale(1.08);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
 }
 
 .seccion-inicio__pie {
-  position: absolute;
-  left: 30px;
-  right: 30px;
-  bottom: 36px;
-  z-index: 3;
-  color: var(--fluorescente);
+  padding: 12px 18px 14px;
+  color: var(--niebla);
   font-size: var(--fs-xs);
   font-style: italic;
-  text-shadow: 0 1px 8px #000, 0 0 2px #000;
+}
+
+/* La ficha técnica ocupa todo el ancho bajo el texto y el tráiler */
+.seccion-inicio__ficha {
+  grid-column: 1 / -1;
+  margin-top: var(--espacio-s);
 }
 
 @keyframes latido {
@@ -1356,54 +1326,6 @@ body::after {
   font-size: 1rem;
 }
 
-.galeria {
-  display: grid;
-  gap: var(--gap-cards-l);
-}
-
-.galeria__titulo {
-  margin-bottom: 0;
-}
-
-/* Tráiler en un monitor, como el de la portada */
-.galeria__trailer {
-  position: relative;
-  margin: 11px;
-  overflow: hidden;
-  background: #040605;
-  border: 1px solid rgba(227, 235, 211, 0.16);
-  border-radius: 6px;
-  box-shadow:
-    0 0 0 10px #0b0f0d,
-    0 0 0 11px rgba(227, 235, 211, 0.09),
-    0 30px 80px rgba(0, 0, 0, 0.8),
-    0 0 90px rgba(200, 32, 42, 0.16);
-}
-
-.galeria__trailer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 4px),
-    radial-gradient(ellipse at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.4) 100%);
-}
-
-.galeria__trailer iframe {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  border: 0;
-}
-
-.galeria__capturas {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--gap-cards-l);
-}
-
 /* Capturas: fotos impresas pegadas con cinta, ligeramente torcidas */
 .captura {
   position: relative;
@@ -1430,18 +1352,6 @@ body::after {
   transform: translateX(-50%) rotate(-3deg);
 }
 
-.galeria__capturas li:nth-child(odd) .captura {
-  transform: rotate(-1deg);
-}
-
-.galeria__capturas li:nth-child(even) .captura {
-  transform: rotate(1.2deg);
-}
-
-.galeria__capturas li:hover .captura {
-  transform: rotate(0deg) translateY(-4px);
-}
-
 .captura__imagen {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -1461,6 +1371,219 @@ body::after {
   color: var(--niebla);
   font-size: var(--fs-xs);
   font-style: italic;
+}
+
+/* Capturas y demo forman parte de Inicio: sin el latido que separa categorías,
+   con subtítulo de bloque en vez de título de sección y más juntas entre sí */
+#capturas::before,
+#jugar-demo::before {
+  content: none;
+}
+
+#capturas {
+  padding-bottom: var(--espacio-l);
+}
+
+#jugar-demo {
+  padding-top: 0;
+  scroll-margin-top: 24px; /* al venir del botón, el subtítulo queda justo bajo la cabecera */
+}
+
+.subtitulo-inicio {
+  margin-bottom: calc(var(--espacio-m) - var(--gap-bloques));
+}
+
+.subtitulo-inicio + p {
+  margin-top: calc(var(--espacio-s) - var(--gap-bloques) - var(--espacio-m) + var(--gap-bloques));
+}
+
+/* ---------- 10b. CAPTURAS (CARRUSEL) ---------- */
+.carrusel {
+  display: grid;
+  gap: var(--espacio-m);
+}
+
+/* Pista con scroll-snap: se desliza con dedo, rueda o flechas; el script solo añade botones y puntos */
+.carrusel__pista {
+  display: flex;
+  gap: var(--gap-cards-l);
+  padding: 20px 4px 28px; /* aire para la cinta y la sombra, que si no se recortan */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  scrollbar-width: none;
+}
+
+.carrusel__pista::-webkit-scrollbar {
+  display: none;
+}
+
+.carrusel__pista:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 2px;
+}
+
+.carrusel__diapositiva {
+  /* Ancho limitado por el alto de pantalla: así controles y botón entran sin hacer scroll */
+  flex: 0 0 min(100%, 880px, max(320px, calc((100svh - 440px) * 16 / 9)));
+  scroll-snap-align: start;
+}
+
+/* Controles y botón de la demo, uno bajo otro y centrados: el botón queda en el eje de la mirada */
+.carrusel__barra {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: var(--espacio-m);
+}
+
+.carrusel__controles {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-s);
+}
+
+.carrusel__barra .boton {
+  padding: 22px 52px 20px;
+  font-size: 1.6rem;
+  animation: latido 1.6s ease-out infinite; /* el mismo latido que el botón de la portada */
+}
+
+.carrusel__barra .boton:hover,
+.carrusel__barra .boton:focus-visible {
+  animation: none;
+}
+
+.carrusel__flecha {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: var(--pared-alta);
+  border: 1px solid var(--linoleo);
+  border-radius: var(--radio);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.65);
+  color: var(--fluorescente);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.carrusel__flecha:hover:not(:disabled) {
+  background: var(--latido);
+  border-color: var(--latido);
+  color: var(--hueso);
+}
+
+.carrusel__flecha:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.carrusel__puntos {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* El punto es pequeño, pero su zona de pulsación mide 28 px */
+.carrusel__punto {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.carrusel__punto::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--linoleo);
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.carrusel__punto[aria-current="true"]::before {
+  background: var(--latido-claro);
+  box-shadow: 0 0 10px rgba(255, 75, 82, 0.6);
+  transform: scale(1.3);
+}
+
+.carrusel__flecha:focus-visible,
+.carrusel__punto:focus-visible {
+  outline: 3px solid var(--fluorescente);
+  outline-offset: 2px;
+}
+
+/* ---------- 10c. JUGAR LA DEMO ---------- */
+.seccion-demo {
+  --demo-ancho: 16;  /* proporción de tu build de WebGL (ancho : alto) */
+  --demo-alto: 9;
+  --demo-reserva: 330px; /* alto que ocupan cabecera, subtítulo, texto y nota: lo que sobra es para la ventana */
+}
+
+/* Introducción, ventana y alternativa de itch.io quedan juntas: se resta la separación general
+   entre bloques (el aro del monitor ya ocupa 11 px por fuera) */
+.seccion-demo .seccion__introduccion {
+  margin-bottom: calc(24px - var(--gap-bloques));
+}
+
+/* La ventana se ajusta al alto de la pantalla: se ve entera sin desplazarse.
+   Si la pantalla es baja, se estrecha manteniendo la proporción */
+.demo {
+  position: relative;
+  width: min(
+    calc(100% - 22px),
+    max(320px, calc((100svh - var(--demo-reserva)) * var(--demo-ancho) / var(--demo-alto)))
+  );
+  margin: 11px auto;
+  overflow: hidden;
+  background: #040605;
+  border: 1px solid rgba(227, 235, 211, 0.16);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 10px #0b0f0d,
+    0 0 0 11px rgba(227, 235, 211, 0.09),
+    0 40px 100px rgba(0, 0, 0, 0.85),
+    0 0 140px rgba(200, 32, 42, 0.28);
+}
+
+.demo__marco {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--demo-ancho) / var(--demo-alto);
+  border: 0;
+}
+
+/* Justo bajo la ventana y centrada con ella; entra en la reserva de alto de la ventana,
+   así se ve a primera vista sin desplazarse */
+.demo__nota {
+  max-width: none; /* sin el límite de ancho de los párrafos, para centrarla de verdad bajo la ventana */
+  margin-top: calc(12px - var(--gap-bloques));
+  color: var(--niebla); /* el mismo color que el texto de introducción de la sección */
+  font-size: var(--fs-m);
+  text-align: center;
+  /* .demo es position: relative y su sombra (negra y roja) se pintaría encima de la nota,
+     oscureciéndola. Al posicionarla, la nota queda por encima de esa sombra */
+  position: relative;
+  z-index: 1;
+}
+
+.demo__nota a {
+  color: var(--latido-claro);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.demo__nota a:hover,
+.demo__nota a:focus-visible {
+  color: var(--hueso);
 }
 
 /* ---------- 11. DEVLOG (secuencia real: línea de tiempo) ---------- */
@@ -2281,11 +2404,6 @@ textarea.formulario-contacto__entrada {
 @media (max-width: 900px) {
   .seccion-inicio {
     grid-template-columns: minmax(0, 1fr);
-    min-height: 0;
-  }
-
-  .seccion-inicio__imagen {
-    aspect-ratio: 16 / 10;
   }
 
   .estrategia__fases {
@@ -2300,6 +2418,13 @@ textarea.formulario-contacto__entrada {
 
   .estrategia__fase::before {
     grid-row: 1 / span 2;
+  }
+}
+
+/* Tablet vertical y menos: el botón de la demo ocupa todo el ancho */
+@media (max-width: 720px) {
+  .carrusel__barra .boton {
+    justify-self: stretch;
   }
 }
 
@@ -2322,7 +2447,6 @@ textarea.formulario-contacto__entrada {
     margin-top: 0;
   }
 
-  .galeria__capturas,
   .plataformas__lista,
   .feedback__comentarios,
   .estadisticas__lista {
@@ -2417,14 +2541,14 @@ textarea.formulario-contacto__entrada {
   .mision-vision__titulo,
   .historia__titulo,
   .caracteristicas__titulo,
-  .galeria__titulo,
-  .publico-objetivo__titulo,
+    .publico-objetivo__titulo,
   .competencia__titulo,
   .estrategia__titulo,
   .plataformas__titulo,
   .metricas__titulo,
   .estadisticas__titulo,
-  .feedback__titulo {
+  .feedback__titulo,
+  .subtitulo-inicio {
     padding-left: 14px;
     border-left-width: 5px;
   }
@@ -2495,15 +2619,10 @@ textarea.formulario-contacto__entrada {
     width: 100%;
   }
 
-  /* Monitor de la portada: más alto y con el botón de play más pequeño para que no pise el pie de foto */
-  .seccion-inicio__imagen {
-    aspect-ratio: 4 / 3;
+  .carrusel__diapositiva {
+    flex-basis: 92%;
   }
 
-  .seccion-inicio__play {
-    width: 64px;
-    height: 64px;
-  }
 }
 
 /* Pantallas bajas (móvil en horizontal): el título fijo ocuparía media pantalla, así que fluye con el contenido */

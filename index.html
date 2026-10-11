@@ -32,13 +32,14 @@
         <li><a class="navegacion-principal__enlace" href="#aspectos-tecnicos">Aspectos técnicos</a></li>
         <li><a class="navegacion-principal__enlace" href="#resultados">Resultados</a></li>
         <li><a class="navegacion-principal__enlace" href="#contacto">Contacto</a></li>
+        <li><a class="navegacion-principal__enlace navegacion-principal__enlace--destacado" href="#jugar-demo">Jugar la demo</a></li>
       </ul>
     </nav>
   </header>
 
   <main id="contenido-principal" class="contenido-principal">
 
-    <!-- 1. INICIO -->
+    <!-- 1. INICIO: info del juego + tráiler + botón a la demo -->
     <section id="inicio" class="seccion seccion-inicio" aria-labelledby="titulo-inicio">
       <div class="seccion-inicio__texto">
         <h1 id="titulo-inicio" class="seccion-inicio__titulo" data-texto="Shift Happens">Shift Happens</h1>
@@ -46,21 +47,99 @@
           La noche más estresante del año, un conserje agotado y una residencia universitaria
           donde ya no sabes qué es real. ¿Podrás completar tu turno antes del amanecer?
         </p>
-        <a class="boton boton--principal" href="demo/index.html" target="_blank" rel="noopener">
-          Jugar la demo
-        </a>
+        <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
         <p class="seccion-inicio__nota">Se juega directamente en el navegador, sin descargas.</p>
       </div>
 
       <figure class="seccion-inicio__multimedia">
-        <a class="seccion-inicio__jugar" href="demo/index.html" target="_blank" rel="noopener" aria-label="Jugar la demo de Shift Happens">
-          <img class="seccion-inicio__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El conserje recorre un pasillo oscuro de la residencia con el móvil en la mano" width="1280" height="720">
-          <span class="seccion-inicio__play" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
-          </span>
-        </a>
-        <figcaption class="seccion-inicio__pie">Un pasillo cualquiera de la residencia, a las tres de la madrugada.</figcaption>
+        <div class="monitor__barra" aria-hidden="true">
+          <span class="monitor__rec">● REC</span>
+          <span class="monitor__hora">03:07:42</span>
+        </div>
+        <div class="monitor__pantalla">
+          <iframe src="https://www.youtube.com/embed/MXDYOh67SWc?si=WNu1EqNh6tNQDEyM" title="Tráiler de Shift Happens" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <figcaption class="seccion-inicio__pie">Tráiler: una noche de turno en la residencia.</figcaption>
       </figure>
+
+      <dl class="ficha-juego seccion-inicio__ficha">
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Género</dt>
+          <dd class="ficha-juego__valor">Terror de supervivencia 2D y gestión de tareas</dd>
+        </div>
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Plataforma</dt>
+          <dd class="ficha-juego__valor">Navegador web (PC y portátiles)</dd>
+        </div>
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Controles</dt>
+          <dd class="ficha-juego__valor">Teclado: 4 direcciones, interactuar y Shift</dd>
+        </div>
+        <div class="ficha-juego__dato">
+          <dt class="ficha-juego__etiqueta">Estado</dt>
+          <dd class="ficha-juego__valor">Demo jugable</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 1b. CAPTURAS: carrusel + botón a la demo -->
+    <section id="capturas" class="seccion seccion-capturas" aria-labelledby="titulo-capturas">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-capturas" class="subtitulo-inicio">Capturas del juego</h2>
+      </header>
+
+      <div class="carrusel" role="region" aria-roledescription="carrusel" aria-label="Capturas del juego">
+        <ul class="carrusel__pista" tabindex="0" aria-label="Capturas, desliza o usa las flechas del teclado">
+          <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="1 de 3">
+            <figure class="captura">
+              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="1280" height="720" loading="lazy">
+              <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
+            </figure>
+          </li>
+          <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="2 de 3">
+            <figure class="captura">
+              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="1280" height="720" loading="lazy">
+              <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
+            </figure>
+          </li>
+          <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="3 de 3">
+            <figure class="captura">
+              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="1280" height="720" loading="lazy">
+              <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
+            </figure>
+          </li>
+        </ul>
+
+        <div class="carrusel__barra">
+          <div class="carrusel__controles">
+            <button class="carrusel__flecha" type="button" data-carrusel="anterior" aria-label="Captura anterior">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <div class="carrusel__puntos" role="group" aria-label="Elegir captura"></div>
+            <button class="carrusel__flecha" type="button" data-carrusel="siguiente" aria-label="Captura siguiente">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1c. JUGAR LA DEMO: build WebGL de itch.io en grande -->
+    <section id="jugar-demo" class="seccion seccion-demo" aria-labelledby="titulo-demo">
+      <header class="seccion__encabezado">
+        <h2 id="titulo-demo" class="subtitulo-inicio">Jugar la demo</h2>
+        <p class="seccion__introduccion">Tu turno empieza cuando pulses «Run game». Mejor con teclado y en pantalla completa.</p>
+      </header>
+
+      <div class="demo">
+        <!-- Sustituye la URL por la de tu build: itch.io → tu juego → Embed → "Embed game" (https://itch.io/embed-upload/XXXXXXX) -->
+        <iframe class="demo__marco" src="https://itch.io/embed-upload/ID_DE_TU_BUILD?color=070908" title="Demo jugable de Shift Happens" allow="fullscreen; autoplay; gamepad" allowfullscreen loading="lazy">
+          <a href="https://TU-USUARIO.itch.io/shift-happens">Juega Shift Happens en itch.io</a>
+        </iframe>
+      </div>
+
+      <p class="demo__nota">¿No carga o prefieres verla aparte? <a href="https://TU-USUARIO.itch.io/shift-happens" target="_blank" rel="noopener">Abrir la demo en itch.io</a></p>
     </section>
 
     <!-- 2. SOBRE EL ESTUDIO -->
@@ -171,25 +250,6 @@
         </p>
       </header>
 
-      <dl class="ficha-juego">
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Género</dt>
-          <dd class="ficha-juego__valor">Terror de supervivencia 2D y gestión de tareas</dd>
-        </div>
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Plataforma</dt>
-          <dd class="ficha-juego__valor">Navegador web (PC y portátiles)</dd>
-        </div>
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Controles</dt>
-          <dd class="ficha-juego__valor">Teclado: 4 direcciones, interactuar y Shift</dd>
-        </div>
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Estado</dt>
-          <dd class="ficha-juego__valor">Demo jugable</dd>
-        </div>
-      </dl>
-
       <section class="caracteristicas" aria-labelledby="titulo-caracteristicas">
         <h3 id="titulo-caracteristicas" class="caracteristicas__titulo">Características principales</h3>
         <ul class="caracteristicas__lista">
@@ -216,34 +276,6 @@
           <li class="caracteristica">
             <h4 class="caracteristica__titulo">Listo para jugar en el navegador</h4>
             <p class="caracteristica__descripcion">Controles simples y partida inmediata, sin instalar nada.</p>
-          </li>
-        </ul>
-      </section>
-
-      <section class="galeria" aria-labelledby="titulo-galeria">
-        <h3 id="titulo-galeria" class="galeria__titulo">Capturas y gameplay</h3>
-        <div class="galeria__trailer">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/MXDYOh67SWc?si=WNu1EqNh6tNQDEyM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-
-        <ul class="galeria__capturas">
-          <li>
-            <figure class="captura">
-              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="640" height="360" loading="lazy">
-              <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure class="captura">
-              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="640" height="360" loading="lazy">
-              <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure class="captura">
-              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="640" height="360" loading="lazy">
-              <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
-            </figure>
           </li>
         </ul>
       </section>
@@ -599,9 +631,10 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
       var finViaje = null;      // temporizador que detecta cuándo termina el desplazamiento
       var sepTitulo = 28;       // aire entre cabecera y título fijo (se lee de --sep-titulo-fijo)
 
-      // Cada enlace del menú con su sección y el título de esa sección
+      // Cada enlace del menú con su sección y el título de esa sección.
+      // El botón «Jugar la demo» no es una categoría: Capturas y Demo cuentan como parte de Inicio
       var secciones = Array.prototype.slice
-        .call(document.querySelectorAll('.navegacion-principal__enlace'))
+        .call(document.querySelectorAll('.navegacion-principal__enlace:not(.navegacion-principal__enlace--destacado)'))
         .map(function (enlace) {
           var seccion = document.getElementById(enlace.getAttribute('href').slice(1));
           return {
@@ -610,7 +643,10 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
             titulo: seccion ? seccion.querySelector('.seccion__titulo, .seccion-inicio__titulo') : null
           };
         })
-        .filter(function (s) { return s.seccion; });
+        .filter(function (s) { return s.seccion; })
+        .sort(function (a, b) {
+          return a.seccion.compareDocumentPosition(b.seccion) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+        });
 
       // Títulos de sección que se quedan fijos bajo la cabecera
       var titulos = Array.prototype.slice.call(document.querySelectorAll('.seccion__titulo'));
@@ -763,6 +799,72 @@ probabilidadAlucinacion = ansiedad / ansiedadMaxima</code></pre>
       if (document.fonts && document.fonts.ready) { document.fonts.ready.then(medir); }
       if (consulta.addEventListener) { consulta.addEventListener('change', aplicar); }
       else if (consulta.addListener) { consulta.addListener(aplicar); }
+    })();
+  </script>
+
+  <script>
+    // Carrusel de capturas: botones, puntos y teclado sobre una pista con scroll-snap
+    (function () {
+      var pista = document.querySelector('.carrusel__pista');
+      if (!pista) { return; }
+      var diapositivas = Array.prototype.slice.call(pista.children);
+      var anterior = document.querySelector('[data-carrusel="anterior"]');
+      var siguiente = document.querySelector('[data-carrusel="siguiente"]');
+      var contenedorPuntos = document.querySelector('.carrusel__puntos');
+      var puntos = [];
+      var actual = 0;
+
+      function irA(i) {
+        i = Math.max(0, Math.min(diapositivas.length - 1, i));
+        var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        pista.scrollTo({ left: diapositivas[i].offsetLeft - diapositivas[0].offsetLeft, behavior: reducido ? 'auto' : 'smooth' });
+      }
+
+      function marcar(i) {
+        actual = i;
+        puntos.forEach(function (p, n) { p.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+        anterior.disabled = i === 0;
+        siguiente.disabled = i === diapositivas.length - 1;
+      }
+
+      diapositivas.forEach(function (_, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'carrusel__punto';
+        b.setAttribute('aria-label', 'Ir a la captura ' + (i + 1) + ' de ' + diapositivas.length);
+        b.addEventListener('click', function () { irA(i); });
+        contenedorPuntos.appendChild(b);
+        puntos.push(b);
+      });
+
+      anterior.addEventListener('click', function () { irA(actual - 1); });
+      siguiente.addEventListener('click', function () { irA(actual + 1); });
+
+      pista.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); irA(actual + 1); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); irA(actual - 1); }
+      });
+
+      // La diapositiva activa es la más cercana al borde izquierdo de la pista
+      var pendiente = false;
+      pista.addEventListener('scroll', function () {
+        if (pendiente) { return; }
+        pendiente = true;
+        window.requestAnimationFrame(function () {
+          pendiente = false;
+          var base = pista.scrollLeft + diapositivas[0].offsetLeft;
+          var mejor = 0, dist = Infinity;
+          diapositivas.forEach(function (d, i) {
+            var dd = Math.abs(d.offsetLeft - base);
+            if (dd < dist) { dist = dd; mejor = i; }
+          });
+          // Al llegar al final, la última cuenta aunque no pueda alinearse a la izquierda
+          if (pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 2) { mejor = diapositivas.length - 1; }
+          if (mejor !== actual) { marcar(mejor); }
+        });
+      }, { passive: true });
+
+      marcar(0);
     })();
   </script>
 
