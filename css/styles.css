@@ -1203,7 +1203,40 @@ body::after {
 }
 
 .historia {
-  max-width: 760px;
+  max-width: none;
+}
+
+/* Texto a la izquierda y gif a la derecha; en tablet y móvil se apilan */
+.historia__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--espacio-m) var(--espacio-l);
+  align-items: center;
+}
+
+.historia__figura {
+  margin: 0;
+  border: 1px solid var(--linoleo);
+  box-shadow: var(--sombra-dura);
+  background: #000;
+}
+
+.historia__gif {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .historia__cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .historia__figura {
+    max-width: 560px;
+  }
 }
 
 .historia__texto {
@@ -2158,9 +2191,9 @@ body::after {
 }
 
 .plataforma__icono {
+  flex: none;
   width: 32px;
   height: 32px;
-  border-radius: var(--radio);
 }
 
 .plataforma__descripcion {
@@ -2510,6 +2543,17 @@ textarea.formulario-contacto__entrada {
   line-height: var(--lh-ui);
   text-decoration: none;
   transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.red-social {
+  gap: 14px;
+}
+
+.red-social__icono {
+  flex: none;
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: -2px; /* compensa el padding superior mayor del botón */
 }
 
 .red-social:hover {
