@@ -1837,6 +1837,80 @@ body::after {
   transform: rotate(45deg) scale(1);
 }
 
+/* Devlog interactivo (devlog.js añade .linea-tiempo--progresiva y los estados según el scroll):
+   la línea roja se pinta hasta la «línea de lectura», los nodos se iluminan al llegar a su fase y se marcan
+   cuando están todas sus tareas, y cada tarea se tickea al pasar por ella. Sin el script nada de esto aplica */
+.linea-tiempo--progresiva::before {
+  opacity: 0.22; /* camino por recorrer */
+}
+
+.linea-tiempo--progresiva::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-x) - 1px);
+  top: 10px;
+  z-index: 0;
+  width: 2px;
+  height: var(--progreso, 0px); /* lo escribe el script */
+  background: repeating-linear-gradient(180deg, var(--latido) 0 10px, transparent 10px 16px); /* mismas rayas que el camino */
+  filter: drop-shadow(0 0 5px rgba(255, 75, 82, 0.7));
+  pointer-events: none;
+}
+
+.linea-tiempo--progresiva .hito::before {
+  z-index: 1; /* el nodo queda por encima de la línea pintada */
+  border-color: rgba(200, 32, 42, 0.45);
+  box-shadow: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.linea-tiempo--progresiva .hito::after {
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.linea-tiempo--progresiva .hito--alcanzado::before {
+  background: var(--latido);
+  border-color: var(--latido);
+  box-shadow: 0 0 22px rgba(255, 75, 82, 0.85);
+}
+
+.linea-tiempo--progresiva .hito--alcanzado::after {
+  opacity: 0.8;
+}
+
+/* Fase completa: el rombo lleva una marca de verificación (girada -45° para compensar el giro del rombo) */
+.linea-tiempo--progresiva .hito--completo::before {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23f6f1e2' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' transform='rotate(-45 12 12)'/%3E%3C/svg%3E")
+    center / 12px no-repeat,
+    var(--latido);
+}
+
+.linea-tiempo--progresiva .hito--completo .hito__contenido {
+  border-left-color: var(--latido);
+}
+
+/* Tarea hecha: casilla roja con su marca, igual que el aspecto al pasar el ratón, y un pequeño rebote al marcarse */
+.hito__tareas li.tarea--hecha {
+  color: var(--fluorescente);
+}
+
+.hito__tareas li.tarea--hecha::before {
+  background: var(--latido);
+  animation: tarea-marcada 0.35s ease;
+}
+
+.hito__tareas li.tarea--hecha::after {
+  transform: rotate(45deg) scale(1);
+}
+
+@keyframes tarea-marcada {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
 /* ---------- 12. MARKETING ---------- */
 .publico-objetivo__lista {
   display: grid;
