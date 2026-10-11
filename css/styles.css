@@ -6,6 +6,22 @@
    trabajo, cámara de seguridad y el latido del protagonista.
    ===================================================================== */
 
+<<<<<<< HEAD
+=======
+/* ---------- 0. FUENTE DE TÍTULOS: SUPER RUGGED ----------
+   La ruta es relativa a ESTE archivo CSS: se asume que styles.css está en una subcarpeta (p. ej. /css/),
+   así que sube un nivel con "../" para llegar a la carpeta Assets. Si el CSS está en la raíz, quita el "../".
+   «font-weight: 100 900» le dice al navegador que esta cara cubre todos los pesos: así no inventa
+   una negrita falsa sobre las reglas con font-weight 800/900. */
+@font-face {
+  font-family: "Super Rugged";
+  src: url("../Assets/Fonts/super_rugged/Super%20Rugged.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+>>>>>>> alpha-website
 /* ---------- 1. TOKENS ---------- */
 :root {
   /* Color */
@@ -25,6 +41,10 @@
   --rojo-vena: #e0594e;       /* rojo de las venas del ojo: REC y errores */
 
   /* Tipografía */
+<<<<<<< HEAD
+=======
+  --fuente-rugged: "Super Rugged", "Big Shoulders Display", "Barlow Condensed", Impact, "Haettenschweiler", "Arial Narrow Bold", sans-serif; /* solo los títulos (h1-h4) */
+>>>>>>> alpha-website
   --fuente-titulos: "Big Shoulders Display", "Barlow Condensed", Impact, "Haettenschweiler", "Arial Narrow Bold", sans-serif;
   --fuente-texto: "Spectral", Georgia, "Times New Roman", serif;
   --fuente-codigo: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -151,7 +171,11 @@ audio {
 
 h1, h2, h3, h4 {
   margin: 0;
+<<<<<<< HEAD
   font-family: var(--fuente-titulos);
+=======
+  font-family: var(--fuente-rugged);
+>>>>>>> alpha-website
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.01em;
