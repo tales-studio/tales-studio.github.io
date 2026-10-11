@@ -643,7 +643,8 @@ body::after {
 .metricas__titulo,
 .estadisticas__titulo,
 .feedback__titulo,
-.subtitulo-inicio {
+.ficha__titulo,
+.subtitulo-bloque {
   margin-bottom: var(--espacio-m);
   padding-left: 18px;
   border-left: 6px solid var(--latido);
@@ -864,12 +865,6 @@ body::after {
   color: var(--niebla);
   font-size: var(--fs-xs);
   font-style: italic;
-}
-
-/* La ficha técnica ocupa todo el ancho bajo el texto y el tráiler */
-.seccion-inicio__ficha {
-  grid-column: 1 / -1;
-  margin-top: var(--espacio-s);
 }
 
 @keyframes latido {
@@ -1373,27 +1368,28 @@ body::after {
   font-style: italic;
 }
 
-/* Capturas y demo forman parte de Inicio: sin el latido que separa categorías,
-   con subtítulo de bloque en vez de título de sección y más juntas entre sí */
-#capturas::before,
-#jugar-demo::before {
-  content: none;
+/* Capturas y demo son bloques dentro de Nuestro juego, no secciones: sin separador ni relleno propio.
+   Conservan el ritmo vertical de una sección (columna con gap), porque las distancias de su
+   subtítulo, introducción y nota están medidas contando con ese gap */
+.seccion-capturas,
+.seccion-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-bloques);
 }
 
-#capturas {
-  padding-bottom: var(--espacio-l);
-}
-
+/* Al venir del botón «Jugar la demo», el subtítulo debe quedar bajo la cabecera y también
+   bajo el título fijo de Nuestro juego (su alto más el aire que lo separa de la cabecera) */
+#capturas,
 #jugar-demo {
-  padding-top: 0;
-  scroll-margin-top: 24px; /* al venir del botón, el subtítulo queda justo bajo la cabecera */
+  scroll-margin-top: calc(var(--sep-titulo-fijo) + var(--fs-titulo-h2) + 36px);
 }
 
-.subtitulo-inicio {
+.subtitulo-bloque {
   margin-bottom: calc(var(--espacio-m) - var(--gap-bloques));
 }
 
-.subtitulo-inicio + p {
+.subtitulo-bloque + p {
   margin-top: calc(var(--espacio-s) - var(--gap-bloques) - var(--espacio-m) + var(--gap-bloques));
 }
 
@@ -1523,7 +1519,7 @@ body::after {
 .seccion-demo {
   --demo-ancho: 16;  /* proporción de tu build de WebGL (ancho : alto) */
   --demo-alto: 9;
-  --demo-reserva: 330px; /* alto que ocupan cabecera, subtítulo, texto y nota: lo que sobra es para la ventana */
+  --demo-reserva: 430px; /* alto que ocupan cabecera, título fijo de la sección, subtítulo, texto y nota: lo que sobra es para la ventana */
 }
 
 /* Introducción, ventana y alternativa de itch.io quedan juntas: se resta la separación general
@@ -2548,7 +2544,8 @@ textarea.formulario-contacto__entrada {
   .metricas__titulo,
   .estadisticas__titulo,
   .feedback__titulo,
-  .subtitulo-inicio {
+  .ficha__titulo,
+  .subtitulo-bloque {
     padding-left: 14px;
     border-left-width: 5px;
   }

@@ -31,6 +31,7 @@ window.TRADUCCIONES = {
     "Navegador web (PC y portátiles)": "Web browser (PC and laptops)",
     "Controles": "Controls",
     "Teclado: 4 direcciones, interactuar y Shift": "Keyboard: 4 directions, interact and Shift",
+    "Ficha del juego": "Game info",
     "Estado": "Status",
     "Demo jugable": "Playable demo",
 

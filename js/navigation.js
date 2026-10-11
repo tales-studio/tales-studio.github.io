@@ -11,7 +11,7 @@
   var sepTitulo = 28;       // aire entre cabecera y título fijo (se lee de --sep-titulo-fijo)
 
   // Cada enlace del menú con su sección y el título de esa sección.
-  // El botón «Jugar la demo» no es una categoría: Capturas y Demo cuentan como parte de Inicio
+  // El botón «Jugar la demo» no es una categoría: la demo está dentro de Nuestro juego, que se ilumina al llegar
   var secciones = Array.prototype.slice
     .call(document.querySelectorAll('.navegacion-principal__enlace:not(.navegacion-principal__enlace--destacado)'))
     .map(function (enlace) {

@@ -51,7 +51,7 @@
 
   <main id="contenido-principal" class="contenido-principal">
 
-    <!-- 1. INICIO: info del juego + tráiler + botón a la demo -->
+    <!-- 1. INICIO: presentación del juego + tráiler + botón a la demo -->
     <section id="inicio" class="seccion seccion-inicio" aria-labelledby="titulo-inicio">
       <div class="seccion-inicio__texto">
         <h1 id="titulo-inicio" class="seccion-inicio__titulo" data-texto="Shift Happens">Shift Happens</h1>
@@ -73,85 +73,6 @@
         </div>
         <figcaption class="seccion-inicio__pie">Tráiler: una noche de turno en la residencia.</figcaption>
       </figure>
-
-      <dl class="ficha-juego seccion-inicio__ficha">
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Género</dt>
-          <dd class="ficha-juego__valor">Terror de supervivencia 2D y gestión de tareas</dd>
-        </div>
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Plataforma</dt>
-          <dd class="ficha-juego__valor">Navegador web (PC y portátiles)</dd>
-        </div>
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Controles</dt>
-          <dd class="ficha-juego__valor">Teclado: 4 direcciones, interactuar y Shift</dd>
-        </div>
-        <div class="ficha-juego__dato">
-          <dt class="ficha-juego__etiqueta">Estado</dt>
-          <dd class="ficha-juego__valor">Demo jugable</dd>
-        </div>
-      </dl>
-    </section>
-
-    <!-- 1b. CAPTURAS: carrusel + botón a la demo -->
-    <section id="capturas" class="seccion seccion-capturas" aria-labelledby="titulo-capturas">
-      <header class="seccion__encabezado">
-        <h2 id="titulo-capturas" class="subtitulo-inicio">Capturas del juego</h2>
-      </header>
-
-      <div class="carrusel" role="region" aria-roledescription="carrusel" aria-label="Capturas del juego">
-        <ul class="carrusel__pista" tabindex="0" aria-label="Capturas, desliza o usa las flechas del teclado">
-          <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="1 de 3">
-            <figure class="captura">
-              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="1280" height="720" loading="lazy">
-              <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
-            </figure>
-          </li>
-          <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="2 de 3">
-            <figure class="captura">
-              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="1280" height="720" loading="lazy">
-              <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
-            </figure>
-          </li>
-          <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="3 de 3">
-            <figure class="captura">
-              <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="1280" height="720" loading="lazy">
-              <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
-            </figure>
-          </li>
-        </ul>
-
-        <div class="carrusel__barra">
-          <div class="carrusel__controles">
-            <button class="carrusel__flecha" type="button" data-carrusel="anterior" aria-label="Captura anterior">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-            </button>
-            <div class="carrusel__puntos" role="group" aria-label="Elegir captura"></div>
-            <button class="carrusel__flecha" type="button" data-carrusel="siguiente" aria-label="Captura siguiente">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-          <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 1c. JUGAR LA DEMO: build WebGL de itch.io en grande -->
-    <section id="jugar-demo" class="seccion seccion-demo" aria-labelledby="titulo-demo">
-      <header class="seccion__encabezado">
-        <h2 id="titulo-demo" class="subtitulo-inicio">Jugar la demo</h2>
-        <p class="seccion__introduccion">Tu turno empieza cuando pulses «Run game». Mejor con teclado y en pantalla completa.</p>
-      </header>
-
-      <div class="demo">
-        <!-- Sustituye la URL por la de tu build: itch.io → tu juego → Embed → "Embed game" (https://itch.io/embed-upload/XXXXXXX) -->
-        <iframe class="demo__marco" src="https://itch.io/embed-upload/ID_DE_TU_BUILD?color=070908" title="Demo jugable de Shift Happens" allow="fullscreen; autoplay; gamepad" allowfullscreen loading="lazy">
-          <a href="https://TU-USUARIO.itch.io/shift-happens">Juega Shift Happens en itch.io</a>
-        </iframe>
-      </div>
-
-      <p class="demo__nota">¿No carga o prefieres verla aparte? <a href="https://TU-USUARIO.itch.io/shift-happens" target="_blank" rel="noopener">Abrir la demo en itch.io</a></p>
     </section>
 
     <!-- 2. SOBRE EL ESTUDIO -->
@@ -261,6 +182,85 @@
           y las alucinaciones mortales desaparezca. ¿Podrás mantener la cordura y completar tu turno antes del amanecer?
         </p>
       </header>
+
+      <!-- Ficha del juego -->
+      <section class="ficha" aria-labelledby="titulo-ficha">
+        <h3 id="titulo-ficha" class="ficha__titulo">Ficha del juego</h3>
+        <dl class="ficha-juego">
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Género</dt>
+            <dd class="ficha-juego__valor">Terror de supervivencia 2D y gestión de tareas</dd>
+          </div>
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Plataforma</dt>
+            <dd class="ficha-juego__valor">Navegador web (PC y portátiles)</dd>
+          </div>
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Controles</dt>
+            <dd class="ficha-juego__valor">Teclado: 4 direcciones, interactuar y Shift</dd>
+          </div>
+          <div class="ficha-juego__dato">
+            <dt class="ficha-juego__etiqueta">Estado</dt>
+            <dd class="ficha-juego__valor">Demo jugable</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Capturas: carrusel + botón a la demo -->
+      <section id="capturas" class="seccion-capturas" aria-labelledby="titulo-capturas">
+        <h3 id="titulo-capturas" class="subtitulo-bloque">Capturas del juego</h3>
+
+        <div class="carrusel" role="region" aria-roledescription="carrusel" aria-label="Capturas del juego">
+          <ul class="carrusel__pista" tabindex="0" aria-label="Capturas, desliza o usa las flechas del teclado">
+            <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="1 de 3">
+              <figure class="captura">
+                <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista consulta la lista de tareas en su teléfono" width="1280" height="720" loading="lazy">
+                <figcaption class="captura__pie">La lista de tareas, en tu propio teléfono.</figcaption>
+              </figure>
+            </li>
+            <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="2 de 3">
+              <figure class="captura">
+                <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="Un pasillo con una sombra extraña al fondo" width="1280" height="720" loading="lazy">
+                <figcaption class="captura__pie">¿Un residente o una alucinación?</figcaption>
+              </figure>
+            </li>
+            <li class="carrusel__diapositiva" aria-roledescription="diapositiva" aria-label="3 de 3">
+              <figure class="captura">
+                <img class="captura__imagen" src="Assets/Images/PLACEHOLDER.jpg" alt="El protagonista se esconde en sigilo con el pulso acelerado" width="1280" height="720" loading="lazy">
+                <figcaption class="captura__pie">Sigilo y pulso acelerado.</figcaption>
+              </figure>
+            </li>
+          </ul>
+
+          <div class="carrusel__barra">
+            <div class="carrusel__controles">
+              <button class="carrusel__flecha" type="button" data-carrusel="anterior" aria-label="Captura anterior">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+              </button>
+              <div class="carrusel__puntos" role="group" aria-label="Elegir captura"></div>
+              <button class="carrusel__flecha" type="button" data-carrusel="siguiente" aria-label="Captura siguiente">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+            <a class="boton boton--principal" href="#jugar-demo">Jugar la demo</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Jugar la demo: build WebGL de itch.io en grande -->
+      <section id="jugar-demo" class="seccion-demo" aria-labelledby="titulo-demo">
+        <h3 id="titulo-demo" class="subtitulo-bloque">Jugar la demo</h3>
+        <p class="seccion__introduccion">Tu turno empieza cuando pulses «Run game». Mejor con teclado y en pantalla completa.</p>
+
+        <div class="demo">
+          <!-- Sustituye la URL por la de tu build: itch.io → tu juego → Embed → "Embed game" (https://itch.io/embed-upload/XXXXXXX) -->
+          <iframe class="demo__marco" src="https://itch.io/embed-upload/ID_DE_TU_BUILD?color=070908" title="Demo jugable de Shift Happens" allow="fullscreen; autoplay; gamepad" allowfullscreen loading="lazy">
+            <a href="https://TU-USUARIO.itch.io/shift-happens">Juega Shift Happens en itch.io</a>
+          </iframe>
+        </div>
+
+        <p class="demo__nota">¿No carga o prefieres verla aparte? <a href="https://TU-USUARIO.itch.io/shift-happens" target="_blank" rel="noopener">Abrir la demo en itch.io</a></p>
+      </section>
 
       <section class="caracteristicas" aria-labelledby="titulo-caracteristicas">
         <h3 id="titulo-caracteristicas" class="caracteristicas__titulo">Características principales</h3>
