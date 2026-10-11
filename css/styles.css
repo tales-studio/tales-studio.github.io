@@ -340,8 +340,8 @@ body::after {
 
 /* Logo redondo, sin aro ni halo alrededor */
 .cabecera-principal__logo {
-  width: 46px;
-  height: 46px;
+  width: 72px;
+  height: 72px;
   object-fit: cover;
   border-radius: 50%;
   transition: transform 0.3s ease;
@@ -1206,19 +1206,25 @@ body::after {
   max-width: none;
 }
 
-/* Texto a la izquierda y gif a la derecha; en tablet y móvil se apilan */
+/* Texto y gif comparten la misma celda: el gif ocupa la derecha, grande, y se funde hacia la
+   izquierda con el fondo, por donde pasa el texto. En tablet y móvil se apilan */
 .historia__cuerpo {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: var(--espacio-m) var(--espacio-l);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
 }
 
 .historia__figura {
+  grid-area: 1 / 1;
+  justify-self: end;
+  width: min(100%, 780px);
   margin: 0;
-  border: 1px solid var(--linoleo);
-  box-shadow: var(--sombra-dura);
-  background: #000;
+  /* Se desplaza a la derecha, hasta el borde de la ventana como mucho (sin crear scroll horizontal) */
+  transform: translateX(clamp(16px, calc(50vw - 610px), 90px));
+  /* Sin fondo, borde ni sombra: así se ve la transparencia del GIF/WebP y no un recuadro negro */
+  background: transparent;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 38%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 38%);
 }
 
 .historia__gif {
@@ -1226,21 +1232,16 @@ body::after {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
-@media (max-width: 900px) {
-  .historia__cuerpo {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .historia__figura {
-    max-width: 560px;
-  }
+  object-fit: contain; /* no recorta el logo */
 }
 
 .historia__texto {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  width: 50%;
   max-width: 66ch;
+  text-shadow: 0 0 14px var(--negro-pasillo), 0 0 4px var(--negro-pasillo);
   color: var(--fluorescente);
   font-size: var(--fs-l);
   line-height: 1.7;
@@ -1254,6 +1255,28 @@ body::after {
   font-size: 4em; /* ocupa justo dos líneas de texto */
   font-weight: 900;
   line-height: 0.75;
+}
+
+@media (max-width: 900px) {
+  .historia__cuerpo {
+    gap: var(--espacio-m);
+  }
+
+  .historia__figura {
+    grid-area: auto;
+    justify-self: stretch;
+    width: 100%;
+    transform: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .historia__texto {
+    grid-area: auto;
+    width: auto;
+    max-width: 66ch;
+    text-shadow: none;
+  }
 }
 
 /* ---------- 10. NUESTRO JUEGO ---------- */
@@ -3169,7 +3192,7 @@ html[lang="en"] .selector-idioma__opcion[data-lang="en"] {
 @media (max-width: 1199px) {
   /* ---- Barra: una fila de 40 px con todo a la misma altura ---- */
   .cabecera-principal--menu-js .navegacion-principal {
-    height: 54px; /* fija: el panel se desborda hacia abajo y no mueve la página */
+    height: 70px; /* fija: el panel se desborda hacia abajo y no mueve la página */
     padding: 10px 16px 4px; /* 16 px: el mismo margen lateral que el texto de la página */
     overflow: visible;
   }
@@ -3212,8 +3235,8 @@ html[lang="en"] .selector-idioma__opcion[data-lang="en"] {
   }
 
   .cabecera-principal--menu-js .cabecera-principal__logo {
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
   }
 
   .cabecera-principal--menu-js .navegacion-principal__enlace.navegacion-principal__enlace--destacado {
