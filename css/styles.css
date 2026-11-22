@@ -1042,6 +1042,25 @@ body::after {
   opacity: 1;
   filter: grayscale(0) contrast(1.1) brightness(1);
 }
+@media (max-width: 560px) {
+  .equipo__lista--plegable .miembro__foto--hover {
+    display: none;
+  }
+
+  .equipo__lista--plegable .miembro:hover .miembro__foto:not(.miembro__foto--hover) {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) and (min-width: 561px) and (max-width: 1199px) {
+  .miembro__foto--hover {
+    display: none;
+  }
+
+  .miembro:hover .miembro__foto:not(.miembro__foto--hover) {
+    opacity: 1;
+  }
+}
 .miembro__nombre {
   font-size: var(--fs-titulo-tarjeta);
   line-height: 1.1;
