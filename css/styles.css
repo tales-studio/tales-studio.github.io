@@ -984,6 +984,7 @@ body::after {
   transform: rotate(0deg) translateY(-6px);
 }
 
+/* Ajustes comunes para ambas fotos dentro de la credencial */
 .miembro__foto {
   align-self: center;
   width: min(calc(100% - 10px), 240px);
@@ -994,11 +995,33 @@ body::after {
   border-radius: var(--radio);
   box-shadow: 0 0 0 4px #0e0a07, 0 0 0 5px var(--linoleo);
   filter: grayscale(0.85) contrast(1.15) brightness(0.85);
-  transition: filter 0.4s ease;
+  transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
-.miembro:hover .miembro__foto {
-  filter: grayscale(0.2) contrast(1.05) brightness(1);
+/* La primera foto (humana) */
+.miembro__foto:not(.miembro__foto--hover) {
+  opacity: 1;
+}
+
+/* La foto monstruo (.miembro__foto--hover): se solapa exactamente sobre la humana */
+.miembro__foto--hover {
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-block: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Al pasar el ratón por la credencial: la humana se oculta y la de monstruo aparece en color */
+.miembro:hover .miembro__foto:not(.miembro__foto--hover) {
+  opacity: 0;
+}
+
+.miembro:hover .miembro__foto--hover {
+  opacity: 1;
+  filter: grayscale(0) contrast(1.1) brightness(1);
 }
 
 .miembro__nombre {
