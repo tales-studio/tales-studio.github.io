@@ -1042,15 +1042,7 @@ body::after {
   opacity: 1;
   filter: grayscale(0) contrast(1.1) brightness(1);
 }
-@media (max-width: 560px) {
-  .equipo__lista--plegable .miembro__foto--hover {
-    display: none;
-  }
 
-  .equipo__lista--plegable .miembro:hover .miembro__foto:not(.miembro__foto--hover) {
-    opacity: 1;
-  }
-}
 
 @media (hover: none) and (min-width: 561px) and (max-width: 1199px) {
   .miembro__foto--hover {
@@ -3539,6 +3531,37 @@ html[lang="en"] .selector-idioma__opcion[data-lang="en"] {
     width: 80px;
   }
 
+  /* La foto alternativa comparte la celda de la principal y solo aparece al abrir la ficha */
+  .equipo__lista--plegable .miembro__foto--hover {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin: 4px 0 0;
+    display: block;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .equipo__lista--plegable .miembro:hover .miembro__foto:not(.miembro__foto--hover) {
+    opacity: 1;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__foto:not(.miembro__foto--hover),
+  .equipo__lista--plegable .miembro--abierto:hover .miembro__foto:not(.miembro__foto--hover) {
+    opacity: 0;
+  }
+
+  .equipo__lista--plegable .miembro:hover .miembro__foto--hover {
+    opacity: 0;
+  }
+
+  .equipo__lista--plegable .miembro--abierto .miembro__foto--hover,
+  .equipo__lista--plegable .miembro--abierto:hover .miembro__foto--hover {
+    opacity: 1;
+  }
   .equipo__lista--plegable .miembro__nombre {
     align-self: end;
     padding-right: 44px; /* hueco para el botón */
