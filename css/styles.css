@@ -984,8 +984,24 @@ body::after {
   transform: rotate(0deg) translateY(-6px);
 }
 
-/* Ajustes comunes para ambas fotos dentro de la credencial */
-.miembro__foto {
+
+.miembro__tarjeta {
+  position: relative; /* FUNDAMENTAL para que Chrome sepa dónde pegar la foto flotante */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 36px 20px 20px;
+  background-image: var(--grano), linear-gradient(170deg, #3b2e20, var(--pared) 60%);
+  border: 1px solid var(--linoleo);
+  border-top: 3px solid var(--latido);
+  border-radius: 3px;
+  box-shadow: var(--sombra-dura), var(--sombra-caida);
+  transition: transform 0.3s ease;
+}
+
+
+.miembro__foto:not(.miembro__foto--hover) {
   align-self: center;
   width: min(calc(100% - 10px), 240px);
   aspect-ratio: 1;
@@ -996,25 +1012,28 @@ body::after {
   box-shadow: 0 0 0 4px #0e0a07, 0 0 0 5px var(--linoleo);
   filter: grayscale(0.85) contrast(1.15) brightness(0.85);
   transition: opacity 0.35s ease, filter 0.35s ease;
-}
-
-/* La primera foto (humana) */
-.miembro__foto:not(.miembro__foto--hover) {
   opacity: 1;
 }
 
-/* La foto monstruo (.miembro__foto--hover): se solapa exactamente sobre la humana */
+
 .miembro__foto--hover {
   position: absolute;
-  top: 42px;
+  top: 42px; 
   left: 50%;
   transform: translateX(-50%);
+  width: min(calc(100% - 10px), 240px);
+  aspect-ratio: 1;
   margin-block: 0;
-  opacity: 0;
+  object-fit: cover;
+  background: var(--pared-alta);
+  border-radius: var(--radio);
+  box-shadow: 0 0 0 4px #0e0a07, 0 0 0 5px var(--linoleo);
+  opacity: 0; /* Oculta hasta pasar el ratón */
   pointer-events: none;
+  transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
-/* Al pasar el ratón por la credencial: la humana se oculta y la de monstruo aparece en color */
+
 .miembro:hover .miembro__foto:not(.miembro__foto--hover) {
   opacity: 0;
 }
@@ -1023,7 +1042,6 @@ body::after {
   opacity: 1;
   filter: grayscale(0) contrast(1.1) brightness(1);
 }
-
 .miembro__nombre {
   font-size: var(--fs-titulo-tarjeta);
   line-height: 1.1;
